@@ -89,6 +89,8 @@
       <path value="$PROJECT_DIR$/basic/vendor/phpdocumentor/reflection-common" />
       <path value="$PROJECT_DIR$/basic/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/basic/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-jui" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/jquery-ui" />
     </include_path>
   </component>
 </project>
