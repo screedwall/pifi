@@ -35,7 +35,7 @@ class Lessons extends \yii\db\ActiveRecord
         return [
             [['name', 'shortDescription', 'description', 'video', 'lessonDate', 'homeworkDate', 'mounth', 'course'], 'required'],
             [['description'], 'string'],
-            [['lessonDate', 'homeworkDate'], 'date', 'format' => 'dd.MM.yyyy HH:mm:ss'],
+            [['lessonDate', 'homeworkDate'], 'date', 'format' => 'dd.MM.yyyy HH:mm'],
             [['mounth', 'course'], 'integer'],
             [['name', 'shortDescription', 'video'], 'string', 'max' => 255],
         ];
@@ -60,18 +60,18 @@ class Lessons extends \yii\db\ActiveRecord
     }
     public function beforeSave($insert)
     {
-        $lessonDate = date_create_from_format('d.m.Y H:i:s', $this->lessonDate);
-        $homeworkDate = date_create_from_format('d.m.Y H:i:s', $this->homeworkDate);
+        $lessonDate = date_create_from_format('d.m.Y H:i', $this->lessonDate);
+        $homeworkDate = date_create_from_format('d.m.Y H:i', $this->homeworkDate);
 
-        $this->lessonDate = $lessonDate->format('Y-m-d H:i:s');
-        $this->homeworkDate = $homeworkDate->format('Y-m-d H:i:s');
+        $this->lessonDate = $lessonDate->format('Y-m-d H:i');
+        $this->homeworkDate = $homeworkDate->format('Y-m-d H:i');
 
         return parent::beforeSave($insert);
     }
     public function afterFind()
     {
-        $this->lessonDate = date_create_from_format('Y-m-d H:i:s', $this->lessonDate)->format('d.m.Y H:i:s');
-        $this->homeworkDate = date_create_from_format('Y-m-d H:i:s', $this->homeworkDate)->format('d.m.Y H:i:s');
+        $this->lessonDate = date_create_from_format('Y-m-d H:i:s', $this->lessonDate)->format('d.m.Y H:i');
+        $this->homeworkDate = date_create_from_format('Y-m-d H:i:s', $this->homeworkDate)->format('d.m.Y H:i');
 
         $this->mounth = Mounths::findOne(['id' => $this->mounth])->name;
         $this->course = Courses::findOne(['id' => $this->course])->name;

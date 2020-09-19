@@ -13,8 +13,7 @@ $this->title = Yii::t('app', 'Update Courses: {name}', [
     'name' => $model->name,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Изменить');
+$this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 ?>
 <div class="courses-update">
 
@@ -29,7 +28,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Изменить');
 <div class="mounths-index">
     <h1><a id="mounths"></a>Месяцы</h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Mounths'), ['admin/mounths/create?id='.$model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Mounths'), ['admin/mounths/create', 'courseId' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -37,7 +36,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Изменить');
     <?php Pjax::begin(); ?>
 
     <?php
-//    Url::remember(Url::current(),'course');
     $searchModel = new \app\models\MounthsSearch();
     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
     $dataProvider->query = $searchModel::find()->with('course')->where(['course' => $model->id]);

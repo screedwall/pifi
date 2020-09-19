@@ -66,6 +66,7 @@ class MounthsController extends Controller
     public function actionCreate()
     {
         $model = new mounths();
+        $courseId = Yii::$app->request->get('courseId');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['admin/courses/update', 'id' => $model->course, '#' => 'mounths']);
@@ -73,6 +74,7 @@ class MounthsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'courseId' => $courseId,
         ]);
     }
 

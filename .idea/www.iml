@@ -27,6 +27,10 @@
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/ezyang/htmlpurifier" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/fzaninotto/faker" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-krajee-base" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-datepicker" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-datetimepicker" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/lesha724/yii2-youtube-widget" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/paragonie/random_compat" />

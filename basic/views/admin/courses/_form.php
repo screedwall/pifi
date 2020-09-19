@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use yii\jui\DatePicker;
+use kartik\date\DatePicker;
 use \app\controllers\AppController;
 
 /* @var $this yii\web\View */
@@ -21,9 +21,19 @@ use \app\controllers\AppController;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'dateFrom', ['inputOptions' => ['autocomplete' => 'off']])->widget(DatePicker::class, ['dateFormat' => 'dd.MM.yyyy'])->textInput() ?>
+    <?= $form->field($model, 'dateFrom')->widget(DatePicker::class, [
+        'options' => ['autocomplete' => 'off'],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd.mm.yyyy'
+        ]])?>
 
-    <?= $form->field($model, 'dateTo', ['inputOptions' => ['autocomplete' => 'off']])->widget(DatePicker::class, ['dateFormat' => 'dd.MM.yyyy'])->textInput() ?>
+    <?= $form->field($model, 'dateTo')->widget(DatePicker::class, [
+        'options' => ['autocomplete' => 'off'],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'format' => 'dd.mm.yyyy'
+        ]])?>
 
     <?= $form->field($model, 'teacher')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'name', 'name')) ?>
 

@@ -67,13 +67,16 @@ class LessonsController extends Controller
     public function actionCreate()
     {
         $model = new Lessons();
-
+        $courseId = Yii::$app->request->get('courseId');
+        $mounthId = Yii::$app->request->get('mounthId');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(['admin/mounths/update', 'id' => $mounthId, 'courseId' => $courseId]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'courseId' => $courseId,
+            'mounthId' => $mounthId,
         ]);
     }
 
@@ -88,13 +91,17 @@ class LessonsController extends Controller
     {
         $model = $this->findModel($id);
         $request = Yii::$app->request;
+        $courseId = $request->get('courseId');
+        $mounthId = $request->get('mounthId');
+
         if ($model->load($request->post()) && $model->save()) {
-//            return $this->redirect(['mounths/view', 'id' => Yii::$app->request->post()->mounth]);
-            return $this->redirect(['mounths/view', 'id' => print_r($request->post('mounth'))]);
+            return $this->redirect(['admin/mounths/update', 'id' => $mounthId, 'courseId' => $courseId]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'courseId' => $courseId,
+            'mounthId' => $mounthId
         ]);
     }
 

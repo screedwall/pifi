@@ -6,7 +6,6 @@ use app\controllers\AppController;
 use Yii;
 use app\models\Courses;
 use app\models\CoursesSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
