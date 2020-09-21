@@ -57,6 +57,14 @@ class Mounths extends \yii\db\ActiveRecord
             'course' => Yii::t('app', 'Курс'),
         ];
     }
+    public function getCoursee()
+    {
+        return $this->hasOne(Courses::class, ['id' => 'course']);
+    }
+    public function getLessons()
+    {
+        return $this->hasMany(Lessons::class, ['mounth' => 'id']);
+    }
     public function beforeSave($insert)
     {
         $dateFrom = date_create_from_format('d.m.Y', $this->dateFrom);

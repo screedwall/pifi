@@ -15,5 +15,9 @@ class AppController extends Controller
     {
         return array('ОГЭ' => 'ОГЭ', 'ЕГЭ' => 'ЕГЭ');
     }
+    public function getRoles()
+    {
+        return array('Ученик' => 'Ученик', 'Преподаватель' => 'Преподаватель', 'Администратор' => 'Администратор');
+    }
 
 }

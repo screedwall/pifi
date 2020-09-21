@@ -19,6 +19,16 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .row.display-flex {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+        .thumbnail {
+            height: 100%;
+        }
+    </style>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -38,16 +48,32 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Главная', 'url' => ['/site/index']],
+//            ['label' => 'About', 'url' => ['/site/about']],
+//            ['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Курсы', 'url' => ['/courses']],
+            Yii::$app->user->isGuest ? '' : (
+            Yii::$app->user->identity->isAdmin() ? (
+                    [
+                        'label' => 'Управление',
+                        'items' => [
+                            '<li class="dropdown-header">Курсы, месяца, уроки</li>',
+                            ['label' => 'Курсы', 'url' => ['/admin/courses']],
+                            '<li class="dropdown-header">Пользователи</li>',
+                            ['label' => 'Пользователи', 'url' => ['/admin/users']],
+                            ['label' => 'Преподаватели', 'url' => ['/admin/teachers']],
+                        ],
+                    ]
+            ) : (
+                ['label' => 'Профиль', 'url' => ['/site/login']]
+            )),
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->name . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

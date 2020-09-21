@@ -61,6 +61,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $oauthClient = Yii::$app->authClientCollection->getClient('vkontakte');
+        $url = $oauthClient->buildAuthUrl();
+
+
+        $code = Yii::$app->getRequest()->get('code');
+        if(!isset($code))
+            Yii::$app->getResponse()->redirect($url);
+        else
+//            $accessToken = $oauthClient->fetchAccessToken($code);
+
         return $this->render('index');
     }
 

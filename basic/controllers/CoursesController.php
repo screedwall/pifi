@@ -5,18 +5,29 @@ namespace app\controllers;
 use app\models\Courses;
 use app\models\Lessons;
 use app\models\Mounths;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use Yii;
 
-class LessonsController extends \yii\web\Controller
+class CoursesController extends Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = Courses::find()->all();
+        return $this->render('index', [
+            'model' => $model
+            ]);
+    }
+    public function actionView($id)
+    {
+        $model = $this->findCourse($id);
+        return $this->render('view', [
+            'model' => $model
+        ]);
     }
     public function actionLesson($id)
     {
         $model = $this->findLesson($id);
-
         return $this->render('view', [
             'model' => $model
         ]);

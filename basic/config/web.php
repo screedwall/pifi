@@ -25,7 +25,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -52,6 +52,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<controller>/<id:\d+>' => '<controller>/view',
             ],
         ],
         'i18n' => [
@@ -64,6 +65,22 @@ $config = [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
+                ],
+            ],
+        ],
+        'tinkoffPay' => [
+            'class' => \chumakovanton\tinkoffPay\TinkoffPay::className(),
+            'terminalKey' => 'terminalKey',
+            'secretKey' => 'secretKey',
+            'apiUrl' => 'https://securepay.tinkoff.ru/v2'
+        ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '7494224',
+                    'clientSecret' => 'FH4bvXZlnJUsLbuHFvRs',
                 ],
             ],
         ],

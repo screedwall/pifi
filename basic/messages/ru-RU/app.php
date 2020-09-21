@@ -9,4 +9,10 @@ return [
     'Lessons' => 'Уроки',
     'Create Lessons' => 'Добавить урок',
     'Update Lessons: {name}' => 'Изменить урок: {name}',
+    'Users' => 'Пользователи',
+    'Create Users' => 'Добавить пользователя',
+    'Update Users: {name}' => 'Изменить пользователя: {name}',
+    'Teachers' => 'Пользователи',
+    'Create Teachers' => 'Добавить преподавателя',
+    'Update Teachers: {name}' => 'Изменить преподавателя: {name}',
 ];

@@ -95,6 +95,13 @@
       <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-datetimepicker" />
       <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-datepicker" />
       <path value="$PROJECT_DIR$/basic/vendor/lesha724/yii2-youtube-widget" />
+      <path value="$PROJECT_DIR$/basic/vendor/chumakovanton/yii2-tinkoff-pay" />
+      <path value="$PROJECT_DIR$/basic/vendor/select2/select2" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-select2" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-bootstrap4" />
+      <path value="$PROJECT_DIR$/basic/vendor/npm-asset/bootstrap" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-authclient" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-httpclient" />
     </include_path>
   </component>
 </project>

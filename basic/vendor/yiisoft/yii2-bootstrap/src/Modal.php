@@ -42,6 +42,11 @@ class Modal extends Widget
      * @var string the header content in the modal window.
      */
     public $header;
+
+    /**
+     * @var body custom user content.
+     */
+    public $body;
     /**
      * @var string additional header options
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
@@ -155,7 +160,7 @@ class Modal extends Widget
      */
     protected function renderBodyBegin()
     {
-        return Html::beginTag('div', $this->bodyOptions);
+        return Html::beginTag('div', $this->bodyOptions).$this->body;
     }
 
     /**

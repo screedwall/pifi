@@ -33,11 +33,14 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
+            'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
+            'yii\\bootstrap4\\' => 15,
+            'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
         'p' => 
@@ -50,12 +53,14 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         ),
         'k' => 
         array (
+            'kartik\\select2\\' => 15,
             'kartik\\datetime\\' => 16,
             'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
         ),
         'c' => 
         array (
+            'chumakovanton\\tinkoffPay\\' => 25,
             'cebe\\markdown\\' => 14,
         ),
         'W' => 
@@ -131,6 +136,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
         ),
+        'yii\\httpclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-httpclient/src',
+        ),
         'yii\\gii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-gii/src',
@@ -151,6 +160,14 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap/src',
         ),
+        'yii\\bootstrap4\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-bootstrap4/src',
+        ),
+        'yii\\authclient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-authclient/src',
+        ),
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
@@ -165,6 +182,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             0 => __DIR__ . '/..' . '/lesha724/yii2-youtube-widget',
         ),
+        'kartik\\select2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
+        ),
         'kartik\\datetime\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker/src',
@@ -176,6 +197,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
+        ),
+        'chumakovanton\\tinkoffPay\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/chumakovanton/yii2-tinkoff-pay',
         ),
         'cebe\\markdown\\' => 
         array (

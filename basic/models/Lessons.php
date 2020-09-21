@@ -58,6 +58,14 @@ class Lessons extends \yii\db\ActiveRecord
             'course' => Yii::t('app', 'Курс'),
         ];
     }
+    public function getMounth()
+    {
+        return $this->hasOne(Mounths::class, ['mounth' => 'id']);
+    }
+    public function getCourse()
+    {
+        return $this->hasOne(Courses::class, ['course' => 'id']);
+    }
     public function beforeSave($insert)
     {
         $lessonDate = date_create_from_format('d.m.Y H:i', $this->lessonDate);

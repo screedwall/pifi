@@ -22,8 +22,6 @@ use yii\debug\models\search\Debug;
  */
 class Courses extends \yii\db\ActiveRecord
 {
-    public $createCourse = "Создать курс";
-    public $courses = "Курсы";
     /**
      * {@inheritdoc}
      */
@@ -76,9 +74,13 @@ class Courses extends \yii\db\ActiveRecord
             'price' => Yii::t('app', 'Цена'),
         ];
     }
-    public function getTeacher()
+    public function getTeacherr()
     {
         return $this->hasOne(Teachers::class, ['id' => 'teacher']);
+    }
+    public function getMounths()
+    {
+        return $this->hasMany(Mounths::class, ['course' => 'id']);
     }
     public function beforeSave($insert)
     {

@@ -41,11 +41,11 @@ class Teachers extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'subject' => Yii::t('app', 'Subject'),
-            'description' => Yii::t('app', 'Description'),
-            'contact' => Yii::t('app', 'Contact'),
+            'id' => Yii::t('app', 'Ид'),
+            'name' => Yii::t('app', 'Имя'),
+            'subject' => Yii::t('app', 'Предмет'),
+            'description' => Yii::t('app', 'Описание'),
+            'contact' => Yii::t('app', 'Контакт'),
         ];
     }
 }
