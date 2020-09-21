@@ -65,10 +65,10 @@ class SiteController extends Controller
         $url = $oauthClient->buildAuthUrl();
 
 
-        $code = Yii::$app->getRequest()->get('code');
-        if(!isset($code))
-            Yii::$app->getResponse()->redirect($url);
-        else
+//        $code = Yii::$app->getRequest()->get('code');
+//        if(!isset($code))
+//            Yii::$app->getResponse()->redirect($url);
+//        else
 //            $accessToken = $oauthClient->fetchAccessToken($code);
 
         return $this->render('index');
