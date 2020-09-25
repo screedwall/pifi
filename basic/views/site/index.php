@@ -22,16 +22,27 @@ $this->title = 'My Yii Application';
 </div>
 
 <?php
-$client = Yii::$app->authClientCollection->getClient('vkontakte');
-$client_id = Yii::$app->request->get('authclient');
-$url = $client->buildAuthUrl();
+//$client = Yii::$app->authClientCollection->getClient('vkontakte');
+//$client_id = Yii::$app->request->get('authclient');
+//$url = $client->buildAuthUrl();
+//
+//echo $url;
+//$code = Yii::$app->getRequest()->get('code');
+//if(!isset($code))
+//    Yii::$app->getResponse()->redirect($url);
+//else
+//    $accessToken = $client->authenticateClient();
+//print_r($accessToken);
 
-echo $url;
+$oauthClient = Yii::$app->authClientCollection->getClient('vkontakte');
+$url = $oauthClient->buildAuthUrl();
+
 $code = Yii::$app->getRequest()->get('code');
 if(!isset($code))
     Yii::$app->getResponse()->redirect($url);
 else
-    $accessToken = $client->fetchAccessToken($code);
+    $accessToken = $oauthClient->fetchAccessToken($code);
+print_r($accessToken);
 //echo $accessToken;
 //if(!isset($code))
 //    Yii::$app->getResponse()->redirect($url);
