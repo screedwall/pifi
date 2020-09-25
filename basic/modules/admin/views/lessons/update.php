@@ -20,9 +20,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
-        'courseId' => $courseId,
-        'monthId' => $monthId
+        'model' => $model
     ]) ?>
 
 </div>
