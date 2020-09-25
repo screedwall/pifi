@@ -42,7 +42,8 @@ if(!isset($code))
     Yii::$app->getResponse()->redirect($url);
 else
     $accessToken = $oauthClient->fetchAccessToken($code);
-print_r($accessToken);
+if (isset($accessToken))
+    print_r($accessToken);
 //echo $accessToken;
 //if(!isset($code))
 //    Yii::$app->getResponse()->redirect($url);
