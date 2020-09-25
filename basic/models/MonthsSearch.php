@@ -7,9 +7,9 @@ use yii\data\ActiveDataProvider;
 use app\modules\admin\models;
 
 /**
- * MounthsSearch represents the model behind the search form of `app\models\mounths`.
+ * MonthsSearch represents the model behind the search form of `app\models\months`.
  */
-class MounthsSearch extends mounths
+class MonthsSearch extends Months
 {
     /**
      * {@inheritdoc}
@@ -40,7 +40,7 @@ class MounthsSearch extends mounths
      */
     public function search($params)
     {
-        $query = mounths::find();
+        $query = Months::find();
 
         // add conditions that should always apply here
 

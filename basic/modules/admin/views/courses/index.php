@@ -32,7 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'shortDescription',
             'dateFrom',
             'dateTo',
-            'teacher',
+            [
+                'attribute' => 'teacher',
+                'value' => 'teacher.name',
+                'label' => 'Преподаватель',
+            ],
             'subject',
             'examType',
             'price',

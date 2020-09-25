@@ -11,7 +11,7 @@ use app\models\BoughtCourses;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $id int*/
 
-    if(count(BoughtCourses::findAll(['mounth' => $id])) > 0)
+    if(count(BoughtCourses::findAll(['month' => $id])) > 0)
     {
 
     }else{

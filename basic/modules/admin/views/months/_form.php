@@ -8,12 +8,12 @@ use kartik\select2\Select2;
 use app\models\BoughtCourses;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\mounths */
+/* @var $model app\models\Months */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $courseId app\models\mounths */
+/* @var $courseId app\models\Months */
 ?>
 
-<div class="mounths-form">
+<div class="months-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -32,25 +32,24 @@ use app\models\BoughtCourses;
             'autoclose' => true,
             'format' => 'dd.mm.yyyy'
         ]])?>
+
     <?php
-    $users = [];
-    foreach (ArrayHelper::map(BoughtCourses::find()->where(['mounth' => $model->id])->all(), 'id', 'user') as $item) {
-            array_push($users, $item->id);
-    }
+        $users = \app\models\Users::find()->all();
+        foreach ($users as $user) {
+            $user->name = $user->name." ".$user->vk;
+        }
     ?>
 
     <?= Select2::widget([
         'name' => 'users',
-        'value' => $users,
-        'data' => ArrayHelper::map(\app\models\Users::find()->all(), 'id', 'name'),
+        'value' => ArrayHelper::map($model->users, 'id', 'id'),
+        'data' => ArrayHelper::map($users, 'id', 'name'),
         'options' => [
             'placeholder' => 'Подберите пользователей...',
             'multiple' => true
         ],
     ]) ?>
-
-    <?= $form->field($model, 'course')->hiddenInput(['value'=> $courseId])->label(false) ?>
-
+    <br>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>

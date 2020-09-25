@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $model \app\models\Mounths */
+/* @var $model \app\models\Months */
 use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\bootstrap\Collapse;

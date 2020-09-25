@@ -30,10 +30,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 
 </div>
 
-<div class="mounths-index">
-    <h1><a id="mounths"></a>Месяцы</h1>
+<div class="months-index">
+    <h1><a id="months"></a>Месяцы</h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Mounths'), ['mounths/create', 'courseId' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -41,11 +41,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <?php Pjax::begin(); ?>
 
     <?php
-    $searchModel = new \app\models\MounthsSearch();
-    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-    $dataProvider->query = $searchModel::find()->with('course')->where(['course' => $model->id]);
     echo GridView::widget([
-        'dataProvider' => $dataProvider,
+        'dataProvider' => new \yii\data\ActiveDataProvider([
+            'query' => $model->getMonths(),
+        ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -79,31 +78,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
                             ]
                         );
                     },
-                    'users' => function ($url, $model) {
-
-                        return Html::a(Modal::widget([
-                            'header' => '<h3>'.$model->name.'</h3>',
-                            'body' => Yii::$app->controller->renderPartial('/users/_addUsers', ['id' => $model->id]),
-                            'toggleButton' => [
-                                    'label' => '',
-                                    'tag' => 'a',
-                                    'class' => 'glyphicon glyphicon-user',
-                            ],
-                            'footer' => 'Низ окна',
-                        ]), $url, [
-                            'title' => Yii::t('app', 'Пользователи'),
-                        ]);
-                    },
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if($action==='view'){
-                        $url = Url::to(['/mounths/view', 'id' => $model->id]);
+                        $url = Url::to(['/months/view', 'id' => $model->id]);
                         return $url;
                     }elseif ($action==='users'){
 
                     }
                     else{
-                        $url = Url::to(['mounths/'.$action, 'id' => $model->id, 'courseId' => Yii::$app->request->get('id')]);
+                        $url = Url::to(['months/'.$action, 'id' => $model->id, 'courseId' => Yii::$app->request->get('id')]);
                         return $url;
                     }
                 }

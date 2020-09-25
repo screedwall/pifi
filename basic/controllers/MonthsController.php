@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\Mounths;
+use app\models\Months;
 use yii\web\NotFoundHttpException;
 
-class MounthsController extends \yii\web\Controller
+class MonthsController extends \yii\web\Controller
 {
     public function actionView($id)
     {
@@ -17,7 +17,7 @@ class MounthsController extends \yii\web\Controller
     }
     protected function findMounth($id)
     {
-        if (($model = Mounths::findOne($id)) !== null) {
+        if (($model = Months::findOne($id)) !== null) {
             return $model;
         }
 

@@ -6,24 +6,22 @@ use yii\grid\GridView;
 use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\mounths */
-/* @var $courseId app\models\mounths */
+/* @var $model app\models\Months */
 
-$this->title = Yii::t('app', 'Update Mounths: {name}', [
+$this->title = Yii::t('app', 'Update Months: {name}', [
     'name' => $model->name,
 ]);
 
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['courses/index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', $model->course), 'url' => ['courses/update', 'id' => $courseId, '#' => 'mounths']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', $model->course->name), 'url' => ['courses/update', 'id' => $model->courseId, '#' => 'months']];
 $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 ?>
-<div class="mounths-update">
+<div class="months-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
-        'courseId' => $courseId,
+        'model' => $model
     ]) ?>
 
 </div>
@@ -31,7 +29,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 <div class="lessons-index">
     <h1>Уроки</h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Lessons'), Url::to(['lessons/create', 'courseId' => $courseId, 'mounthId'=>$model->id]), ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Lessons'), Url::to(['lessons/create', 'courseId' => $courseId, 'monthId'=>$model->id]), ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -39,7 +37,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <?php
     echo GridView::widget([
         'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => \app\models\Lessons::find()->where(['mounth'=>$model->id]),
+            'query' => $model->getLessons(),
         ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -51,7 +49,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
             'video',
             'lessonDate',
             'homeworkDate',
-//            'mounth',
+//            'month',
             //'course',
 
             ['class' => 'yii\grid\ActionColumn',
@@ -85,7 +83,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
                         $url = Url::to(['/lessons/view', 'id' => $model->id]);
                         return $url;
                     }
-                    $url = Url::to(['lessons/'.$action, 'id' => $model->id, 'courseId' => Yii::$app->request->get('courseId'), 'mounthId' => Yii::$app->request->get('id')]);
+                    $url = Url::to(['lessons/'.$action, 'id' => $model->id, 'courseId' => Yii::$app->request->get('courseId'), 'monthId' => Yii::$app->request->get('id')]);
                     return $url;
                 }
             ],

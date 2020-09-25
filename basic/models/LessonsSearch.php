@@ -17,7 +17,7 @@ class LessonsSearch extends Lessons
     public function rules()
     {
         return [
-            [['id', 'mounth', 'course'], 'integer'],
+            [['id', 'month', 'course'], 'integer'],
             [['name', 'shortDescription', 'description', 'video', 'lessonDate', 'homeworkDate'], 'safe'],
         ];
     }
@@ -61,7 +61,7 @@ class LessonsSearch extends Lessons
             'id' => $this->id,
             'lessonDate' => $this->lessonDate,
             'homeworkDate' => $this->homeworkDate,
-            'mounth' => $this->mounth,
+            'month' => $this->month,
             'course' => $this->course,
         ]);
 

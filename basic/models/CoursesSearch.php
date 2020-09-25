@@ -11,14 +11,15 @@ use app\models\Courses;
  */
 class CoursesSearch extends Courses
 {
+    public $teacher;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'teacher', 'price'], 'integer'],
-            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'subject', 'examType'], 'safe'],
+            [['id', 'price'], 'integer'],
+            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'subject', 'examType', 'teacher'], 'safe'],
         ];
     }
 
@@ -41,12 +42,19 @@ class CoursesSearch extends Courses
     public function search($params)
     {
         $query = Courses::find();
-
+        $query->joinWith(['teacher']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['teacher'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['teachers.name' => SORT_ASC],
+            'desc' => ['teachers.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -61,15 +69,15 @@ class CoursesSearch extends Courses
             'id' => $this->id,
             'dateFrom' => $this->dateFrom,
             'dateTo' => $this->dateTo,
-            'teacher' => $this->teacher,
             'price' => $this->price,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'courses.name', $this->name])
             ->andFilterWhere(['like', 'shortDescription', $this->shortDescription])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'subject', $this->subject])
-            ->andFilterWhere(['like', 'examType', $this->examType]);
+            ->andFilterWhere(['like', 'courses.subject', $this->subject])
+            ->andFilterWhere(['like', 'examType', $this->examType])
+            ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
 
         return $dataProvider;
     }

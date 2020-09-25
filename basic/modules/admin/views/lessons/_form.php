@@ -8,8 +8,6 @@ use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lessons */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $courseId app\models\Lessons */
-/* @var $mounthId app\models\Lessons */
 
 ?>
 
@@ -38,10 +36,6 @@ use kartik\datetime\DateTimePicker;
             'autoclose' => true,
             'format' => 'dd.mm.yyyy HH:ii'
         ]])?>
-
-    <?= $form->field($model, 'mounth')->hiddenInput(['value'=> $mounthId])->label(false) ?>
-
-    <?= $form->field($model, 'course')->hiddenInput(['value'=> $courseId])->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>

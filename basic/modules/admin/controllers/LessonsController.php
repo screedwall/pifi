@@ -68,15 +68,16 @@ class LessonsController extends Controller
     {
         $model = new Lessons();
         $courseId = Yii::$app->request->get('courseId');
-        $mounthId = Yii::$app->request->get('mounthId');
+        $monthId = Yii::$app->request->get('monthId');
+        $model->courseId = $courseId;
+        $model->monthId = $monthId;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['mounths/update', 'id' => $mounthId, 'courseId' => $courseId]);
+            return $this->redirect(['months/update', 'id' => $model->monthId, 'courseId' => $model->courseId]);
         }
 
         return $this->render('create', [
-            'model' => $model,
-            'courseId' => $courseId,
-            'mounthId' => $mounthId,
+            'model' => $model
         ]);
     }
 
@@ -92,16 +93,16 @@ class LessonsController extends Controller
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         $courseId = $request->get('courseId');
-        $mounthId = $request->get('mounthId');
+        $monthId = $request->get('monthId');
+        $model->courseId = $courseId;
+        $model->monthId = $monthId;
 
         if ($model->load($request->post()) && $model->save()) {
-            return $this->redirect(['mounths/update', 'id' => $mounthId, 'courseId' => $courseId]);
+            return $this->redirect(['months/update', 'id' => $model->monthId, 'courseId' => $model->courseId]);
         }
 
         return $this->render('update', [
-            'model' => $model,
-            'courseId' => $courseId,
-            'mounthId' => $mounthId
+            'model' => $model
         ]);
     }
 

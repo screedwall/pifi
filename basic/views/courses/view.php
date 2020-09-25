@@ -9,19 +9,24 @@ $this->title = "Курс ".$model->name;
 
 <?php
 $items = [];
+$boughtMonths = Yii::$app->user->identity->getMonths()->select(['id'])->asArray()->all();
 
-foreach ($model->mounths as $item) {
-    $search = BoughtCourses::find()->where(['mounth' => $item->id])->andWhere(['user' => Yii::$app->user->identity->getId()])->all();
+foreach ($model->months as $item) {
+    $bought = false;
+    foreach ($boughtMonths as $boughtMonth) {
+        if(in_array($item->id, $boughtMonth))
+            $bought = true;
+    }
     array_push($items, [
         'label' => $item->name,
         'options' => ['id' => $item->name],
-        'content' => (count($search) > 0) ? $this->render('/mounths/view', ['model' => \app\models\Mounths::findOne($item->id)]) : Yii::$app->user->identity->isAdmin() ? $this->render('/mounths/view', ['model' => \app\models\Mounths::findOne($item->id)]) : $this->render('/pay/index', ['id' => $item->id]) ]);
+        'content' => $bought ? $this->render('/months/view', ['model' => $item]) : Yii::$app->user->identity->isAdmin() ? $this->render('/months/view', ['model' => $item]) : $this->render('/pay/index', ['id' => $item->id]) ]);
 }
 echo Tabs::widget([
    'items' => $items
 ]);
 ?>
 <h2>Преподаватель</h2>
-    <?= $model->teacher ?>
+    <?= $model->teacher->name ?>
     <br>
-    <?= $model->teacherr->subject ?>
+    <?= $model->teacher->subject ?>

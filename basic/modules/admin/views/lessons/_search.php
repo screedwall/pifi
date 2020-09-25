@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'homeworkDate') ?>
 
-    <?php // echo $form->field($model, 'mounth') ?>
+    <?php // echo $form->field($model, 'month') ?>
 
     <?php // echo $form->field($model, 'course') ?>
 

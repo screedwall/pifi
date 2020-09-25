@@ -28,17 +28,25 @@ $model->password = '';
 
     <?= $form->field($model, 'role')->dropDownList($roles) ?>
 
-    <?= $form->field($model, 'teacher')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'name', 'name'), array('prompt' => '')) ?>
+    <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name'), array('prompt' => '')) ?>
 
-<!--    --><?//= Select2::widget([
-//        'name' => 'users',
-////        'value' => $users,
-//        'data' => ArrayHelper::map(\app\models\Mounths::find()->all(), 'id', 'name'),
-//        'options' => [
-//            'placeholder' => 'Подберите пользователей...',
-//            'multiple' => true
-//        ],
-//    ]) ?>
+    <?php
+        $months = \app\models\Months::find()->all();
+        foreach ($months as $month) {
+            $month->name = $month->course->name." ".$month->name;
+        }
+    ?>
+
+    <?= Select2::widget([
+        'name' => 'months',
+        'value' => ArrayHelper::map($model->months, 'id', 'id'),
+        'data' => ArrayHelper::map($months, 'id', 'name'),
+        'options' => [
+            'placeholder' => 'Подберите пользователей...',
+            'multiple' => true
+        ],
+    ]) ?>
+    <br>
 
     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
@@ -51,11 +59,3 @@ $model->password = '';
     <?php ActiveForm::end(); ?>
 
 </div>
-<?php
-$request = \app\models\Mounths::find()->all();
-$courses = [];
-foreach ($request as $item) {
-    print_r ($item->coursee);
-    echo "<br>";
-}
-//print_r($request);

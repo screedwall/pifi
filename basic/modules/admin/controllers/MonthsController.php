@@ -9,13 +9,13 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Mounths;
-use app\models\MounthsSearch;
+use app\models\Months;
+use app\models\MonthsSearch;
 
 /**
- * MounthsController implements the CRUD actions for mounths model.
+ * MonthsController implements the CRUD actions for months model.
  */
-class MounthsController extends Controller
+class MonthsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -33,12 +33,12 @@ class MounthsController extends Controller
     }
 
     /**
-     * Lists all mounths models.
+     * Lists all months models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MounthsSearch();
+        $searchModel = new MonthsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class MounthsController extends Controller
     }
 
     /**
-     * Displays a single mounths model.
+     * Displays a single months model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,17 +61,17 @@ class MounthsController extends Controller
     }
 
     /**
-     * Creates a new mounths model.
+     * Creates a new months model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new mounths();
+        $model = new Months();
         $courseId = Yii::$app->request->get('courseId');
-
+        $model->courseId = $courseId;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['courses/update', 'id' => $model->course, '#' => 'mounths']);
+            return $this->redirect(['courses/update', 'id' => $model->courseId, '#' => 'months']);
         }
 
         return $this->render('create', [
@@ -81,7 +81,7 @@ class MounthsController extends Controller
     }
 
     /**
-     * Updates an existing mounths model.
+     * Updates an existing months model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,20 +94,21 @@ class MounthsController extends Controller
         if ($model->load($request->post()) && $model->save()) {
             $users = $request->post('users');
 
-            $current = BoughtCourses::find()->where(['mounth' => $id])->all();
+            $current = BoughtCourses::find()->where(['monthId' => $id])->all();
             foreach ($current as $item) {
                 $item->delete();
             }
+            if(isset($users))
+                foreach ($users as $user) {
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $user;
+                    $boughtCourse->monthId = $id;
+                    $boughtCourse->courseId = $model->courseId;
+                    $boughtCourse->save();
+                }
 
-            foreach ($users as $user) {
-                $boughtCourse = new BoughtCourses();
-                $boughtCourse->user = $user;
-                $boughtCourse->mounth = $id;
-                $boughtCourse->course = $model->course;
-                $boughtCourse->save();
-            }
 
-            return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'mounths', 'users' => $users, 'result' => $result]);
+            return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months', 'users' => $users, 'result' => $result]);
         }
 
         return $this->render('update', [
@@ -117,7 +118,7 @@ class MounthsController extends Controller
     }
 
     /**
-     * Deletes an existing mounths model.
+     * Deletes an existing months model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,19 +128,19 @@ class MounthsController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'mounths']);
+        return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
     }
 
     /**
-     * Finds the mounths model based on its primary key value.
+     * Finds the months model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return mounths the loaded model
+     * @return Months the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = mounths::findOne($id)) !== null) {
+        if (($model = Months::findOne($id)) !== null) {
             return $model;
         }
 

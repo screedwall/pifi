@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\mounths */
+/* @var $model app\models\Months */
 
 $this->title = $model->name;
 
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', $model->course), 'url
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="mounths-view">
+<div class="months-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

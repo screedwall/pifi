@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\Courses;
 use app\models\Lessons;
-use app\models\Mounths;
+use app\models\Months;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -42,7 +42,7 @@ class CoursesController extends Controller
     }
     protected function findMounth($id)
     {
-        if (($model = Mounths::findOne($id)) !== null) {
+        if (($model = Months::findOne($id)) !== null) {
             return $model;
         }
 

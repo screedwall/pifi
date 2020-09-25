@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'video',
             'lessonDate',
             'homeworkDate',
-            'mounth',
+            'month',
             'course',
         ],
     ]) ?>

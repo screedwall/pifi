@@ -33,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'vk',
             'description',
             'role',
-            'teacher',
+            [
+                'attribute' => 'teacher',
+                'value' => 'teacher.name',
+                'label' => 'Преподаватель',
+            ],
 //            'authKey',
 //            'password',
 

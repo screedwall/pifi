@@ -14,8 +14,8 @@ use Yii;
  * @property string $video
  * @property string $lessonDate
  * @property string $homeworkDate
- * @property int $mounth
- * @property int $course
+ * @property int $monthId
+ * @property int $courseId
  */
 class Lessons extends \yii\db\ActiveRecord
 {
@@ -33,10 +33,10 @@ class Lessons extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'shortDescription', 'description', 'video', 'lessonDate', 'homeworkDate', 'mounth', 'course'], 'required'],
+            [['name', 'shortDescription', 'description', 'video', 'lessonDate', 'homeworkDate', 'monthId', 'courseId'], 'required'],
             [['description'], 'string'],
             [['lessonDate', 'homeworkDate'], 'date', 'format' => 'dd.MM.yyyy HH:mm'],
-            [['mounth', 'course'], 'integer'],
+            [['monthId', 'courseId'], 'integer'],
             [['name', 'shortDescription', 'video'], 'string', 'max' => 255],
         ];
     }
@@ -54,17 +54,17 @@ class Lessons extends \yii\db\ActiveRecord
             'video' => Yii::t('app', 'Видео'),
             'lessonDate' => Yii::t('app', 'Время урока'),
             'homeworkDate' => Yii::t('app', 'Время домашки'),
-            'mounth' => Yii::t('app', 'Месяц'),
-            'course' => Yii::t('app', 'Курс'),
+            'monthId' => Yii::t('app', 'Месяц'),
+            'courseId' => Yii::t('app', 'Курс'),
         ];
     }
-    public function getMounth()
+    public function getMonth()
     {
-        return $this->hasOne(Mounths::class, ['mounth' => 'id']);
+        return $this->hasOne(Months::class, ['id' => 'monthId']);
     }
     public function getCourse()
     {
-        return $this->hasOne(Courses::class, ['course' => 'id']);
+        return $this->hasOne(Courses::class, ['id' => 'courseId']);
     }
     public function beforeSave($insert)
     {
@@ -80,9 +80,6 @@ class Lessons extends \yii\db\ActiveRecord
     {
         $this->lessonDate = date_create_from_format('Y-m-d H:i:s', $this->lessonDate)->format('d.m.Y H:i');
         $this->homeworkDate = date_create_from_format('Y-m-d H:i:s', $this->homeworkDate)->format('d.m.Y H:i');
-
-        $this->mounth = Mounths::findOne(['id' => $this->mounth])->name;
-        $this->course = Courses::findOne(['id' => $this->course])->name;
 
         parent::afterFind();
     }

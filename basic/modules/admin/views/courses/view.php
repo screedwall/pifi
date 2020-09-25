@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Courses */
-/* @var $searchModel app\models\MounthsSearch */
+/* @var $searchModel app\models\MonthsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;

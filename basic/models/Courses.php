@@ -15,7 +15,7 @@ use yii\debug\models\search\Debug;
  * @property string $description
  * @property string $dateFrom
  * @property string $dateTo
- * @property int $teacher
+ * @property int $teacherId
  * @property string $subject
  * @property string $examType
  * @property int $price
@@ -36,12 +36,12 @@ class Courses extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'teacher', 'subject', 'examType', 'price'], 'required'],
+            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'teacherId', 'subject', 'examType', 'price'], 'required'],
             [['description'], 'string'],
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
-            [['price'], 'integer'],
-            [['name', 'subject', 'examType', 'teacher'], 'string', 'max' => 255],
+            [['teacherId', 'price'], 'integer'],
+            [['name', 'subject', 'examType'], 'string', 'max' => 255],
             [['shortDescription'], 'string', 'max' => 300],
         ];
     }
@@ -68,19 +68,25 @@ class Courses extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Описание'),
             'dateFrom' => Yii::t('app', 'Дата начала'),
             'dateTo' => Yii::t('app', 'Дата окончания'),
-            'teacher' => Yii::t('app', 'Преподаватель'),
+            'teacherId' => Yii::t('app', 'Преподаватель'),
             'subject' => Yii::t('app', 'Предмет'),
             'examType' => Yii::t('app', 'ОГЭ/ЕГЭ'),
             'price' => Yii::t('app', 'Цена'),
         ];
     }
-    public function getTeacherr()
+    public function getTeacher()
     {
-        return $this->hasOne(Teachers::class, ['id' => 'teacher']);
+        return $this->hasOne(Teachers::class, ['id' => 'teacherId']);
     }
-    public function getMounths()
+    public function getMonths()
     {
-        return $this->hasMany(Mounths::class, ['course' => 'id']);
+        return $this->hasMany(Months::class, ['courseId' => 'id']);
+    }
+    public function getUsers()
+    {
+        return $this
+            ->hasMany(Users::class, ['id' => 'userId'])
+            ->viaTable('bought_courses', ['courseId' => 'id']);
     }
     public function beforeSave($insert)
     {
@@ -89,7 +95,6 @@ class Courses extends \yii\db\ActiveRecord
 
         $this->dateFrom = $dateFrom->format('Y-m-d');
         $this->dateTo = $dateTo->format('Y-m-d');
-        $this->teacher = Teachers::findOne(['name' => $this->teacher])->id;
 
         return parent::beforeSave($insert);
     }
@@ -97,8 +102,6 @@ class Courses extends \yii\db\ActiveRecord
     {
         $this->dateFrom = date_create_from_format('Y-m-d', $this->dateFrom)->format('d.m.Y');
         $this->dateTo = date_create_from_format('Y-m-d', $this->dateTo)->format('d.m.Y');
-
-        $this->teacher = Teachers::findOne(['id' => $this->teacher])->name;
 
         parent::afterFind();
     }

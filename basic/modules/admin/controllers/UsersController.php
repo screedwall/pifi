@@ -3,6 +3,9 @@
 namespace app\modules\admin\controllers;
 
 use app\controllers\AppController;
+use app\models\BoughtCourses;
+use app\models\Courses;
+use app\models\Months;
 use Yii;
 use app\models\Users;
 use app\models\UsersSearch;
@@ -68,7 +71,7 @@ class UsersController extends AppController
         $model = new Users();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -86,10 +89,25 @@ class UsersController extends AppController
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = $this->findModel($id);
+        $request = Yii::$app->request;
+        if ($model->load($request->post()) && $model->save()) {
+            $months = $request->post('months');
+
+            $current = BoughtCourses::find()->where(['userId' => $id])->all();
+            foreach ($current as $item) {
+                $item->delete();
+            }
+            if(isset($months))
+                foreach ($months as $month) {
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $id;
+                    $boughtCourse->monthId = $month;
+                    $boughtCourse->courseId = Months::findOne([$month])->courseId;
+                    $boughtCourse->save();
+                }
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

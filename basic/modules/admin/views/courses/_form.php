@@ -35,7 +35,7 @@ use \app\controllers\AppController;
             'format' => 'dd.mm.yyyy'
         ]])?>
 
-    <?= $form->field($model, 'teacher')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'name', 'name')) ?>
+    <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name')) ?>
 
     <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
 

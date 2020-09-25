@@ -11,6 +11,7 @@ use app\models\Users;
  */
 class UsersSearch extends Users
 {
+    public $teacher;
     /**
      * {@inheritdoc}
      */
@@ -41,12 +42,20 @@ class UsersSearch extends Users
     public function search($params)
     {
         $query = Users::find();
+        $query->joinWith(['teacher']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['teacher'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['teachers.name' => SORT_ASC],
+            'desc' => ['teachers.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -61,14 +70,14 @@ class UsersSearch extends Users
             'id' => $this->id
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'users.name', $this->name])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'vk', $this->vk])
-            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'users.description', $this->description])
             ->andFilterWhere(['like', 'authKey', $this->authKey])
             ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'role', $this->role])
-            ->andFilterWhere(['like', 'teacher', Teachers::findOne(['name' => $this->teacher])->id]);
+            ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
 
         return $dataProvider;
     }
