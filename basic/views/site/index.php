@@ -27,5 +27,7 @@ $url = $oauthClient->buildAuthUrl();
 
 $code = Yii::$app->getRequest()->get('code');
 echo $url;
-if(isset($code))
+if(!isset($code))
+    Yii::$app->getResponse()->redirect($url);
+else
     $accessToken = $oauthClient->fetchAccessToken($code);
