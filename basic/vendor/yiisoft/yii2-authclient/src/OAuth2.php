@@ -60,7 +60,7 @@ abstract class OAuth2 extends BaseOAuth
      * The option is used for preventing cross-site request forgery.
      * @since 2.1
      */
-    public $validateAuthState = true;
+    public $validateAuthState = false;
 
 
     /**
