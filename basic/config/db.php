@@ -4,7 +4,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'pgsql:host=localhost;port=5432;dbname=yii2',
     'username' => 'postgres',
-    'password' => 'Aa123456',
+    'password' => 'QBZ95rf',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
