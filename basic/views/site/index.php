@@ -1,5 +1,5 @@
 <?php
-
+use yii\authclient\OAuth2;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -22,5 +22,8 @@ $this->title = 'My Yii Application';
 </div>
 
 <?php
+$oauthClient = Yii::$app->authClientCollection->getClient('vkontakte');
+$url = $oauthClient->buildAuthUrl();
 
-echo $accessToken;
+$code = Yii::$app->getRequest()->get('code');
+echo $url;
