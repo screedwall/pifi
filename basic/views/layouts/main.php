@@ -65,13 +65,13 @@ AppAsset::register($this);
                         ],
                     ]
             ) : (
-                ['label' => 'Профиль', 'url' => ['/site/login']]
+                ['label' => 'Профиль', 'url' => ['/auth/login']]
             )),
             Yii::$app->user->isGuest ? (
-                ['label' => 'Войти', 'url' => ['/site/login']]
+                ['label' => 'Войти', 'url' => ['/auth/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
+                . Html::beginForm(['/auth/logout'], 'post')
                 . Html::submitButton(
                     'Выйти (' . Yii::$app->user->identity->name . ')',
                     ['class' => 'btn btn-link logout']

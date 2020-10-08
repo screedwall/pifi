@@ -16,36 +16,5 @@ $this->title = 'My Yii Application';
 
     <div class="body-content">
 
-        <pre><?= "" ?></pre>
-
     </div>
 </div>
-
-<?php
-//$client = Yii::$app->authClientCollection->getClient('vkontakte');
-//$client_id = Yii::$app->request->get('authclient');
-//$url = $client->buildAuthUrl();
-//
-//echo $url;
-//$code = Yii::$app->getRequest()->get('code');
-//if(!isset($code))
-//    Yii::$app->getResponse()->redirect($url);
-//else
-//    $accessToken = $client->authenticateClient();
-//print_r($accessToken);
-
-$oauthClient = Yii::$app->authClientCollection->getClient('vkontakte');
-$url = $oauthClient->buildAuthUrl();
-
-$code = Yii::$app->getRequest()->get('code');
-if(!isset($code))
-    Yii::$app->getResponse()->redirect($url);
-else
-    $accessToken = $oauthClient->fetchAccessToken($code);
-if (isset($accessToken))
-    print_r($accessToken);
-//echo $accessToken;
-//if(!isset($code))
-//    Yii::$app->getResponse()->redirect($url);
-//else
-//    $accessToken = $client->fetchAccessToken($code);

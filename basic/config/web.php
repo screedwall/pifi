@@ -70,8 +70,8 @@ $config = [
         ],
         'tinkoffPay' => [
             'class' => \chumakovanton\tinkoffPay\TinkoffPay::className(),
-            'terminalKey' => 'terminalKey',
-            'secretKey' => 'secretKey',
+            'terminalKey' => '1565180651170DEMO',
+            'secretKey' => 'hki9rjpnak9sg7nt',
             'apiUrl' => 'https://securepay.tinkoff.ru/v2'
         ],
         'authClientCollection' => [

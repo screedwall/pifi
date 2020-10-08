@@ -41,8 +41,8 @@ class UsersSearch extends Users
      */
     public function search($params)
     {
-        $query = Users::find();
-        $query->joinWith(['teacher']);
+        $query = Users::find()
+            ->joinWith(['teacher']);
 
         // add conditions that should always apply here
 
@@ -70,7 +70,7 @@ class UsersSearch extends Users
             'id' => $this->id
         ]);
 
-        $query->andFilterWhere(['like', 'users.name', $this->name])
+        $query->andFilterWhere(['like', 'UPPER(users.name)', mb_strtoupper($this->name)])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'vk', $this->vk])
             ->andFilterWhere(['like', 'users.description', $this->description])

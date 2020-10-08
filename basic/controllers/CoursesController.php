@@ -13,7 +13,7 @@ class CoursesController extends Controller
 {
     public function actionIndex()
     {
-        $model = Courses::find()->all();
+        $model = Courses::find()->orderBy(['id' => SORT_ASC])->all();
         return $this->render('index', [
             'model' => $model
             ]);

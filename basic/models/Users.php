@@ -17,6 +17,7 @@ use Yii;
  * @property int $role
  * @property int $teacherId
  * @property string $authKey
+ * @property string $access_token
  * @property string $password
  */
 class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
@@ -37,8 +38,8 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['login', 'name', 'email', 'vk', 'description', 'role', 'password'], 'required'],
-            [['email', 'vk', 'description', 'teacherId', 'role', 'authKey', 'password'], 'string', 'max' => 255],
+            [['login', 'name', 'role', 'password'], 'required'],
+            [['email', 'vk', 'description', 'teacherId', 'role', 'authKey', 'access_token', 'password'], 'string', 'max' => 255],
         ];
     }
 
@@ -66,7 +67,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        //
+        return static::findOne(['login' => 'vk'.$token['id']]);
     }
     public static function findByUsername($username)
     {

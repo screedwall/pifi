@@ -41,8 +41,9 @@ class CoursesSearch extends Courses
      */
     public function search($params)
     {
-        $query = Courses::find();
-        $query->joinWith(['teacher']);
+        $query = Courses::find()
+            ->joinWith(['teacher'])
+            ->orderBy(['id' => SORT_ASC]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -72,7 +73,7 @@ class CoursesSearch extends Courses
             'price' => $this->price,
         ]);
 
-        $query->andFilterWhere(['like', 'courses.name', $this->name])
+        $query->andFilterWhere(['like', 'UPPER(courses.name)', mb_strtoupper($this->name)])
             ->andFilterWhere(['like', 'shortDescription', $this->shortDescription])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'courses.subject', $this->subject])

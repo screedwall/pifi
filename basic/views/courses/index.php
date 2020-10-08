@@ -28,7 +28,7 @@ $this->title = "Курсы";
                         <?php
                             if(Yii::$app->user->isGuest)
                                 {
-                                    $action = '/site/login';
+                                    $action = '/auth/login';
                                     $param = "payId";
                                     $label = "Записаться";
                                 }

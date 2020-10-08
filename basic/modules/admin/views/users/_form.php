@@ -9,7 +9,6 @@ use kartik\select2\Select2;
 /* @var $model app\models\Users */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $roles app\models\Users */
-$model->password = '';
 ?>
 
 <div class="users-form">
@@ -34,21 +33,22 @@ $model->password = '';
         $months = \app\models\Months::find()->all();
         foreach ($months as $month) {
             $month->name = $month->course->name." ".$month->name;
+            $month->courseId = $month->course->name;
         }
     ?>
 
+    <label class="control-label">Курсы пользователя</label>
     <?= Select2::widget([
         'name' => 'months',
         'value' => ArrayHelper::map($model->months, 'id', 'id'),
-        'data' => ArrayHelper::map($months, 'id', 'name'),
+        'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
         'options' => [
-            'placeholder' => 'Подберите пользователей...',
+            'placeholder' => 'Выберите курсы...',
             'multiple' => true
         ],
     ]) ?>
     <br>
-
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
 
 
 
