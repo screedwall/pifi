@@ -22,8 +22,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'shortDescription') ?>
-
     <?= $form->field($model, 'description') ?>
 
     <?= $form->field($model, 'video') ?>

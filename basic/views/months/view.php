@@ -17,7 +17,6 @@ foreach ($model->lessons as $item) {
                 'options' => ['clientOptions' => $item->name],
                 'content' => "Время урока: ".$item->lessonDate."<br>"
                 ."Время выполнения ДЗ: ".$item->homeworkDate."<br>"
-                .$item->shortDescription."<br>"
                 .Html::a(
                         'Открыть урок',
                         ['lessons/view', 'id' => $item->id],

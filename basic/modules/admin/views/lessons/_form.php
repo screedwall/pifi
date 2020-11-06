@@ -17,8 +17,6 @@ use kartik\datetime\DateTimePicker;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'shortDescription')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'video')->textInput(['maxlength' => true]) ?>

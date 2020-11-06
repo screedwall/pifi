@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
             'name',
-            'shortDescription',
 //            'description:ntext',
             'video',
             'lessonDate',

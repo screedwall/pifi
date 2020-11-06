@@ -6,6 +6,7 @@ use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\BoughtCourses;
+use kartik\daterange\DateRangePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Months */
@@ -19,19 +20,20 @@ use app\models\BoughtCourses;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dateFrom')->widget(DatePicker::class, [
-        'options' => ['autocomplete' => 'off'],
-        'pluginOptions' => [
-            'autoclose' => true,
-            'format' => 'dd.mm.yyyy'
-        ]])?>
-
-    <?= $form->field($model, 'dateTo')->widget(DatePicker::class, [
-        'options' => ['autocomplete' => 'off'],
-        'pluginOptions' => [
-            'autoclose' => true,
-            'format' => 'dd.mm.yyyy'
-        ]])?>
+    <?= '<div class="form-group field-courses-datetime_range required">'
+    .'<label class="control-label has-star" for="courses-datetime_range">Месяц длится</label>'
+    .DateRangePicker::widget([
+        'model' => $model,
+        'name' => 'datetime_range',
+        'value' => (isset($model->dateFrom) ? $model->dateFrom.' - '.$model->dateTo : date("d.m.Y").' - '.date("d.m.Y")),
+        'startAttribute' => 'Months[dateFrom]',
+        'endAttribute' => 'Months[dateTo]',
+        'convertFormat'=>true,
+        'pluginOptions'=>[
+            'locale'=>['format' => 'd.m.Y'],
+        ]
+    ])
+    .'</div>' ?>
 
     <?php
         $users = \app\models\Users::find()->all();

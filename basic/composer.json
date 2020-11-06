@@ -25,7 +25,14 @@
         "chumakovanton/yii2-tinkoff-pay": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "yiisoft/yii2-bootstrap4": "^2.0",
-        "yiisoft/yii2-authclient": "^2.2"
+        "yiisoft/yii2-authclient": "^2.2",
+        "evgeniyrru/yii2-slick": "*",
+        "newerton/yii2-fancybox": "dev-master",
+        "kartik-v/yii2-widget-fileinput": "dev-master",
+        "kartik-v/yii2-date-range": "dev-master",
+        "kartik-v/yii2-widget-activeform": "dev-master",
+        "budyaga/yii2-cropper": "*",
+        "kartik-v/yii2-tabs-x": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

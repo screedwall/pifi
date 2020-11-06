@@ -84,12 +84,36 @@
         ]
     },
     {
+        "name": "bower-asset/fancybox",
+        "version": "V2.1.7",
+        "version_normalized": "2.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fancyapps/fancybox.git",
+            "reference": "b708e8060cefd45c97981143f85d4094e3d6e18c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fancyapps/fancybox/zipball/b708e8060cefd45c97981143f85d4094e3d6e18c",
+            "reference": "b708e8060cefd45c97981143f85d4094e3d6e18c"
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.10",
+            "bower-asset/jquery-mousewheel": "~3.1.3"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "GPLv3"
+        ]
+    },
+    {
         "name": "bower-asset/inputmask",
         "version": "3.3.11",
         "version_normalized": "3.3.11.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/RobinHerbots/Inputmask.git",
+            "url": "git@github.com:RobinHerbots/Inputmask.git",
             "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
         },
         "dist": {
@@ -105,6 +129,23 @@
         "license": [
             "http://opensource.org/licenses/mit-license.php"
         ]
+    },
+    {
+        "name": "bower-asset/jcrop",
+        "version": "v0.9.12",
+        "version_normalized": "0.9.12.0",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:tapmodo/Jcrop.git",
+            "reference": "1902fbc6afa14481dc019a17e0dcb7d62b808a98"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tapmodo/Jcrop/zipball/1902fbc6afa14481dc019a17e0dcb7d62b808a98",
+            "reference": "1902fbc6afa14481dc019a17e0dcb7d62b808a98"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist"
     },
     {
         "name": "bower-asset/jquery",
@@ -127,12 +168,32 @@
         ]
     },
     {
+        "name": "bower-asset/jquery-mousewheel",
+        "version": "3.1.13",
+        "version_normalized": "3.1.13.0",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:jquery/jquery-mousewheel.git",
+            "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jquery/jquery-mousewheel/zipball/67289b6b2aa0066d7d78a5807f520387135ffb22",
+            "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22"
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.2.2"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist"
+    },
+    {
         "name": "bower-asset/jquery-ui",
         "version": "1.12.1",
         "version_normalized": "1.12.1.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:components/jqueryui.git",
+            "url": "https://github.com/components/jqueryui.git",
             "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
         },
         "dist": {
@@ -167,6 +228,49 @@
         "installation-source": "dist"
     },
     {
+        "name": "bower-asset/simple-ajax-uploader",
+        "version": "2.6.1",
+        "version_normalized": "2.6.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/LPology/Simple-Ajax-Uploader.git",
+            "reference": "06c094a7d383a1e6643ab4c77716f01607489b54"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/LPology/Simple-Ajax-Uploader/zipball/06c094a7d383a1e6643ab4c77716f01607489b54",
+            "reference": "06c094a7d383a1e6643ab4c77716f01607489b54"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
+        "name": "bower-asset/slick-carousel",
+        "version": "v1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kenwheeler/slick.git",
+            "reference": "0f40c9d6a02a5c08b5f4dd80fdada3a854a59bee"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kenwheeler/slick/zipball/0f40c9d6a02a5c08b5f4dd80fdada3a854a59bee",
+            "reference": "0f40c9d6a02a5c08b5f4dd80fdada3a854a59bee"
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7"
+        },
+        "type": "bower-asset",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ]
+    },
+    {
         "name": "bower-asset/yii2-pjax",
         "version": "2.0.7.1",
         "version_normalized": "2.0.7.1",
@@ -187,6 +291,53 @@
         "installation-source": "dist",
         "license": [
             "MIT"
+        ]
+    },
+    {
+        "name": "budyaga/yii2-cropper",
+        "version": "2.0.21",
+        "version_normalized": "2.0.21.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/krivochenko/yii2-cropper.git",
+            "reference": "905b8819811f8ab8ae222844ba827aa404026a5f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/krivochenko/yii2-cropper/zipball/905b8819811f8ab8ae222844ba827aa404026a5f",
+            "reference": "905b8819811f8ab8ae222844ba827aa404026a5f",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jcrop": "=0.9.12",
+            "bower-asset/simple-ajax-uploader": "2.6.1",
+            "yiisoft/yii2": "*",
+            "yiisoft/yii2-imagine": "*"
+        },
+        "time": "2020-07-14T16:31:42+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "budyaga\\cropper\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Sergey Krivochenko",
+                "email": "budyaga@gmail.com"
+            }
+        ],
+        "description": "Yii-Framework widget for uploading and cropping images",
+        "keywords": [
+            "crop",
+            "extension",
+            "upload",
+            "yii2"
         ]
     },
     {
@@ -1041,6 +1192,51 @@
         ]
     },
     {
+        "name": "evgeniyrru/yii2-slick",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EvgeniyRRU/yii2-slick.git",
+            "reference": "65fb112e67a230805cac07f8c3f372b25502be2c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/EvgeniyRRU/yii2-slick/zipball/65fb112e67a230805cac07f8c3f372b25502be2c",
+            "reference": "65fb112e67a230805cac07f8c3f372b25502be2c",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/slick-carousel": "*",
+            "yiisoft/yii2": "*"
+        },
+        "time": "2017-03-31T07:00:27+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "evgeniyrru\\yii2slick\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Evgeniy Chernyshev",
+                "email": "EvgeniyRRU@gmail.com"
+            }
+        ],
+        "description": "Yii2 extension for Slick Carousel",
+        "keywords": [
+            "carousel",
+            "extension",
+            "widget",
+            "yii"
+        ]
+    },
+    {
         "name": "ezyang/htmlpurifier",
         "version": "v4.13.0",
         "version_normalized": "4.13.0.0",
@@ -1218,6 +1414,229 @@
         ]
     },
     {
+        "name": "imagine/imagine",
+        "version": "1.2.3",
+        "version_normalized": "1.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/avalanche123/Imagine.git",
+            "reference": "cb2361e5bb4410b681462d8e4f912bc5dabf84ab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/cb2361e5bb4410b681462d8e4f912bc5dabf84ab",
+            "reference": "cb2361e5bb4410b681462d8e4f912bc5dabf84ab",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "2.2.*",
+            "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.4"
+        },
+        "suggest": {
+            "ext-gd": "to use the GD implementation",
+            "ext-gmagick": "to use the Gmagick implementation",
+            "ext-imagick": "to use the Imagick implementation"
+        },
+        "time": "2019-12-04T09:55:33+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Imagine\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bulat Shakirzyanov",
+                "email": "mallluhuct@gmail.com",
+                "homepage": "http://avalanche123.com"
+            }
+        ],
+        "description": "Image processing for PHP 5.3",
+        "homepage": "http://imagine.readthedocs.org/",
+        "keywords": [
+            "drawing",
+            "graphics",
+            "image manipulation",
+            "image processing"
+        ]
+    },
+    {
+        "name": "kartik-v/bootstrap-fileinput",
+        "version": "v5.1.3",
+        "version_normalized": "5.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
+            "reference": "dbb4ebb75dbfd42603005aeb323e4e8e970e0dfa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/dbb4ebb75dbfd42603005aeb323e4e8e970e0dfa",
+            "reference": "dbb4ebb75dbfd42603005aeb323e4e8e970e0dfa",
+            "shasum": ""
+        },
+        "time": "2020-10-23T19:33:56+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "kartik\\plugins\\fileinput\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+        "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
+        "keywords": [
+            "ajax",
+            "bootstrap",
+            "delete",
+            "file",
+            "image",
+            "input",
+            "jquery",
+            "multiple",
+            "preview",
+            "progress",
+            "upload"
+        ],
+        "funding": [
+            {
+                "url": "https://opencollective.com/bootstrap-fileinput",
+                "type": "open_collective"
+            }
+        ]
+    },
+    {
+        "name": "kartik-v/bootstrap-tabs-x",
+        "version": "v1.3.2",
+        "version_normalized": "1.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/bootstrap-tabs-x.git",
+            "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/bootstrap-tabs-x/zipball/e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
+            "reference": "e85a731d79f030fb7f7742e3e2e0ac828c3233a1",
+            "shasum": ""
+        },
+        "time": "2015-06-26T14:48:16+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "kartik\\plugins\\tabs\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "Extended Bootstrap Tabs with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
+        "homepage": "https://github.com/kartik-v/bootstrap-tabs-x",
+        "keywords": [
+            "bootstrap",
+            "extended",
+            "jquery",
+            "modal",
+            "modal-tabs",
+            "tabs",
+            "tabs-x"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-date-range",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-date-range.git",
+            "reference": "22617574272ba01750428bbdf5f42c23bdc8387e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/22617574272ba01750428bbdf5f42c23bdc8387e",
+            "reference": "22617574272ba01750428bbdf5f42c23bdc8387e",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/yii2-krajee-base": ">=2.0.0"
+        },
+        "time": "2020-07-20T09:51:58+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.7.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\daterange\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "An advanced Yii 2 date range picker input for based on bootstrap-daterangepicker plugin.",
+        "homepage": "https://github.com/kartik-v/yii2-date-range",
+        "keywords": [
+            "bootstrap",
+            "bootstrap 3",
+            "date",
+            "date-range",
+            "extension",
+            "range",
+            "time",
+            "widget",
+            "yii2"
+        ]
+    },
+    {
         "name": "kartik-v/yii2-krajee-base",
         "version": "v2.0.5",
         "version_normalized": "2.0.5.0",
@@ -1269,6 +1688,121 @@
             "krajee",
             "widget",
             "yii2"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-tabs-x",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-tabs-x.git",
+            "reference": "e5d49bb4e65f5618813d888ab9a405b13946cb5b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-tabs-x/zipball/e5d49bb4e65f5618813d888ab9a405b13946cb5b",
+            "reference": "e5d49bb4e65f5618813d888ab9a405b13946cb5b",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/bootstrap-tabs-x": "~1.3",
+            "kartik-v/yii2-krajee-base": ">=1.9.8"
+        },
+        "time": "2019-05-25T07:28:38+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\tabs\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "An extended bootstrap 3.0 tabs widget with ability to align tabs in multiple ways, add borders, rotated titles, and more.",
+        "homepage": "https://github.com/kartik-v/yii2-tabs-x",
+        "keywords": [
+            "bootstrap",
+            "extended",
+            "jquery",
+            "modal",
+            "modal-tabs",
+            "tabs",
+            "tabs-x"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-widget-activeform",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-widget-activeform.git",
+            "reference": "4d578ff5508f1fc93ac8dd19cf22237216dfd5f9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-widget-activeform/zipball/4d578ff5508f1fc93ac8dd19cf22237216dfd5f9",
+            "reference": "4d578ff5508f1fc93ac8dd19cf22237216dfd5f9",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/yii2-krajee-base": ">=1.9.8"
+        },
+        "time": "2019-09-05T13:48:09+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\form\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "Enhanced Yii2 active-form and active-field with full bootstrap styling support (sub repo split from yii2-widgets).",
+        "homepage": "https://github.com/kartik-v/yii2-widget-activeform",
+        "keywords": [
+            "activefield",
+            "activeform",
+            "extension",
+            "field",
+            "form",
+            "widget",
+            "yii2"
+        ],
+        "funding": [
+            {
+                "url": "https://opencollective.com/yii2-widgets",
+                "type": "open_collective"
+            }
         ]
     },
     {
@@ -1381,6 +1915,69 @@
             "select2",
             "widget",
             "yii2"
+        ]
+    },
+    {
+        "name": "kartik-v/yii2-widget-fileinput",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
+            "reference": "d43bb9d9638ba117bbaa0045250645dc843fcf7f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/d43bb9d9638ba117bbaa0045250645dc843fcf7f",
+            "reference": "d43bb9d9638ba117bbaa0045250645dc843fcf7f",
+            "shasum": ""
+        },
+        "require": {
+            "kartik-v/bootstrap-fileinput": ">=5.0.0",
+            "kartik-v/yii2-krajee-base": ">=2.0.0"
+        },
+        "time": "2020-10-23T19:54:51+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "kartik\\file\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Kartik Visweswaran",
+                "email": "kartikv2@gmail.com",
+                "homepage": "http://www.krajee.com/"
+            }
+        ],
+        "description": "An enhanced FileInput widget for Bootstrap 3.x & 4.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
+        "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
+        "keywords": [
+            "extension",
+            "file",
+            "form",
+            "input",
+            "jquery",
+            "plugin",
+            "upload",
+            "widget",
+            "yii2"
+        ],
+        "funding": [
+            {
+                "url": "https://opencollective.com/yii2-widget-fileinput",
+                "type": "open_collective"
+            }
         ]
     },
     {
@@ -1542,6 +2139,53 @@
                 "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
                 "type": "tidelift"
             }
+        ]
+    },
+    {
+        "name": "newerton/yii2-fancybox",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/newerton/yii2-fancybox.git",
+            "reference": "46893e3c2d3ae5917c80cfd556e29bc9528c4497"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/newerton/yii2-fancybox/zipball/46893e3c2d3ae5917c80cfd556e29bc9528c4497",
+            "reference": "46893e3c2d3ae5917c80cfd556e29bc9528c4497",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/fancybox": "~2.1.5",
+            "bower-asset/jquery-mousewheel": ">=3.1.13",
+            "php": ">=5.4.0",
+            "yiisoft/yii2": "*"
+        },
+        "time": "2017-03-29T03:56:27+00:00",
+        "type": "yii2-extension",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "newerton\\fancybox\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Newerton Vargas de Araujo",
+                "email": "newerton.araujo@gmail.com"
+            }
+        ],
+        "description": "fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and multi-media on your webpages.",
+        "keywords": [
+            "extension",
+            "fancyapps",
+            "fancybox",
+            "yii2"
         ]
     },
     {
@@ -5965,6 +6609,59 @@
             "curl",
             "http",
             "httpclient",
+            "yii2"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-imagine",
+        "version": "2.2.0",
+        "version_normalized": "2.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-imagine.git",
+            "reference": "8637f63ee2eb81b7fe1f4c0e16cc8cc474a68bae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/8637f63ee2eb81b7fe1f4c0e16cc8cc474a68bae",
+            "reference": "8637f63ee2eb81b7fe1f4c0e16cc8cc474a68bae",
+            "shasum": ""
+        },
+        "require": {
+            "imagine/imagine": "^0.6 | ^0.7 | ^1.0",
+            "yiisoft/yii2": "~2.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "<7"
+        },
+        "time": "2019-06-04T12:38:50+00:00",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\imagine\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Antonio Ramirez",
+                "email": "amigo.cobos@gmail.com"
+            }
+        ],
+        "description": "The Imagine integration for the Yii framework",
+        "keywords": [
+            "helper",
+            "image",
+            "imagine",
             "yii2"
         ]
     },

@@ -25,7 +25,7 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'role')->dropDownList($roles) ?>
+    <?= $form->field($model, 'role')->dropDownList(\app\controllers\AppController::getRoles()) ?>
 
     <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name'), array('prompt' => '')) ?>
 

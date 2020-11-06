@@ -102,6 +102,22 @@
       <path value="$PROJECT_DIR$/basic/vendor/npm-asset/bootstrap" />
       <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-authclient" />
       <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-httpclient" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/slick-carousel" />
+      <path value="$PROJECT_DIR$/basic/vendor/evgeniyrru/yii2-slick" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/fancybox" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/jquery-mousewheel" />
+      <path value="$PROJECT_DIR$/basic/vendor/newerton/yii2-fancybox" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/bootstrap-fileinput" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-fileinput" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-date-range" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-activeform" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/jcrop" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-imagine" />
+      <path value="$PROJECT_DIR$/basic/vendor/imagine/imagine" />
+      <path value="$PROJECT_DIR$/basic/vendor/budyaga/yii2-cropper" />
+      <path value="$PROJECT_DIR$/basic/vendor/bower-asset/simple-ajax-uploader" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-tabs-x" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/bootstrap-tabs-x" />
     </include_path>
   </component>
 </project>

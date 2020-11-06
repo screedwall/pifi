@@ -9,7 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property string $shortDescription
  * @property string $description
  * @property string $video
  * @property string $lessonDate
@@ -33,11 +32,11 @@ class Lessons extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'shortDescription', 'description', 'video', 'lessonDate', 'homeworkDate', 'monthId', 'courseId'], 'required'],
+            [['name', 'description', 'video', 'lessonDate', 'homeworkDate', 'monthId', 'courseId'], 'required'],
             [['description'], 'string'],
             [['lessonDate', 'homeworkDate'], 'date', 'format' => 'dd.MM.yyyy HH:mm'],
             [['monthId', 'courseId'], 'integer'],
-            [['name', 'shortDescription', 'video'], 'string', 'max' => 255],
+            [['name', 'video'], 'string', 'max' => 255],
         ];
     }
 
@@ -49,7 +48,6 @@ class Lessons extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ИД'),
             'name' => Yii::t('app', 'Имя'),
-            'shortDescription' => Yii::t('app', 'Краткое описание'),
             'description' => Yii::t('app', 'Описание'),
             'video' => Yii::t('app', 'Видео'),
             'lessonDate' => Yii::t('app', 'Время урока'),

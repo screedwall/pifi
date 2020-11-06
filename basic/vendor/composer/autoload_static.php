@@ -33,6 +33,7 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             'yii\\swiftmailer\\' => 16,
             'yii\\jui\\' => 8,
+            'yii\\imagine\\' => 12,
             'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
@@ -47,21 +48,39 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'n' => 
+        array (
+            'newerton\\fancybox\\' => 18,
+        ),
         'l' => 
         array (
             'lesha724\\youtubewidget\\' => 23,
         ),
         'k' => 
         array (
+            'kartik\\tabs\\' => 12,
             'kartik\\select2\\' => 15,
+            'kartik\\plugins\\tabs\\' => 20,
+            'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\form\\' => 12,
+            'kartik\\file\\' => 12,
             'kartik\\datetime\\' => 16,
+            'kartik\\daterange\\' => 17,
             'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
+        ),
+        'e' => 
+        array (
+            'evgeniyrru\\yii2slick\\' => 21,
         ),
         'c' => 
         array (
             'chumakovanton\\tinkoffPay\\' => 25,
             'cebe\\markdown\\' => 14,
+        ),
+        'b' => 
+        array (
+            'budyaga\\cropper\\' => 16,
         ),
         'W' => 
         array (
@@ -101,6 +120,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             'Opis\\Closure\\' => 13,
         ),
+        'I' => 
+        array (
+            'Imagine\\' => 8,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -135,6 +158,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'yii\\jui\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-jui',
+        ),
+        'yii\\imagine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-imagine/src',
         ),
         'yii\\httpclient\\' => 
         array (
@@ -178,17 +205,45 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
+        'newerton\\fancybox\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/newerton/yii2-fancybox',
+        ),
         'lesha724\\youtubewidget\\' => 
         array (
             0 => __DIR__ . '/..' . '/lesha724/yii2-youtube-widget',
+        ),
+        'kartik\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-tabs-x/src',
         ),
         'kartik\\select2\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-select2/src',
         ),
+        'kartik\\plugins\\tabs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-tabs-x',
+        ),
+        'kartik\\plugins\\fileinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
+        ),
+        'kartik\\form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-activeform/src',
+        ),
+        'kartik\\file\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput/src',
+        ),
         'kartik\\datetime\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker/src',
+        ),
+        'kartik\\daterange\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-date-range/src',
         ),
         'kartik\\date\\' => 
         array (
@@ -198,6 +253,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base/src',
         ),
+        'evgeniyrru\\yii2slick\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/evgeniyrru/yii2-slick',
+        ),
         'chumakovanton\\tinkoffPay\\' => 
         array (
             0 => __DIR__ . '/..' . '/chumakovanton/yii2-tinkoff-pay',
@@ -205,6 +264,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'budyaga\\cropper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/budyaga/yii2-cropper',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -309,6 +372,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
+        ),
+        'Imagine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/imagine/imagine/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

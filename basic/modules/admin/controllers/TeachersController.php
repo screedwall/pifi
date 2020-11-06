@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Courses;
 use Yii;
 use app\models\Teachers;
 use app\models\TeachersSearch;
@@ -21,11 +22,22 @@ class TeachersController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'uploadPhoto' => [
+                'class' => 'budyaga\cropper\actions\UploadAction',
+                'url' => '/uploads/teachers',
+                'path' => 'uploads/teachers',
+            ]
         ];
     }
 
@@ -107,6 +119,25 @@ class TeachersController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionCopy($id)
+    {
+        $data = $this->findModel($id)->attributes;
+        while(Teachers::find()->where(['name' => $data['name']])->count() > 0){
+            $data['name'] = $data['name'].' копия';
+        }
+
+        $model = new Teachers();
+        $model->setAttributes($data);
+
+        if ($model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

@@ -12,6 +12,8 @@ use Yii;
  * @property string $subject
  * @property string $description
  * @property string $contact
+ * @property string $thumbnail
+ * @property string $splash
  */
 class Teachers extends \yii\db\ActiveRecord
 {
@@ -30,7 +32,7 @@ class Teachers extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'subject', 'description', 'contact'], 'required'],
-            [['description'], 'string'],
+            [['description', 'thumbnail', 'splash'], 'string'],
             [['name', 'subject', 'contact'], 'string', 'max' => 255],
         ];
     }
@@ -46,6 +48,8 @@ class Teachers extends \yii\db\ActiveRecord
             'subject' => Yii::t('app', 'Предмет'),
             'description' => Yii::t('app', 'Описание'),
             'contact' => Yii::t('app', 'Контакт'),
+            'splash' => Yii::t('app', 'Картинка'),
+            'thumbnail' => Yii::t('app', 'Миниатюра'),
         ];
     }
 }

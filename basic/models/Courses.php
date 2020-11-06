@@ -3,7 +3,9 @@
 namespace app\models;
 
 use app\controllers\AppController;
+use phpDocumentor\Reflection\File;
 use Yii;
+use yii\web\UploadedFile;
 use yii\debug\models\search\Debug;
 
 /**
@@ -19,6 +21,7 @@ use yii\debug\models\search\Debug;
  * @property string $subject
  * @property string $examType
  * @property int $price
+ * @property string $thumbnail
  */
 class Courses extends \yii\db\ActiveRecord
 {
@@ -37,12 +40,12 @@ class Courses extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'teacherId', 'subject', 'examType', 'price'], 'required'],
-            [['description'], 'string'],
+            [['description', 'thumbnail'], 'string'],
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
             [['teacherId', 'price'], 'integer'],
             [['name', 'subject', 'examType'], 'string', 'max' => 255],
-            [['shortDescription'], 'string', 'max' => 300],
+            [['shortDescription'], 'string', 'max' => 255],
         ];
     }
 
@@ -72,6 +75,7 @@ class Courses extends \yii\db\ActiveRecord
             'subject' => Yii::t('app', 'Предмет'),
             'examType' => Yii::t('app', 'ОГЭ/ЕГЭ'),
             'price' => Yii::t('app', 'Цена'),
+            'thumbnail' => Yii::t('app', 'Изменить картинку'),
         ];
     }
     public function getTeacher()

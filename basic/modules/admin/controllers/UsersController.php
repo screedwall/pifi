@@ -69,14 +69,12 @@ class UsersController extends AppController
     public function actionCreate()
     {
         $model = new Users();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
-            'roles' => $this->getRoles()
+            'model' => $model
         ]);
     }
 
@@ -111,8 +109,7 @@ class UsersController extends AppController
         }
 
         return $this->render('update', [
-            'model' => $model,
-            'roles' => $this->getRoles()
+            'model' => $model
         ]);
     }
 

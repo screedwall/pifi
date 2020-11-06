@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'shortDescription',
+//            'shortDescription',
             'dateFrom',
-            'dateTo',
+//            'dateTo',
             [
                 'attribute' => 'teacher',
                 'value' => 'teacher.name',
@@ -39,9 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'subject',
             'examType',
-            'price',
+//            'price',
 
             ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {copy}',
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if($action==='view'){
                         $url = Url::to(['/courses/view', 'id' => $model->id]);
@@ -49,7 +50,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     $url = Url::to(['courses/'.$action, 'id' => $model->id]);
                     return $url;
-                }
+                },
+
+                'buttons' => [
+                    'copy' => function ($url, $model) {
+                        return Html::a('', $url,
+                            [
+                                'title' => Yii::t('app', 'Скопировать'),
+                                'data' => [
+                                    'method' => 'post',
+                                ],
+                                'class' => 'glyphicon glyphicon-duplicate'
+                            ]
+                        );
+                    },
+                ],
                 ],
         ],
     ]); ?>

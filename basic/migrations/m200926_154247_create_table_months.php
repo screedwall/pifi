@@ -12,7 +12,29 @@ class m200926_154247_create_table_months extends Migration
      */
     public function safeUp()
     {
+        $this->createTable('months', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string()->notNull(),
+            'dateFrom' => $this->date(),
+            'dateTo' => $this->date(),
+            'courseId' => $this->integer()->notNull(),
+        ]);
 
+        $this->addForeignKey(
+            'fk_month_courses',
+            'months',
+            'courseId',
+            'courses',
+            'id',
+            'CASCADE'
+        );
+
+        $this->insert('months', [
+            'name' => 'Сентябрь',
+            'dateFrom' => date('Y-m-d', strtotime("2020-09-01")),
+            'dateTo' => date('Y-m-d', strtotime("2020-09-30")),
+            'courseId' => '1',
+        ]);
     }
 
     /**
@@ -20,9 +42,12 @@ class m200926_154247_create_table_months extends Migration
      */
     public function safeDown()
     {
-        echo "m200926_154247_create_table_months cannot be reverted.\n";
+        $this->dropForeignKey(
+            'fk_month_courses',
+            'months'
+        );
 
-        return false;
+        $this->dropTable('months');
     }
 
     /*

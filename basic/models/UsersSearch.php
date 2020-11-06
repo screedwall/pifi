@@ -19,7 +19,7 @@ class UsersSearch extends Users
     {
         return [
             [['id'], 'integer'],
-            [['name', 'email', 'vk', 'description', 'authKey', 'password', 'role', 'teacher'], 'safe'],
+            [['name', 'email', 'vk', 'description', 'authKey', 'password', 'teacher'], 'safe'],
         ];
     }
 
@@ -42,7 +42,8 @@ class UsersSearch extends Users
     public function search($params)
     {
         $query = Users::find()
-            ->joinWith(['teacher']);
+            ->joinWith(['teacher'])
+            ->orderBy(['id' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -76,7 +77,6 @@ class UsersSearch extends Users
             ->andFilterWhere(['like', 'users.description', $this->description])
             ->andFilterWhere(['like', 'authKey', $this->authKey])
             ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'role', $this->role])
             ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
 
         return $dataProvider;

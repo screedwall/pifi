@@ -7,17 +7,17 @@ use \yii\web\Controller;
 
 class AppController extends Controller
 {
-    public function getSubjects()
+    public static  function getSubjects()
     {
         return array('Матан' => 'Матан', 'Физика' => 'Физика');
     }
-    public function getExams()
+    public static  function getExams()
     {
         return array('ОГЭ' => 'ОГЭ', 'ЕГЭ' => 'ЕГЭ');
     }
-    public function getRoles()
+    public static function getRoles()
     {
-        return array('Ученик' => 'Ученик', 'Преподаватель' => 'Преподаватель', 'Администратор' => 'Администратор');
+        return array('Администратор', 'Преподаватель', 'Ученик');
     }
 
 }

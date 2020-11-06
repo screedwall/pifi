@@ -31,13 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'email:email',
             'vk',
-            'description',
-            'role',
-            [
-                'attribute' => 'teacher',
-                'value' => 'teacher.name',
-                'label' => 'Преподаватель',
-            ],
+//            'description',
+//            [
+//                'attribute' => 'teacher',
+//                'value' => 'teacher.name',
+//                'label' => 'Преподаватель',
+//            ],
+//            'role',
 //            'authKey',
 //            'password',
 

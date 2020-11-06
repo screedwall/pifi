@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Pi-Fi',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -83,6 +84,16 @@ $config = [
                     'clientSecret' => 'FH4bvXZlnJUsLbuHFvRs',
                 ],
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        'formatter' => [
+            'dateFormat' => 'dd MMMM',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUB',
+            'locale' => 'ru-RU',
         ],
     ],
     'language' => 'ru-RU',

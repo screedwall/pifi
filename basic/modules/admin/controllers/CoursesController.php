@@ -8,6 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\Courses;
 use app\models\CoursesSearch;
+use yii\web\UploadedFile;
 
 /**
  * CoursesController implements the CRUD actions for Courses model.
@@ -21,11 +22,22 @@ class CoursesController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'uploadPhoto' => [
+                'class' => 'budyaga\cropper\actions\UploadAction',
+                'url' => '/uploads/courses',
+                'path' => 'uploads/courses',
+            ]
         ];
     }
 
@@ -66,8 +78,8 @@ class CoursesController extends Controller
     {
         $model = new Courses();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
+                return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -86,8 +98,27 @@ class CoursesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect('index');
+        if ($model->load(Yii::$app->request->post())&&$model->save()) {
+                return $this->redirect('index');
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCopy($id)
+    {
+        $data = $this->findModel($id)->attributes;
+        while(Courses::find()->where(['name' => $data['name']])->count() > 0){
+            $data['name'] = $data['name'].' копия';
+        }
+
+        $model = new Courses();
+        $model->setAttributes($data);
+
+        if ($model->save()) {
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [

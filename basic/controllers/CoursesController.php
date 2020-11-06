@@ -20,6 +20,7 @@ class CoursesController extends Controller
     }
     public function actionView($id)
     {
+        $this->layout = 'mainPage';
         $model = $this->findCourse($id);
         return $this->render('view', [
             'model' => $model

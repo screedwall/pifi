@@ -35,7 +35,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                     'class' => 'yii\grid\ActionColumn',
-                    'template'=>'{update} {delete}',
+                    'template'=>'{update} {delete} {copy}',
+                    'buttons' => [
+                        'copy' => function ($url, $model) {
+                            return Html::a('', $url,
+                                [
+                                    'title' => Yii::t('app', 'Скопировать'),
+                                    'data' => [
+                                        'method' => 'post',
+                                    ],
+                                    'class' => 'glyphicon glyphicon-duplicate'
+                                ]
+                            );
+                        },
+                    ],
             ],
         ],
     ]); ?>

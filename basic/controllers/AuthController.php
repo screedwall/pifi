@@ -56,13 +56,14 @@ class AuthController extends Controller
                         $identity = Users::findIdentityByAccessToken($token);
                         if($identity != null){
                             Yii::$app->user->login($identity, 3600*24*30);
+
                             return $this->goHome();
                         }else{
                             $user = new Users();
                             $user->login = 'vk'.$token['id'];
                             $user->name = $token['first_name']." ".$token['last_name'];
                             $user->vk = $token['id'];
-                            $user->role = AppController::getRoles()['Ученик'];
+                            $user->role = 2;
                             $user->password = Yii::$app->getSecurity()->generateRandomString();
                             $user->save(false);
 

@@ -21,6 +21,18 @@ use app\controllers\AppController;
 
     <?= $form->field($model, 'contact')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'thumbnail')->widget(budyaga\cropper\Widget::class, [
+        'uploadUrl' => \yii\helpers\Url::toRoute('teachers/uploadPhoto'),
+        'width' => '500',
+        'height' => '500',
+    ])?>
+
+    <?= $form->field($model, 'splash')->widget(budyaga\cropper\Widget::class, [
+        'uploadUrl' => \yii\helpers\Url::toRoute('teachers/uploadPhoto'),
+        'width' => '1200',
+        'height' => '500',
+    ])?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>
