@@ -31,7 +31,7 @@ class Teachers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'subject', 'description', 'contact'], 'required'],
+            [['name', 'description', 'contact'], 'required'],
             [['description', 'thumbnail', 'splash'], 'string'],
             [['name', 'subject', 'contact'], 'string', 'max' => 255],
         ];

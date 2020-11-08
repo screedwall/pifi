@@ -7,11 +7,10 @@ use yii\helpers\Html;
 /* @var $roles app\models\Users */
 
 $this->title = Yii::t('app', 'Update Users: {name}', [
-    'name' => $model->name,
+    'name' => $model->login,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Изменить');
+$this->params['breadcrumbs'][] = ['label' => $model->name];
 ?>
 <div class="users-update">
 

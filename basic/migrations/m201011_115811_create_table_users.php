@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m201011_115811_users
+ * Class m201011_115811_createtable_users
  */
-class m201011_115811_users extends Migration
+class m201011_115811_create_table_users extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,11 +18,11 @@ class m201011_115811_users extends Migration
             'name' => $this->string()->notNull(),
             'email' => $this->string(),
             'vk' => $this->string(),
-            'description' => $this->string(),
+            'description' => $this->text(),
             'role' => $this->integer(),
             'teacherId' => $this->integer(),
             'authKey' => $this->string(),
-            'password' => $this->string(),
+            'password' => $this->string()->notNull(),
             'access_token' => $this->string(),
         ]);
 
@@ -91,7 +91,7 @@ class m201011_115811_users extends Migration
 
     public function down()
     {
-        echo "m201011_115811_users cannot be reverted.\n";
+        echo "m201011_115811_createtable_users cannot be reverted.\n";
 
         return false;
     }

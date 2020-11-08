@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <?php
     echo GridView::widget([
         'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getMonths(),
+            'query' => $model->getMonths()->orderBy(['id' => SORT_ASC]),
         ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

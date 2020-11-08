@@ -43,7 +43,8 @@ class Courses extends \yii\db\ActiveRecord
             [['description', 'thumbnail'], 'string'],
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
-            [['teacherId', 'price'], 'integer'],
+            [['teacherId'], 'integer'],
+            ['price', 'double'],
             [['name', 'subject', 'examType'], 'string', 'max' => 255],
             [['shortDescription'], 'string', 'max' => 255],
         ];
@@ -84,7 +85,8 @@ class Courses extends \yii\db\ActiveRecord
     }
     public function getMonths()
     {
-        return $this->hasMany(Months::class, ['courseId' => 'id']);
+        return $this->hasMany(Months::class, ['courseId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
     }
     public function getUsers()
     {

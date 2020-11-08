@@ -28,6 +28,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\Users',
             'enableAutoLogin' => true,
+            'loginUrl' => '/auth/login',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -54,6 +55,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 '<controller>/<id:\d+>' => '<controller>/view',
+                'subjects' => 'site/subjects',
+                'profile' => 'user/profile',
             ],
         ],
         'i18n' => [

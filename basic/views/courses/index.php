@@ -1,18 +1,39 @@
 <?php
 /* @var $this yii\web\View*/
 /* @var $model app\models\Courses */
+
+use app\models\Courses;
 use yii\helpers\Url;
 use yii\helpers\Html;
 $this->title = "Курсы";
+
+if(isset($subject))
+    $model = Courses::find()->where(['subject' => $subject])->orderBy(['id' => SORT_ASC])->all();
+else
+    $model = Courses::find()->orderBy(['id' => SORT_ASC])->all();
+
 ?>
 
 <h1>Курсы</h1>
 <div class="row">
     <?php
+    if(count($model) == 0)
+        echo "<h4>Курсов по этому предмету пока нет</h4>";
     foreach ($model as $item) : ?>
         <?php
-            if($item->getMonths()->count() == 0)
+
+            if(count($item->months) == 0)
                 continue;
+
+            $skip = true;
+            foreach ($item->months as $month)
+            {
+                if(count($month->lessons) > 0)
+                    $skip = false;
+            }
+            if($skip)
+                continue;
+
         ?>
         <div class="col-md-4 col-sm-6 course-item">
             <div class="course-card">

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Courses;
 use app\models\Lessons;
 use app\models\Months;
+use phpDocumentor\Reflection\Types\Parent_;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use Yii;
@@ -13,10 +14,7 @@ class CoursesController extends Controller
 {
     public function actionIndex()
     {
-        $model = Courses::find()->orderBy(['id' => SORT_ASC])->all();
-        return $this->render('index', [
-            'model' => $model
-            ]);
+        return $this->render('index');
     }
     public function actionView($id)
     {

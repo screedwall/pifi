@@ -145,12 +145,8 @@ $this->title = Yii::$app->name;
             </div>
 
             <div class="row text-center">
-                <div class="col-md-6 col-sm-12 mb-4 mb-md-0">
-                    <button type="button" class="button button--fluid" data-fancybox="" data-src="#popup-form"><span class="button__name">Хочу в Мастер группу!</span></button>
-                </div>
-
-                <div class="col-md-6 col-sm-12">
-                    <button type="button" class="button-outline button-outline--fluid" data-fancybox="" data-src="#popup-form">Хочу в Demo Мастер группу</button>
+                <div class="col-md-12 mb-4 mb-md-0">
+                    <a href="/courses" class="button button--fluid" data-fancybox="" data-src="#popup-form"><span class="button__name">Хочу в Мастер группу!</span></a>
                 </div>
             </div>
         </div>
@@ -172,7 +168,7 @@ $this->title = Yii::$app->name;
                         помочь и ответить на твои вопросы! 👍
                     </p>
 
-                    <a href="#section-teachers" class="button button--long ml-auto mr-auto" data-pagescroll="#section-teachers"><span class="button__name">Посмотреть преподавателей</span></a>
+                    <a href="/teachers" class="button button--long ml-auto mr-auto" data-pagescroll="#section-teachers"><span class="button__name">Посмотреть преподавателей</span></a>
                 </div>
             </div>
         </div>
@@ -252,25 +248,7 @@ $this->title = Yii::$app->name;
             </div>
 
             <div class="row section-price__products">
-                <div class="col-md-6">
-                    <div class="product-card product-card--blue">
-                        <h3 class="product-card__title">Demo Мастер группа</h3>
-
-                        <ul class="product-characteristics product-characteristics--blue product-card__characteristics">
-                            <li class="product-characteristics__item">1 неделя подготовки</li>
-                            <li class="product-characteristics__item">2 онлайн-занятия</li>
-                            <li class="product-characteristics__item">2 домашних задания</li>
-                            <li class="product-characteristics__item">Ваш личный наставник</li>
-                            <li class="product-characteristics__item">Возможность стать учасником МГ</li>
-                        </ul>
-
-                        <p class="product-card__price">200 руб.</p>
-
-                        <button type="button" class="button button--long button--blue product-card__button" data-fancybox="" data-src="#popup-form"><span class="button__name">Хочу в Demo МГ!</span></button>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="product-card">
                         <h3 class="product-card__title">Мастер группа</h3>
 
@@ -284,7 +262,7 @@ $this->title = Yii::$app->name;
 
                         <p class="product-card__price">2500 руб.</p>
 
-                        <button type="button" class="button button--long product-card__button" data-fancybox="" data-src="#popup-form"><span class="button__name">Хочу в Мастер группу!</span></button>
+                        <a href="/courses" class="button button--long product-card__button" data-fancybox="" data-src="#popup-form"><span class="button__name">Хочу в Мастер группу!</span></a>
                     </div>
                 </div>
             </div>
@@ -402,7 +380,7 @@ $this->title = Yii::$app->name;
                         Запишись к нам на курсы и подготовься к ЕГЭ без нервов и стресса!
                     </p>
 
-                    <button type="button" class="button ml-auto mr-auto" data-fancybox="" data-src="#popup-form"><span class="button__name">Записаться на курсы</span></button>
+                    <a href="/courses" class="button ml-auto mr-auto" data-fancybox="" data-src="#popup-form"><span class="button__name">Записаться на курсы</span></a>
                 </div>
             </div>
         </div>

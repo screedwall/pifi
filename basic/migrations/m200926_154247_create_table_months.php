@@ -18,6 +18,7 @@ class m200926_154247_create_table_months extends Migration
             'dateFrom' => $this->date(),
             'dateTo' => $this->date(),
             'courseId' => $this->integer()->notNull(),
+            'price' => $this->double(),
         ]);
 
         $this->addForeignKey(
@@ -34,6 +35,22 @@ class m200926_154247_create_table_months extends Migration
             'dateFrom' => date('Y-m-d', strtotime("2020-09-01")),
             'dateTo' => date('Y-m-d', strtotime("2020-09-30")),
             'courseId' => '1',
+            'price' => 450.50
+        ]);
+        $this->insert('months', [
+            'name' => 'Октябрь',
+            'dateFrom' => date('Y-m-d', strtotime("2020-10-01")),
+            'dateTo' => date('Y-m-d', strtotime("2020-10-30")),
+            'courseId' => '1',
+            'price' => 450.50
+        ]);
+
+        $this->insert('months', [
+            'name' => 'Сентябрь',
+            'dateFrom' => date('Y-m-d', strtotime("2020-09-01")),
+            'dateTo' => date('Y-m-d', strtotime("2020-09-30")),
+            'courseId' => '2',
+            'price' => 500.99
         ]);
     }
 

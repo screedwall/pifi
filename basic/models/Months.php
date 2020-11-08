@@ -33,6 +33,7 @@ class Months extends \yii\db\ActiveRecord
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
             ['courseId', 'integer'],
+            ['price', 'double'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -53,6 +54,7 @@ class Months extends \yii\db\ActiveRecord
     {
         return [
             'name' => Yii::t('app', 'Имя'),
+            'price' => Yii::t('app', 'Цена'),
             'dateFrom' => Yii::t('app', 'Дата начала'),
             'dateTo' => Yii::t('app', 'Дата окончания'),
             'courseId' => Yii::t('app', 'Курс'),
@@ -64,7 +66,8 @@ class Months extends \yii\db\ActiveRecord
     }
     public function getLessons()
     {
-        return $this->hasMany(Lessons::class, ['monthId' => 'id']);
+        return $this->hasMany(Lessons::class, ['monthId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
     }
     public function getUsers()
     {

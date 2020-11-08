@@ -52,33 +52,7 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/']],
             ['label' => 'Курсы', 'url' => ['/courses']],
             ['label' => 'Преподаватели', 'url' => ['/teachers']],
-//            ['label' => 'Отзывы', 'url' => ['/reviews']],
-//            ['label' => 'Контакты', 'url' => ['/contacts']],
-            ['label' => 'О нас', 'url' => ['/', '#' => 'section-about']],
-//            [
-//                'label' => "<img src='/img/instagram-icon.svg' alt='instagram'>",
-//                'options'=> ['class'=>'socials_item'],
-//                'linkOptions'=>['class'=>'socials_link'],
-//                'url' => 'https://www.instagram.com/pifi_school',
-//            ],
-//            [
-//                'label' => "<img src='/img/youtube-icon.svg' alt='youtube'>",
-//                'options'=> ['class'=>'socials_item'],
-//                'linkOptions'=>['class'=>'socials_link'],
-//                'url' => 'https://www.youtube.com/channel/UCY1a1U9BAQ2lTg_DnuhLb7A',
-//            ],
-//            [
-//                'label' => "<img src='/img/vk-icon.svg' alt='vk'>",
-//                'options'=> ['class'=>'socials_item'],
-//                'linkOptions'=>['class'=>'socials_link'],
-//                'url' => 'https://vk.com/pifi_school',
-//            ],
-//            [
-//                'label' => '8 (927) 488-05-26',
-//                'url' => 'tel:89274880526',
-//                'linkOptions'=>['class'=>'phone']
-//            ],
-
+            ['label' => 'Предметы', 'url' => ['/subjects']],
 
             Yii::$app->user->isGuest ? '' : (
             Yii::$app->user->identity->isAdmin() ? (
@@ -93,19 +67,28 @@ AppAsset::register($this);
                 ],
             ]
             ) : (
-            ['label' => 'Профиль', 'url' => ['/auth/login']]
+                ['label' => 'О нас', 'url' => ['/', '#' => 'section-about']]
             )),
             Yii::$app->user->isGuest ? (
             ['label' => 'Войти', 'url' => ['/auth/login']]
             ) : (
-                '<li>'
-                . Html::beginForm(['/auth/logout'], 'post')
-                . Html::submitButton(
-                    'Выйти (' . Yii::$app->user->identity->name . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
+            [
+                'label' => Yii::$app->user->identity->name,
+                'items' => [
+                    ['label' => 'Личный кабинет', 'url' => ['/profile'], 'class' => ''],
+                    '<hr>',
+                    '<li>'
+                    .Html::a('Выйти', \yii\helpers\Url::to(['/auth/logout']),
+                        [
+                            'data' => [
+                                'method' => 'post',
+                            ],
+                            'class' => 'btn btn-link logout',
+                        ]
+                    )
+                    .'</li>',
+                ],
+            ]
             )
         ],
     ]);

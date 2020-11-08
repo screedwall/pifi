@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m201011_124311_bought_courses
+ * Class m201011_124311_createtable_bought_courses
  */
-class m201011_124311_bought_courses extends Migration
+class m201011_124311_create_table_bought_courses extends Migration
 {
     /**
      * {@inheritdoc}
@@ -79,7 +79,7 @@ class m201011_124311_bought_courses extends Migration
 
     public function down()
     {
-        echo "m201011_124311_bought_courses cannot be reverted.\n";
+        echo "m201011_124311_createtable_bought_courses cannot be reverted.\n";
 
         return false;
     }

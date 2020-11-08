@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,26 +13,14 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public $layout = '/mainPage';
     /**
      * {@inheritdoc}
      */
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -62,6 +51,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = '/mainPage';
         return $this->render('index');
+    }
+
+    public function actionSubjects()
+    {
+        return $this->render('subjects');
     }
 }

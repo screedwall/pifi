@@ -40,7 +40,8 @@ class MonthsSearch extends Months
      */
     public function search($params)
     {
-        $query = Months::find();
+        $query = Months::find()
+            ->orderBy(['id' => SORT_ASC]);
 
         // add conditions that should always apply here
 

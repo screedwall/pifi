@@ -1,9 +1,12 @@
 <?php
 use kartik\tabs\TabsX;
 use app\models\BoughtCourses;
+use yii\bootstrap\Modal;
+use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Courses */
 $this->title = "Курс ".$model->name;
+$oneMonth = count($model->months) == 1;
 ?>
 
 <main>
@@ -25,32 +28,52 @@ $this->title = "Курс ".$model->name;
 
         <?php $this->endBlock(); ?>
 
+        <?php $this->beginBlock('schedule'); ?>
+        <h2>Расписание</h2>
         <?php
-        $items = [];
-        $boughtMonths = Yii::$app->user->identity->getMonths()->select(['id'])->asArray()->all();
+            $items = [];
 
-        foreach ($model->getMonths()->orderBy(['id' => SORT_ASC])->all() as $item) {
-            $bought = false;
-            foreach ($boughtMonths as $boughtMonth) {
-                if(in_array($item->id, $boughtMonth))
-                    $bought = true;
+            foreach ($model->months as $month) {
+                if(count($month->lessons) > 0){
+                    $lessons = "<ol>";
+                    foreach ($month->lessons as $lesson) {
+                        $lessons = $lessons."<li class='lesson-item'>$lesson->name</li>";
+                    }
+                    $lessons = $lessons."</ol>";
+                    array_push($items, [
+                        'label' => $month->name,
+                        'content' => $lessons,
+//                        'contentOptions' => [
+//                                'class' => 'in'
+//                        ]
+                    ]);
+                }
             }
-            array_push($items, [
-                'label' => '<i class="glyphicon glyphicon-book"></i> '.$item->name,
-                'options' => ['id' => $item->name],
-                'encode'=>false,
-                'content' => $bought ? $this->render('/months/view', ['model' => $item]) : Yii::$app->user->identity->isAdmin() ? $this->render('/months/view', ['model' => $item]) : $this->render('/pay/index', ['id' => $item->id]) ]);
-        }
+
+            echo \yii\bootstrap\Collapse::widget([
+                'items' => $items,
+                'autoCloseItems' => false,
+                'options' => ['class' => 'lessons-panel'],
+                'itemToggleOptions' => [
+                    'tag' => 'div',
+                ],
+            ]);
+        ?>
+
+        <?php $this->endBlock(); ?>
+
+        <?php
+
         echo TabsX::widget([
             'items'=>[
                 [
                     'label'=>'<i class="glyphicon glyphicon-home"></i> Об этом курсе',
                     'content' => $this->blocks['description'],
-                    'active'=>true
+                    'active' => true,
                 ],
                 [
                     'label' => '<i class="glyphicon glyphicon-list"></i> Программа курса',
-                    'items' => $items
+                    'content' => $this->blocks['schedule'],
                 ],
             ],
             'position' => TabsX::POS_ABOVE,
@@ -63,41 +86,49 @@ $this->title = "Курс ".$model->name;
 
         <div class="col-md-4 col-xs-12">
             <div class="section-buy">
+                <?php if (!$oneMonth): ?>
                 <p>Вы можете</p>
-                <button  class="btn btn-success btn-lg btn-block">Купить весь курс</button>
-                <p>или же</p>
+                <?php endif; ?>
+                <?= Html::a('Купить курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id]),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                        ],
+                        'class' => 'btn btn-success btn-lg btn-block',
+                    ]
+                ); ?>
 
-                <div class="">
-                    <div class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                            <p>Купить некоторые разделы</p>
+                <?php
+                if(!$oneMonth)
+                {
+                    echo "<p>или же</p>";
+                    Modal::begin([
+                        'header' => '<h3>Покупка разделов</h3>',
+                        'toggleButton' => [
+                            'label' => 'Купить разделы',
+                            'class' => 'btn btn-primary btn-lg btn-block'
+                        ],
+                    ]);
 
-                        <div id="collapse1" class="accordion__panel panel-collapse collapse" style="">
-                            <div class="accordion_content">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputFile">File input</label>
-                                        <input type="file" id="exampleInputFile">
-                                        <p class="help-block">Example block-level help text here.</p>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Check me out
-                                        </label>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    echo Html::beginForm(['/pay'], 'GET');
+                    foreach ($model->months as $month)
+                    {
+                        if(count($month->lessons) > 0) {
+                            echo "<div class=\"form-group\">";
+                            echo Html::checkbox('months[]', false, ['label' => "<span> " . $month->name . "</span>", 'value' => $month->id]);
+                            echo "</div>";
+                        }
+                    }
+
+                    echo "<div class=\"form-group\">";
+                    echo Html::submitButton('Купить', ['class' => 'btn btn-success btn-lg btn-block']);
+                    echo "</div>";
+                    echo Html::endForm();
+
+
+                    Modal::end();
+                }
+                ?>
             </div>
         </div>
 

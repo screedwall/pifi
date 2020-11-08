@@ -20,6 +20,8 @@ use kartik\daterange\DateRangePicker;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'price') ?>
+
     <?= '<div class="form-group field-courses-datetime_range required">'
     .'<label class="control-label has-star" for="courses-datetime_range">Месяц длится</label>'
     .DateRangePicker::widget([

@@ -28,6 +28,7 @@ class UsersController extends AppController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+//                    'change-password' => ['POST'],
                 ],
             ],
         ];
@@ -105,12 +106,21 @@ class UsersController extends AppController
                     $boughtCourse->courseId = Months::findOne([$month])->courseId;
                     $boughtCourse->save();
                 }
+
             return $this->redirect(['index']);
         }
 
         return $this->render('update', [
             'model' => $model
         ]);
+    }
+
+    public function actionChangePassword($id, $password)
+    {
+        $model = $this->findModel($id);
+        $model->password = Yii::$app->getSecurity()->generatePasswordHash($password);
+        if($model->save(false))
+            return $this->redirect(['index']);
     }
 
     /**

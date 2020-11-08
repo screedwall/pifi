@@ -36,15 +36,23 @@ foreach (\app\models\Courses::find()->where(['teacherId' => $model->id])->orderB
         <div class="container">
             <div class="row">
                 <h1><?= $model->name ?></h1>
-                <h3>Основной предмет преподавателя - <?= $model->subject ?></h3>
+
+                <?php if(!empty($model->subject)): ?>
+                    <h3>Основной предмет преподавателя - <?= $model->subject ?></h3>
+                <?php endif; ?>
             </div>
         </div>
     </section>
+
+    <?php if(!empty($model->splash)): ?>
     <section class="teacher-splash hidden-xs" style="background-image: url(<?= $model->splash ?>)"></section>
+    <?php endif; ?>
     <section class="teacher-main">
+        <?php if(!empty($model->thumbnail)): ?>
         <div class="container text-center visible-xs">
             <img src="<?= $model->thumbnail ?>" alt="" class="teacher-thumbnail">
         </div>
+        <?php endif; ?>
         <div class="container">
             <h2>О преподавателе</h2>
             <p><?= $model->description ?></p>
