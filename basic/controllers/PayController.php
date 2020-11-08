@@ -76,10 +76,12 @@ class PayController extends Controller
     {
         $courseId = \Yii::$app->request->post('course');
         $monthsIds = \Yii::$app->request->post('months');
+
         $months = mb_split(',', $monthsIds);
+
         $userId = \Yii::$app->user->identity->getId();
 
-        if(!empty($months))
+        if(!empty($monthsIds))
         {
             $current = BoughtCourses::find()->where(['userId' => $userId])->all();
             foreach ($current as $item) {
