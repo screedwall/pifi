@@ -19,6 +19,7 @@ class m201108_113143_create_table_lesson_attachments extends Migration
             'lessonId' => $this->integer()->notNull(),
         ]);
 
+
         $this->addForeignKey(
             'fk_lessons_lessonAttachments',
             'lesson_attachments',
