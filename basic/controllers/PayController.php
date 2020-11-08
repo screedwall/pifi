@@ -29,6 +29,7 @@ class PayController extends Controller
     {
         $request = \Yii::$app->request;
 
+        $months = [];
         $getMonths = $request->get('months');
         $getCourse = $request->get('course');
 
@@ -45,7 +46,6 @@ class PayController extends Controller
 
             if(!$error)
             {
-                $months = [];
                 foreach ($queryMonths as $month){
                     array_push($months, Months::findOne(['id' => $month['id']]));
                 }

@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = "Купить курс ".$model->name;
+$this->title = "Купить курс ".$course->name;
 ?>
 
 <?php
