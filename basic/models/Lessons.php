@@ -32,7 +32,7 @@ class Lessons extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'video', 'lessonDate', 'homeworkDate', 'monthId', 'courseId'], 'required'],
+            [['name', 'video', 'lessonDate', 'homeworkDate', 'monthId', 'courseId'], 'required'],
             [['description'], 'string'],
             [['lessonDate', 'homeworkDate'], 'date', 'format' => 'dd.MM.yyyy HH:mm'],
             [['monthId', 'courseId'], 'integer'],

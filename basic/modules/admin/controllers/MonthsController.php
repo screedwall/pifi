@@ -108,7 +108,7 @@ class MonthsController extends Controller
                 }
 
 
-            return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months', 'users' => $users, 'result' => $result]);
+            return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months', 'users' => $users]);
         }
 
         return $this->render('update', [
