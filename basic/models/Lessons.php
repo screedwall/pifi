@@ -64,6 +64,13 @@ class Lessons extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Courses::class, ['id' => 'courseId']);
     }
+
+    public function getAttachments()
+    {
+        return $this->hasMany(LessonAttachments::class, ['lessonId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
+    }
+
     public function beforeSave($insert)
     {
         $lessonDate = date_create_from_format('d.m.Y H:i', $this->lessonDate);

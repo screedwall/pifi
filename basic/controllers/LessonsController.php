@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\LessonAttachments;
 use Yii;
 use app\models\Lessons;
 use yii\web\NotFoundHttpException;
@@ -28,6 +29,16 @@ class LessonsController extends \yii\web\Controller
             ]);
         }
 
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionDownload($id)
+    {
+        $attach = LessonAttachments::findOne(['id' => $id]);
+
+        if($attach !== null){
+            return Yii::$app->response->sendFile(Yii::getAlias('@webroot')."/".$attach->path, $attach->name);
+        }
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 

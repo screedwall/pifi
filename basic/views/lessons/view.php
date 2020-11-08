@@ -1,10 +1,38 @@
 <?php
 use lesha724\youtubewidget\Youtube;
+use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lessons */
+$this->title = $model->name;
 ?>
 <h2>Урок: <?= $model->name ?></h2>
 <h4>Урок состоялся: <?= $model->lessonDate ?></h4>
+
+<?php if(count($model->attachments) > 0): ?>
+    <h3 class="text-center">Материалы к уроку</h3>
+    <div class="attachments half">
+        <?php foreach ($model->attachments as $attachment): ?>
+
+            <div class="attachment-card">
+                <div class="row">
+                    <div class="col-md-2 attachment-file">
+                        <i class="glyphicon glyphicon-file"></i>
+                    </div>
+                    <div class="col-md-7 attachment-name">
+                        <p><?=$attachment->name?></p>
+                    </div>
+                    <div class="col-md-3 attachment-action">
+                        <?=Html::a('<i class="glyphicon glyphicon-download-alt"></i> Скачать', \yii\helpers\Url::to(['lessons/download', 'id' => $attachment->id]), [
+                            'class' => 'btn btn-primary btn-block',
+                        ])?>
+                    </div>
+                </div>
+            </div>
+
+        <?php endforeach; ?>
+    </div>
+    <br>
+<?php endif; ?>
 
 <?php
 echo Youtube::widget([
@@ -54,3 +82,4 @@ echo Youtube::widget([
             }',
     ]
 ]);
+?>

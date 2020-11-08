@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\lesson_attachments;
 use Yii;
 use app\models\Lessons;
 use app\models\LessonsSearch;
@@ -10,6 +11,7 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * LessonsController implements the CRUD actions for Lessons model.

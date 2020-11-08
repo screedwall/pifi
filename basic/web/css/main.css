@@ -2107,3 +2107,26 @@ text-align: center;
 .profile-card .teacher-thumbnail{
     max-width: 90px;
 }
+
+.file-preview-image{
+    overflow: hidden;
+}
+
+.attachments {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.attachment-card {
+    margin-top: 15px;
+}
+
+.attachment-name{
+    font-size: 20px;
+    overflow: hidden;
+}
+
+.attachment-file {
+    font-size: 30px;
+}
