@@ -184,7 +184,7 @@ foreach ($courses as $course)
                                 <?=Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', \yii\helpers\Url::to(['/teachers/'.$teacher['data']->id]), [
                                     'class' => 'btn btn-primary btn-block',
                                 ])?>
-                                <?=Html::a('<i class="glyphicon glyphicon-pencil"></i> Написать', \yii\helpers\Url::to(['/months/'.$month->id]), [
+                                <?=Html::a('<i class="glyphicon glyphicon-pencil"></i> Написать', \yii\helpers\Url::to('https://'.$teacher['data']->contact), [
                                     'class' => 'btn btn-success btn-block',
                                 ])?>
                             </div>
