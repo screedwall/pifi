@@ -38,6 +38,7 @@ class LessonAttachmentsController extends \yii\web\Controller
         if (Yii::$app->request->isAjax) {
             $key = Yii::$app->request->post('key');
             $attachment = \app\models\LessonAttachments::findOne(['id' => $key]);
+            unlink(Yii::getAlias('@webroot')."/".$attachment->path);
             $attachment->delete();
             return json_encode("OK");
         }
