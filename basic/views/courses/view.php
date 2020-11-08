@@ -6,7 +6,20 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Courses */
 $this->title = "Курс ".$model->name;
-$oneMonth = count($model->months) == 1;
+
+$count = 0;
+if(count($model->months) >0)
+    foreach ($model->months as $month)
+        if(count($month->lessons) > 0)
+            $count++;
+
+$oneMonth = $count == 1;
+
+$bought = false;
+if(!Yii::$app->user->isGuest)
+    foreach(Yii::$app->user->identity->courses as $course)
+        if($model->id == $course->id)
+            $bought = true;
 ?>
 
 <main>
@@ -86,49 +99,58 @@ $oneMonth = count($model->months) == 1;
 
         <div class="col-md-4 col-xs-12">
             <div class="section-buy">
-                <?php if (!$oneMonth): ?>
-                <p>Вы можете</p>
-                <?php endif; ?>
-                <?= Html::a('Купить курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id]),
-                    [
-                        'data' => [
-                            'method' => 'post',
-                        ],
-                        'class' => 'btn btn-success btn-lg btn-block',
-                    ]
-                ); ?>
+                <?php if(Yii::$app->user->isGuest): ?>
+                    <p><?=Html::a('Войдите', \yii\helpers\Url::to(['/auth/login'])) ?> чтобы приобретать курсы.</p>
+                <?php else: ?>
+                    <?php if(!$bought): ?>
+                        <?php if (!$oneMonth): ?>
+                        <p>Вы можете</p>
+                        <?php endif; ?>
+                        <?= Html::a('Купить курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id]),
+                            [
+                                'data' => [
+                                    'method' => 'post',
+                                ],
+                                'class' => 'btn btn-success btn-lg btn-block',
+                            ]
+                        ); ?>
 
-                <?php
-                if(!$oneMonth)
-                {
-                    echo "<p>или же</p>";
-                    Modal::begin([
-                        'header' => '<h3>Покупка разделов</h3>',
-                        'toggleButton' => [
-                            'label' => 'Купить разделы',
-                            'class' => 'btn btn-primary btn-lg btn-block'
-                        ],
-                    ]);
+                        <?php
+                        if(!$oneMonth)
+                        {
+                            echo "<p>или же</p>";
+                            Modal::begin([
+                                'header' => '<h3>Покупка разделов</h3>',
+                                'toggleButton' => [
+                                    'label' => 'Купить разделы',
+                                    'class' => 'btn btn-primary btn-lg btn-block'
+                                ],
+                            ]);
 
-                    echo Html::beginForm(['/pay'], 'GET');
-                    foreach ($model->months as $month)
-                    {
-                        if(count($month->lessons) > 0) {
+                            echo Html::beginForm(['/pay'], 'GET');
+                            foreach ($model->months as $month)
+                            {
+                                if(count($month->lessons) > 0) {
+                                    echo "<div class=\"form-group\">";
+                                    echo Html::checkbox('months[]', false, ['label' => "<span> " . $month->name . "</span>", 'value' => $month->id]);
+                                    echo "</div>";
+                                }
+                            }
+
                             echo "<div class=\"form-group\">";
-                            echo Html::checkbox('months[]', false, ['label' => "<span> " . $month->name . "</span>", 'value' => $month->id]);
+                            echo Html::submitButton('Купить', ['class' => 'btn btn-success btn-lg btn-block']);
                             echo "</div>";
+                            echo Html::endForm();
+
+
+                            Modal::end();
                         }
-                    }
-
-                    echo "<div class=\"form-group\">";
-                    echo Html::submitButton('Купить', ['class' => 'btn btn-success btn-lg btn-block']);
-                    echo "</div>";
-                    echo Html::endForm();
-
-
-                    Modal::end();
-                }
-                ?>
+                        ?>
+                    <?php else: ?>
+                        <p>Курс приобретен.</p>
+                        <p>Посмотреть его можно в <?=Html::a('профиле', \yii\helpers\Url::to(['/profile'])) ?>.</p>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
 

@@ -91,7 +91,7 @@ class UsersController extends AppController
 
         $model = $this->findModel($id);
         $request = Yii::$app->request;
-        if ($model->load($request->post()) && $model->save()) {
+        if ($model->load($request->post()) && $model->save(false)) {
             $months = $request->post('months');
 
             $current = BoughtCourses::find()->where(['userId' => $id])->all();
