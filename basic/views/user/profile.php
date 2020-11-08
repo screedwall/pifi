@@ -103,6 +103,7 @@ foreach ($courses as $course)
             <?php
                 $items = [];
                 $overallContent = "";
+                $subjectsContent = "";
                 foreach($subjects as $subject)
                 {
                     $overallContent .= $this->blocks[$subject];
