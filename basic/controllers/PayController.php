@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
 use yii\filters\AccessControl;
@@ -73,7 +74,45 @@ class PayController extends Controller
 
     public function actionBuy()
     {
+        $courseId = \Yii::$app->request->post('course');
+        $monthsIds = \Yii::$app->request->post('months');
+        $months = mb_split(',', $monthsIds);
+        $userId = \Yii::$app->user->identity->getId();
 
+        if(!empty($months))
+        {
+            $current = BoughtCourses::find()->where(['userId' => $userId])->all();
+            foreach ($current as $item) {
+                $item->delete();
+            }
+            foreach ($months as $monthId) {
+                $boughtCourse = new BoughtCourses();
+                $boughtCourse->userId = $userId;
+                $boughtCourse->monthId = $monthId;
+                $boughtCourse->courseId = $courseId;
+                $boughtCourse->save(false);
+            }
+        }
+        elseif(!empty($courseId))
+        {
+            $course = Courses::findOne(['id' => $courseId]);
+            $months = $course->months;
+
+            $current = BoughtCourses::find()->where(['userId' => $userId])->all();
+            foreach ($current as $item) {
+                $item->delete();
+            }
+            if(isset($months))
+                foreach ($months as $month) {
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $userId;
+                    $boughtCourse->monthId = $month->id;
+                    $boughtCourse->courseId = $course->id;
+                    $boughtCourse->save();
+                }
+        }
+
+        return $this->redirect(['/profile']);
     }
 
 }

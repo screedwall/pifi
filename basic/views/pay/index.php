@@ -23,6 +23,7 @@ echo print_r($paymentResponse);*/
 
 if (!empty($months))
 {
+    $monthsIds = [];
     $hasMany = count($months) > 1;
     $monthstr = "";
     $price = 0;
@@ -33,6 +34,7 @@ if (!empty($months))
                 $monthstr = $monthstr."\"".$month->name."\"";
             else
                 $monthstr = $monthstr."\"".$month->name."\"".", ";
+            array_push($monthsIds, $month->id);
             $price += $month->price;
             $i++;
         }
@@ -41,12 +43,25 @@ if (!empty($months))
     {
         $monthstr = "\"".$months[0]->name."\"";
         $price = $months[0]->price;
+        array_push($monthsIds, $months[0]->id);
     }
 
     echo    "<div class=\"jumbotron half\">"
                 ."<h2>Вы покупаете раздел".($hasMany ? "ы" : null)." $monthstr курса \"$course->name\"</h2>"
                 .($hasMany ? "<h4>Стоимость покупаемых разделов $price рублей.</h4>" : "<h4>Стоимость раздела $price рублей.</h4>")
-                ."<p><a class=\"btn btn-primary btn-block btn-lg\" href=\"#\" role=\"button\">Оплатить раздел".($hasMany ? "ы" : null)."</a></p>"
+                ."<p>"
+                .Html::a("Оплатить раздел".($hasMany ? "ы" : null), \yii\helpers\Url::to(['/pay/buy']),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => [
+                                'months' => $monthsIds,
+                                'course' => $course->id,
+                            ],
+                        ],
+                        'class' => 'btn btn-primary btn-block btn-lg',
+                    ]
+                )
                 ."<hr>"
                 ."<h4>А вы знали, что выгоднее "
                 .Html::a('покупать курс',\yii\helpers\Url::to(['/pay', 'course' => $course->id]))
@@ -61,7 +76,17 @@ elseif (!empty($course))
               <h2>Супер!</h2>"
               ."<h4>Стоимость курса $course->price рублей.</h4>
               <hr>
-              <p><a class=\"btn btn-primary btn-block btn-lg\" href=\"#\" role=\"button\">Оплатить курс</a></p>
+              <p>"
+              .Html::a('Оплатить курс', \yii\helpers\Url::to(['/pay/buy']),
+                            [
+                                'data' => [
+                                    'method' => 'post',
+                                    'params' => ['course' => $course->id],
+                                ],
+                                'class' => 'btn btn-primary btn-block btn-lg',
+                            ]
+                        )
+              ."</p>
             </div>";
 }
 
