@@ -62,10 +62,10 @@ class TeachersSearch extends Teachers
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'subject', $this->subject])
+        $query->andFilterWhere(['like', 'UPPER(name)', mb_strtoupper($this->name)])
+            ->andFilterWhere(['like', 'UPPER(subject)', mb_strtoupper($this->subject)])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'contact', $this->contact]);
+            ->andFilterWhere(['like', 'UPPER(contact)', mb_strtoupper($this->contact)]);
 
         return $dataProvider;
     }

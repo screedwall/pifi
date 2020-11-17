@@ -19,7 +19,6 @@ foreach (\app\models\Courses::find()->where(['teacherId' => $model->id])->orderB
 
         array_push($arr, '
             <div class="course-card">'
-//            .Html::a('', Url::to(['/courses/view', 'id' => $item->id]), ['class' => 'course-card_link-wrapper',])
             .'<span class="course-card_title">'.$item->name.'</span>'
             .(!empty($item->thumbnail) ? "<img src='".$item->thumbnail."' class='course-card_cover'>" : null)
             .'<a class="course-card_author">'.$item->subject.' ['.$item->examType.']</a>'

@@ -23,7 +23,7 @@ class AppController extends Controller
     }
     public static  function getExams()
     {
-        return array('ОГЭ' => 'ОГЭ', 'ЕГЭ' => 'ЕГЭ');
+        return array('ОГЭ' => 'ОГЭ', 'ЕГЭ' => 'ЕГЭ', '10 класс' => '10 класс');
     }
     public static function getRoles()
     {

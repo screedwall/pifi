@@ -105,6 +105,7 @@
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/symfony/string" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/theseer/tokenizer" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/vova07/yii2-imperavi-widget" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/yiisoft/yii2" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/yiisoft/yii2-authclient" />

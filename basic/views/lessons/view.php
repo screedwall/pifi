@@ -72,7 +72,7 @@ echo Youtube::widget([
             Стрелка вверх: увеличить громкость
             Стрелка вниз: уменьшить громкость
         */
-        'disablekb'=>0
+        'disablekb'=>1
     ],
     'events'=>[
         /*https://developers.google.com/youtube/iframe_api_reference?hl=ru*/

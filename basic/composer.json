@@ -32,7 +32,8 @@
         "kartik-v/yii2-date-range": "dev-master",
         "kartik-v/yii2-widget-activeform": "dev-master",
         "budyaga/yii2-cropper": "*",
-        "kartik-v/yii2-tabs-x": "dev-master"
+        "kartik-v/yii2-tabs-x": "dev-master",
+        "vova07/yii2-imperavi-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

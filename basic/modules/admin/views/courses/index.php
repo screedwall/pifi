@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
 //            'shortDescription',
             'dateFrom',
-//            'dateTo',
+            'dateTo',
             [
                 'attribute' => 'teacher',
                 'value' => 'teacher.name',

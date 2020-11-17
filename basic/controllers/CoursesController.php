@@ -14,8 +14,29 @@ class CoursesController extends Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = Courses::find();
+
+        $request = Yii::$app->request;
+        $subject = $request->get('subject');
+        $exam = $request->get('exam');
+
+        if(!empty($subject))
+        {
+            $model = $model->where(['subject' => $subject]);
+        }
+
+        if(!empty($exam)&&!empty($subject))
+        {
+            $model = $model->where(['subject' => $subject, 'examType' => $exam]);
+        }
+
+        return $this->render('index', [
+            'model' => $model->orderBy(['id' => SORT_ASC])->all(),
+            'subjectRequest' => $subject,
+            'examRequest' => $exam,
+        ]);
     }
+
     public function actionView($id)
     {
         $this->layout = 'mainPage';

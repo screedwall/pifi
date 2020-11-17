@@ -19,7 +19,7 @@ class CoursesSearch extends Courses
     {
         return [
             [['id', 'price'], 'integer'],
-            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'subject', 'examType', 'teacher'], 'safe'],
+            [['name', 'shortDescription', 'description', 'subject', 'examType', 'teacher'], 'safe'],
         ];
     }
 
@@ -68,17 +68,15 @@ class CoursesSearch extends Courses
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'dateFrom' => $this->dateFrom,
-            'dateTo' => $this->dateTo,
             'price' => $this->price,
         ]);
 
         $query->andFilterWhere(['like', 'UPPER(courses.name)', mb_strtoupper($this->name)])
             ->andFilterWhere(['like', 'shortDescription', $this->shortDescription])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'courses.subject', $this->subject])
+            ->andFilterWhere(['like', 'UPPER(courses.subject)',  mb_strtoupper($this->subject)])
             ->andFilterWhere(['like', 'examType', $this->examType])
-            ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
+            ->andFilterWhere(['like', 'UPPER(teachers.name)', mb_strtoupper($this->teacher)]);
 
         return $dataProvider;
     }

@@ -17,7 +17,14 @@ use app\controllers\AppController;
 
     <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(vova07\imperavi\Widget::class, [
+        'settings' => [
+            'minHeight' => 200,
+            'plugins' => [
+                'fullscreen',
+            ],
+        ],
+    ]) ?>
 
     <?= $form->field($model, 'contact')->textInput(['maxlength' => true]) ?>
 

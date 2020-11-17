@@ -25,7 +25,16 @@ use kartik\form\ActiveForm;
 
     <?= $form->field($model, 'shortDescription')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(vova07\imperavi\Widget::class, [
+        'settings' => [
+            'minHeight' => 200,
+            'plugins' => [
+                'fullscreen',
+            ],
+        ],
+    ]) ?>
+
+
 
     <?= '<div class="form-group field-courses-datetime_range required">'
         .'<label class="control-label has-star" for="courses-datetime_range">Выберите время проведения курса</label>'

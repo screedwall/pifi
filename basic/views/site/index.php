@@ -4,6 +4,8 @@ use evgeniyrru\yii2slick\Slick;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use newerton\fancybox;
+use kartik\tabs\TabsX;
+
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
@@ -234,6 +236,299 @@ $this->title = Yii::$app->name;
             </div>
         </div>
     </section>
+    <section id="section-teachers" class="section section-teachers">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h2 class="title-1 section-teachers__title">Наши преподаватели</h2>
+                </div>
+            </div>
+            <div class="teachers-tabs hidden-sm hidden-xs">
+                <?=TabsX::widget([
+                    'items' => [
+                            [
+                                'label' => '<span>Математика проф.</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Алмаз Пифагоров</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Преподаю 6-ой год</li>
+                                                    <li class="teacher-list__item">Выпустил более 2000 учеников</li>
+                                                    <li class="teacher-list__item">Умею объяснять сложные вещи простым языком</li>
+                                                    <li class="teacher-list__item">100 балльник ЕГЭ и Золотой медалист лицея</li>
+                                                    <li class="teacher-list__item">Победитель олимпиад по химии, геологии и математике</li>
+                                                </ul>
+            
+                                                <img src="img/almaz-pifagorov.png" alt="Алмаз Пифагоров" class="teachers-card__photo">
+                                            </div>',
+                                'active' => true,
+                                'options' => [
+                                        'id' => 'teacher-maths',
+                                ],
+                                'linkOptions' => [
+                                        'class' => 'teachers-menu__button teachers-menu--icon-maths',
+                                ],
+                            ],
+                            [
+                                'label' => '<span>Математика базовый</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Надежда Исхакова</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Средний балл учеников по ЕГЭ базового уровня 17 из 20</li>
+                                                    <li class="teacher-list__item">Золотая медалистка физико-математического лицея</li>
+                                                    <li class="teacher-list__item">Призёр областной олимпиады по математике, географии и химии</li>
+                                                    <li class="teacher-list__item">Есть страсть к ведениям таблиц</li>
+                                                    <li class="teacher-list__item">Обожаю розовые ручки</li>
+                                                    <li class="teacher-list__item">И я безумно хочу, чтобы ты сдал свой экзамен на твердую 5!</li>
+                                                </ul>
+            
+                                                <img src="img/nadezhda-iskhakova.png" alt="Надежда Исхакова" class="teachers-card__photo">
+                                            </div>',
+                                'options' => [
+                                    'id' => 'teacher-maths-base',
+                                ],
+                                'linkOptions' => [
+                                    'class' => 'teachers-menu__button teachers-menu--icon-maths-base',
+                                ],
+                            ],
+                            [
+                                'label' => '<span>Русский язык</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Таня Кузнецова</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Окончила СУНЦ УрФУ (один из лучших заведений России)</li>
+                                                    <li class="teacher-list__item">Сдала ЕГЭ по русскому на 96 баллов за 3 дня подготовки</li>
+                                                    <li class="teacher-list__item">Опыт преподавания 3 года</li>
+                                                    <li class="teacher-list__item">Подготовила более 200 учеников</li>
+                                                    <li class="teacher-list__item">Воплотила мечту стать переводчиком в реальность</li>
+                                                    <li class="teacher-list__item">Свободно говорю на английском и  французском</li>
+                                                    <li class="teacher-list__item">Показатель теста IQ = 142</li>
+                                                </ul>
+            
+                                                <img src="img/tanya-kuznetsova.png" alt="Таня Кузнецова" class="teachers-card__photo">
+                                            </div>',
+                                'options' => [
+                                    'id' => 'teacher-russian-language',
+                                ],
+                                'linkOptions' => [
+                                    'class' => 'teachers-menu__button teachers-menu--icon-russian-language',
+                                ],
+                            ],
+                            [
+                                'label' => '<span>Обществознание</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Дина Замалеева</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Окончила 2 ВУЗа: КГТУ и КФУ специальность – преподаватель истории</li>
+                                                    <li class="teacher-list__item">8 лет проработала в школе</li>
+                                                    <li class="teacher-list__item">Более 200 выпускников, удачно сдавших экзамены по обществознанию</li>
+                                                    <li class="teacher-list__item">Более 1000 прорешенных КИМов по обществознанию</li>
+                                                    <li class="teacher-list__item">Победила в схватке с дикой обезьяной в джунглях</li>
+                                                    <li class="teacher-list__item">И я безумно хочу, чтобы вы сдали свой экзамен на 100 баллов!</li>
+                                                </ul>
+            
+                                                <img src="img/dina-zamaleeva.png" alt="Дина Замалеева" class="teachers-card__photo">
+                                            </div>',
+                                'options' => [
+                                    'id' => 'teacher-social-studies',
+                                ],
+                                'linkOptions' => [
+                                    'class' => 'teachers-menu__button teachers-menu--icon-social-studies',
+                                ],
+                            ],
+                            [
+                                'label' => '<span>Физика</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Алиса Еремина</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Студентка КНИТУ-КАИ им. А.Н. Туполева</li>
+                                                    <li class="teacher-list__item">Будущий инженер-конструктор</li>
+                                                    <li class="teacher-list__item">Преподаю 4-ый год</li>
+                                                    <li class="teacher-list__item">Автор публикаций по педагогике</li>
+                                                    <li class="teacher-list__item">Золотая медалистка</li>
+                                                    <li class="teacher-list__item">Преподаю физику самым простым и веселым способом</li>
+                                                    <li class="teacher-list__item">Сдала ЕГЭ по физике на 91 баллов</li>
+                                                </ul>
+            
+                                                <img src="img/alisa-yeremina.png" alt="Алиса Еремина" class="teachers-card__photo">
+                                            </div>',
+                                'options' => [
+                                    'id' => 'teacher-physics',
+                                ],
+                                'linkOptions' => [
+                                    'class' => 'teachers-menu__button teachers-menu--icon-physics',
+                                ],
+                            ],
+                            [
+                                'label' => '<span>Правоведение</span>',
+                                'content' => '<div class="teachers-card__content">
+                                                <p class="title-2 teachers-card__name">Денис Красноярцев</p>
+            
+                                                <ul class="teacher-list teachers-card__list">
+                                                    <li class="teacher-list__item">Преподаю уже 9-ой год</li>
+                                                    <li class="teacher-list__item">2 года назад сдал ЕГЭ по обществознанию на 99 баллов</li>
+                                                    <li class="teacher-list__item">Средний балл моих учеников на ЕГЭ 2019 — 79</li>
+                                                    <li class="teacher-list__item">На сегодняшний день, я действующий юрист, у меня своя фирма, сужусь со всеми, с кем хочу 😂</li>
+                                                    <li class="teacher-list__item">С недавних пор защищаю блогеров в суде</li>
+                                                    <li class="teacher-list__item">Также, я подал в суд на собственный универ и выиграл</li>
+                                                </ul>
+            
+                                                <img src="img/denis-krasnoyartsev.png" alt="Денис Красноярцев" class="teachers-card__photo">
+                                            </div>',
+                                'options' => [
+                                    'id' => 'teacher-jurisprudence',
+                                ],
+                                'linkOptions' => [
+                                    'class' => 'teachers-menu__button teachers-menu--icon-jurisprudence',
+                                ],
+                            ],
+                    ],
+                    'position' => TabsX::POS_RIGHT,
+                    'encodeLabels' => false,
+                    'options' => [
+                        'class' => 'teachers-menu col-md-3'
+                    ],
+                    'tabContentOptions' => [
+                        'class' => 'col-md-9'
+                    ],
+                    'pluginOptions' => [
+                            'addCss' => 'row'
+                    ]
+                ])?>
+            </div>
+            <div class="teachers-slider visible-sm visible-xs">
+                <?= Slick::widget([
+                    // HTML tag for container. Div is default.
+                    'itemContainer' => 'div',
+
+                    // HTML attributes for widget container
+                    'containerOptions' => ['class' => 'teacher_courses-slider'],
+
+                    // Items for carousel. Empty array not allowed, exception will be throw, if empty
+                    'items' => [
+                        '<div class="m-teachers-card">
+                                        <img src="img/nadezhda-iskhakova-small.png" alt="Надежда Исхакова" class="m-teachers-card__small-photo visible-xs">
+
+                                        <p class="m-teachers-card__subject">Математика базовый</p>
+
+                                        <p class="m-teachers-card__name">Надежда Исхакова</p>
+
+                                        <ul class="teacher-list teachers-card__list">
+                                            <li class="teacher-list__item">Средний балл учеников по ЕГЭ базового уровня 17 из 20</li>
+                                            <li class="teacher-list__item">Золотая медалистка физико-математического лицея</li>
+                                            <li class="teacher-list__item">Призёр областной олимпиады по математике, географии и химии</li>
+                                            <li class="teacher-list__item">Есть страсть к ведениям таблиц</li>
+                                            <li class="teacher-list__item">Обожаю розовые ручки</li>
+                                            <li class="teacher-list__item">И я безумно хочу, чтобы ты сдал свой экзамен на твердую 5!</li>
+                                        </ul>
+
+                                        <img src="img/nadezhda-iskhakova.png" alt="Надежда Исхакова" class="m-teachers-card__photo hidden-xs">
+                                    </div>',
+                            '<div class="m-teachers-card">
+                                        <img src="img/tanya-kuznetsova-small.png" alt="Таня Кузнецова" class="m-teachers-card__small-photo visible-xs">
+
+                                        <p class="m-teachers-card__subject">Русский язык</p>
+
+                                        <p class="m-teachers-card__name">Таня Кузнецова</p>
+
+                                        <ul class="teacher-list teachers-card__list">
+                                            <li class="teacher-list__item">Окончила СУНЦ УрФУ (один из лучших заведений России)</li>
+                                            <li class="teacher-list__item">Сдала ЕГЭ по русскому на 96 баллов за 3 дня подготовки</li>
+                                            <li class="teacher-list__item">Опыт преподавания 3 года</li>
+                                            <li class="teacher-list__item">Подготовила более 200 учеников</li>
+                                            <li class="teacher-list__item">Воплотила мечту стать переводчиком в реальность</li>
+                                            <li class="teacher-list__item">Свободно говорю на английском и  французском</li>
+                                            <li class="teacher-list__item">Показатель теста IQ = 142</li>
+                                        </ul>
+
+                                        <img src="img/tanya-kuznetsova.png" alt="Таня Кузнецова" class="m-teachers-card__photo hidden-xs">
+                                    </div>',
+                            '<div class="m-teachers-card">
+                                        <img src="img/dina-zamaleeva-small.png" alt="Дина Замалеева" class="m-teachers-card__small-photo visible-xs">
+
+                                        <p class="m-teachers-card__subject">Обществознание</p>
+
+                                        <p class="m-teachers-card__name">Дина Замалеева</p>
+
+                                        <ul class="teacher-list teachers-card__list">
+                                            <li class="teacher-list__item">Окончила 2 ВУЗа: КГТУ и КФУ специальность – преподаватель истории</li>
+                                            <li class="teacher-list__item">8 лет проработала в школе</li>
+                                            <li class="teacher-list__item">Более 200 выпускников, удачно сдавших экзамены по обществознанию</li>
+                                            <li class="teacher-list__item">Более 1000 прорешенных КИМов по обществознанию</li>
+                                            <li class="teacher-list__item">Победила в схватке с дикой обезьяной в джунглях</li>
+                                            <li class="teacher-list__item">И я безумно хочу, чтобы вы сдали свой экзамен на 100 баллов!</li>
+                                        </ul>
+
+                                        <img src="img/dina-zamaleeva.png" alt="Дина Замалеева" class="m-teachers-card__photo hidden-xs">
+                                    </div>',
+                            '<div class="m-teachers-card">
+                                        <img src="img/alisa-yeremina-small.png" alt="Алиса Еремина" class="m-teachers-card__small-photo visible-xs">
+
+                                        <p class="m-teachers-card__subject">Физика</p>
+
+                                        <p class="m-teachers-card__name">Алиса Еремина</p>
+
+                                        <ul class="teacher-list teachers-card__list">
+                                            <li class="teacher-list__item">Студентка КНИТУ-КАИ им. А.Н. Туполева</li>
+                                            <li class="teacher-list__item">Будущий инженер-конструктор</li>
+                                            <li class="teacher-list__item">Преподаю 4-ый год</li>
+                                            <li class="teacher-list__item">Автор публикаций по педагогике</li>
+                                            <li class="teacher-list__item">Золотая медалистка</li>
+                                            <li class="teacher-list__item">Преподаю физику самым простым и веселым способом</li>
+                                            <li class="teacher-list__item">Сдала ЕГЭ по физике на 91 баллов</li>
+                                        </ul>
+
+                                        <img src="img/alisa-yeremina.png" alt="Алиса Еремина" class="m-teachers-card__photo hidden-xs">
+                                    </div>',
+                            '<div class="m-teachers-card">
+                                        <img src="img/denis-krasnoyartsev-small.png" alt="Денис Красноярцев" class="m-teachers-card__small-photo visible-xs">
+
+                                        <p class="m-teachers-card__subject">Правоведение</p>
+
+                                        <p class="m-teachers-card__name">Денис Красноярцев</p>
+
+                                        <ul class="teacher-list teachers-card__list">
+                                            <li class="teacher-list__item">Преподаю физику 7-ой год</li>
+                                            <li class="teacher-list__item">Сдал ЕГЭ по физике на 100 баллов</li>
+                                            <li class="teacher-list__item">Средний балл моих учеников в прошлом году 78,8</li>
+                                            <li class="teacher-list__item">Выпускник МГТУ им. Баумана</li>
+                                            <li class="teacher-list__item">По специальности я инженер космических летательных аппаратов</li>
+                                        </ul>
+
+                                        <img src="img/denis-krasnoyartsev.png" alt="Денис Красноярцев" class="m-teachers-card__photo hidden-xs">
+                                    </div>',
+                    ],
+
+                    // HTML attribute for every carousel item
+                    'itemOptions' => ['class' => 'carousel_teacher-item'],
+
+                    // settings for js plugin
+                    // @see http://kenwheeler.github.io/slick/#settings
+                    'clientOptions' => [
+                        'autoplay' => true,
+                        'dots'     => true,
+                        'infinite' => true,
+                        'arrows' => true,
+                        'adaptiveHeight' => true,
+                        'slidesToShow' => 1,
+                        'responsive' => [
+                            [
+                                'breakpoint' => 991,
+                                'settings' => [
+                                    'autoplay' => true,
+                                    'dots'     => true,
+                                    'arrows' => false,
+                                ],
+                            ],
+                        ]
+                    ],
+                ])?>
+            </div>
+    </section>
     <section id="section-price" class="section section-price">
         <div class="container">
             <div class="row">
@@ -268,46 +563,140 @@ $this->title = Yii::$app->name;
             </div>
         </div>
     </section>
-<!--    <section id="section-reviews" class="section section-reviews">-->
-<!--        --><?//=Slick::widget([
-//            // HTML tag for container. Div is default.
-//            'itemContainer' => 'div',
-//
-//            // HTML attributes for widget container
-//            'containerOptions' => ['class' => 'slider-reviews section-reviews__slider'],
-//
-//            'jsPosition' => yii\web\View::POS_READY,
-//
-//            'events' => [
-//                'edge' => 'function(event, slick, direction) {
-//                           console.log(direction);
-//                           // left
-//                      }'
-//            ],
-//
-//            // Items for carousel. Empty array not allowed, exception will be throw, if empty
-//            'items' => [
-//                Html::img('/img/preview-01.jpg'),
-//                Html::img('/img/preview-02.png'),
-//                Html::img('/img/preview-03.png'),
-//                Html::img('/img/preview-04.png'),
-//            ],
-//
-//            // HTML attribute for every carousel item
-//            'itemOptions' => ['class' => 'cat-image'],
-//
-//            // settings for js plugin
-//            // @see http://kenwheeler.github.io/slick/#settings
-//            'clientOptions' => [
-//                'autoplay' => false,
-//                'dots'     => true,
-//                'slidesToShow' => 3,
-//                'slidesToScroll' => 1,
-//                'infinite' => false,
-//                'arrows' => true,
-//            ],
-//        ]);?>
-<!--    </section>-->
+    <section id="section-reviews" class="section section-reviews">
+        <div class="container">
+            <div class="row text-center half">
+                <div class="col-md-12">
+                    <h2 class="title-1 section-reviews__title">Гарантии и отзывы</h2>
+                    <p class="subtitle section-reviews__subtitle">
+                        Если нам не удастся увеличить твой результат ЕГЭ на 5-20 баллов за 3 месяца
+                        - ты получишь курс <span class="word">БЕСПЛАТНО!</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= Slick::widget([
+                        // HTML tag for container. Div is default.
+                        'itemContainer' => 'div',
+
+                        // HTML attributes for widget container
+                        'containerOptions' => ['class' => 'teacher_courses-slider'],
+
+                        // Items for carousel. Empty array not allowed, exception will be throw, if empty
+                        'items' => [
+                                '<div class="review-video">
+                                        <a href="https://youtu.be/CYMmk4lz6gI" class="review-video__cover" data-fancybox="" tabindex="0">
+                                            <div class="review-video__overlay"></div>
+                                            <img src="img/preview-01.jpg" alt="review" class="review-video__img">
+                                        </a>
+        
+                                        <div class="d-flex flex-column flex-md-row align-items-center">
+                                            <p class="title-3 review-video__name">Yanella Milichkina</p>
+        
+                                            <ul class="socials">
+                                                <li class="socials__item"><a href="https://www.instagram.com/really_cute_on_the_low/" target="_blank" class="socials__link" tabindex="0"><img src="img/instagram-icon.svg" alt="instagram" class="socials__icon"></a></li>
+                                                <li class="socials__item"><a href="https://vk.com/id266188629" target="_blank" class="socials__link" tabindex="0"><img src="img/vk-icon.svg" alt="vk" class="socials__icon"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>',
+                            '<div class="review-video">
+                                        <a href="https://youtu.be/v_ScQQV1W5s" class="review-video__cover" data-fancybox="" tabindex="0">
+                                            <div class="review-video__overlay"></div>
+                                            <img src="img/preview-02.png" alt="review" class="review-video__img">
+                                        </a>
+        
+                                        <div class="d-flex flex-column flex-md-row align-items-center">
+                                            <p class="title-3 review-video__name">Ангелина Минеева</p>
+        
+                                            <ul class="socials">
+                                                <li class="socials__item"><a href="https://vk.com/id497836897" target="_blank" class="socials__link" tabindex="0"><img src="img/vk-icon.svg" alt="vk" class="socials__icon"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>',
+                            '<div class="review-video">
+                                        <a href="https://youtu.be/Wjc8_K0iAUg" class="review-video__cover" data-fancybox="" tabindex="0">
+                                            <div class="review-video__overlay"></div>
+                                            <img src="img/preview-03.png" alt="review" class="review-video__img">
+                                        </a>
+        
+                                        <div class="d-flex flex-column flex-md-row align-items-center">
+                                            <p class="title-3 review-video__name">Лера Маммабуттаева</p>
+        
+                                            <ul class="socials">
+                                                <li class="socials__item"><a href="https://vk.com/ohrenennaja_devka" target="_blank" class="socials__link" tabindex="0"><img src="img/vk-icon.svg" alt="vk" class="socials__icon"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>',
+                            '<div class="review-video">
+                                        <a href="https://youtu.be/8iQPcQKNo7I" class="review-video__cover" data-fancybox="" tabindex="0">
+                                            <div class="review-video__overlay"></div>
+                                            <img src="img/preview-04.png" alt="review" class="review-video__img">
+                                        </a>
+        
+                                        <div class="d-flex flex-column flex-md-row align-items-center">
+                                            <p class="title-3 review-video__name">Отзыв родителей</p>
+        
+                                            
+                                        </div>
+                                    </div>',
+                        ],
+
+                        // HTML attribute for every carousel item
+                        'itemOptions' => ['class' => 'carousel_teacher-item'],
+
+                        // settings for js plugin
+                        // @see http://kenwheeler.github.io/slick/#settings
+                        'clientOptions' => [
+                            'autoplay' => true,
+                            'dots'     => true,
+                            'infinite' => false,
+                            'arrows' => true,
+                            'slidesToShow' => 3,
+                            'responsive' => [
+                                [
+                                    'breakpoint' => 991,
+                                    'settings' => [
+                                        'autoplay' => true,
+                                        'dots'     => true,
+                                        'infinite' => false,
+                                        'arrows' => false,
+                                        'slidesToShow' => 2,
+                                    ],
+                                ],
+                                [
+                                    'breakpoint' => 575,
+                                    'settings' => [
+                                        'autoplay' => true,
+                                        'dots'     => true,
+                                        'infinite' => false,
+                                        'arrows' => false,
+                                        'slidesToShow' => 1,
+                                    ],
+                                ],
+                            ]
+                        ],
+                    ])?>
+                </div>
+            </div>
+            <div class="row text-center half">
+                <div class="col-md-12">
+                    <p class="text section-reviews__text">
+                        Хочешь и ты успешно сдать ЕГЭ на 90+ баллов и поступить в желаемый ВУЗ на бюджет? Записывайся на курсы!
+                    </p>
+                </div>
+            </div>
+            <div class="row text-center two-thirds">
+                <div class="col-md-6">
+                    <a type="button" class="button button--fluid" href="/courses" data-src="#popup-form"><span class="button__name">Записаться на курсы</span></a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="https://youtu.be/aLY927K0KPI" class="button-outline button-outline--fluid button-outline--play" data-fancybox=""><span class="button__name">Бесплатный урок</span><span class="button-outline__play"></span></a>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="section section-questions">
         <div class="container">
             <div class="row justify-content-center">
@@ -345,7 +734,7 @@ $this->title = Yii::$app->name;
 
                         <div class="accordion__item" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
                             <div class="accordion__heading">
-                                    <h3 class="accordion__title"><span class="accordion__num">03</span>Можно оплачивает помесячно, а не сразу за год?</h3>
+                                    <h3 class="accordion__title"><span class="accordion__num">03</span>Можно оплачивать помесячно, а не сразу за год?</h3>
                             </div>
 
                             <div id="collapse3" class="accordion__panel panel-collapse collapse" style="">

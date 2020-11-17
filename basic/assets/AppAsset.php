@@ -21,7 +21,6 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/main.css',
-//        'css/pifionline.css',
     ];
     public $js = [
         'js/main.js'

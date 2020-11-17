@@ -58,6 +58,13 @@ class UsersSearch extends Users
             'desc' => ['teachers.name' => SORT_DESC],
         ];
 
+        $dataProvider->sort->attributes['name'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['users.name' => SORT_ASC],
+            'desc' => ['users.name' => SORT_DESC],
+        ];
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -72,11 +79,9 @@ class UsersSearch extends Users
         ]);
 
         $query->andFilterWhere(['like', 'UPPER(users.name)', mb_strtoupper($this->name)])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'vk', $this->vk])
+            ->andFilterWhere(['like', 'UPPER(email)', mb_strtoupper($this->email)])
+            ->andFilterWhere(['like', 'UPPER(vk)', mb_strtoupper($this->vk)])
             ->andFilterWhere(['like', 'users.description', $this->description])
-            ->andFilterWhere(['like', 'authKey', $this->authKey])
-            ->andFilterWhere(['like', 'password', $this->password])
             ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
 
         return $dataProvider;
