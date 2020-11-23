@@ -5,8 +5,10 @@ namespace app\controllers;
 use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
+use app\models\Tinkoffpay;
 use app\models\UsersStream;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -65,63 +67,94 @@ class PayController extends Controller
     {
         $courseId = \Yii::$app->request->post('course');
         $monthId = \Yii::$app->request->post('month');
-
-        $course = Courses::findOne(['id' => $courseId]);
-        $getMonth = Months::findOne(['id' => $monthId]);
-
         $type = \Yii::$app->request->post('type');
+        $amount = \Yii::$app->request->post('amount');
         $userId = \Yii::$app->user->identity->getId();
-        $currentMonth = $course->currentMonth();
-        $error = false;
-        $months = [];
 
-        if($type == 'course')
-        {
-            array_push($months, $course->currentMonth());
-        }
-        elseif ($type == 'short')
-        {
-            $_months = $course->getMonths()->orderBy('dateFrom')->all();
-        }
-        elseif ($type == 'long')
-        {
-            $months = $course->months;
-        }
-        elseif ($type == 'month')
-        {
-            array_push($months, $getMonth);
-        }
+        $payment = new TinkoffPay();
+        $payment->amount = $amount;
+        $payment->status = "NEW";
+        $payment->createdAt = date('d.m.Y H:i:s');
+        $payment->courseId = $courseId;
+        $payment->monthId = $monthId;
+        $payment->userId = $userId;
+        $payment->type = $type;
+        $payment->save();
 
-        foreach ($months as $month)
+        $paymentService = \Yii::$app->tinkoffPay;
+        $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit($payment->id, $amount*100);
+        $paymentResponse = $paymentService->initPay($paymentRequest);
+
+        if($paymentResponse->getStatus() == "NEW" && $paymentResponse->getSuccess())
         {
-            $boughtCourse = new BoughtCourses();
-            $boughtCourse->userId = $userId;
-            $boughtCourse->monthId = $month->id;
-            $boughtCourse->courseId = $course->id;
-            $boughtCourse->save();
-
-            foreach ($month->gifts as $gift)
-            {
-                $boughtCourse = new BoughtCourses();
-                $boughtCourse->userId = $userId;
-                $boughtCourse->monthId = $gift->id;
-                $boughtCourse->courseId = $course->id;
-                $boughtCourse->save();
-            }
+            return $this->redirect($paymentResponse->getPaymentUrl());
         }
+    }
 
-        if($type != 'month')
-        {
-            $stream = new UsersStream();
-            $stream->userId = $userId;
-            $stream->courseId = $course->id;
-            $stream->monthId = $currentMonth->id;
-            $stream->type = $type;
-            $stream->boughtId = $boughtCourse->id;
-            $stream->save();
-        }
+    public function actionSuccess()
+    {
+        $productjson = json_encode(\Yii::$app->request->post());
+        $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
+        $fp = fopen($jsonfile, 'a+');
+        fwrite($fp, $productjson."\r\n ========\r\n");
+        fclose($fp);
 
-        return $this->redirect(['/profile']);
+//        $course = Courses::findOne(['id' => $courseId]);
+//        $getMonth = Months::findOne(['id' => $monthId]);
+//
+//        $type = \Yii::$app->request->post('type');
+//        $userId = \Yii::$app->user->identity->getId();
+//        $currentMonth = $course->currentMonth();
+//        $error = false;
+//        $months = [];
+//
+//        if($type == 'course')
+//        {
+//            array_push($months, $course->currentMonth());
+//        }
+//        elseif ($type == 'short')
+//        {
+//            $_months = $course->getMonths()->orderBy('dateFrom')->all();
+//        }
+//        elseif ($type == 'long')
+//        {
+//            $months = $course->months;
+//        }
+//        elseif ($type == 'month')
+//        {
+//            array_push($months, $getMonth);
+//        }
+//
+//        foreach ($months as $month)
+//        {
+//            $boughtCourse = new BoughtCourses();
+//            $boughtCourse->userId = $userId;
+//            $boughtCourse->monthId = $month->id;
+//            $boughtCourse->courseId = $course->id;
+//            $boughtCourse->save();
+//
+////            foreach ($month->gifts as $gift)
+////            {
+////                $boughtCourse = new BoughtCourses();
+////                $boughtCourse->userId = $userId;
+////                $boughtCourse->monthId = $gift->id;
+////                $boughtCourse->courseId = $course->id;
+////                $boughtCourse->save();
+////            }
+//        }
+//
+//        if($type != 'month')
+//        {
+//            $stream = new UsersStream();
+//            $stream->userId = $userId;
+//            $stream->courseId = $course->id;
+//            $stream->monthId = $currentMonth->id;
+//            $stream->type = $type;
+//            $stream->boughtId = $boughtCourse->id;
+//            $stream->save();
+//        }
+//
+//        return $this->redirect(['/profile']);
     }
 
 }

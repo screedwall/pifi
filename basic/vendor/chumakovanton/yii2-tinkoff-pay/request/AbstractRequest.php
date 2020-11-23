@@ -8,6 +8,8 @@
 
 namespace chumakovanton\tinkoffPay\request;
 
+use yii\helpers\Url;
+
 /**
  * Class AbstractRequest
  *
@@ -47,6 +49,8 @@ abstract class AbstractRequest implements RequestInterface
         $this->buildDataFields();
 
         $this->_dataFields['TerminalKey'] = $this->_terminalKey;
+
+        $this->_dataFields['SuccessUrl'] = Url::to(['/pay/success'], true);
 
         unset($this->_dataFields['Token']);
 

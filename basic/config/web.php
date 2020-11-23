@@ -56,9 +56,7 @@ $config = [
             'rules' => [
                 '<controller>/<id:\d+>' => '<controller>/view',
                 'subjects' => 'site/subjects',
-                'successUrl' => 'pay/success',
-                'failUrl' => 'pay/fail',
-                'notificationUrl' => 'pay/notification',
+                'profile' => 'user/profile',
             ],
         ],
         'i18n' => [
@@ -81,7 +79,7 @@ $config = [
             'apiUrl' => 'https://securepay.tinkoff.ru/v2',
             'successUrl' => 'successPayment',
             'failUrl' => 'failedPayment',
-            'notificationUrl' => 'notifyPayment',
+//            'notificationUrl' => 'notifyPayment',
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

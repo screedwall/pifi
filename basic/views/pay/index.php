@@ -11,26 +11,20 @@ $this->title = "Купить курс ".$course->name;
 
 <?php
 
-$paymentService = Yii::$app->tinkoffPay;
-$paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit('25', 100);
-//$paymentRequest->addData('OrderId', '2');
-//$paymentResponse = $paymentService->initPay($paymentRequest);
-
-//echo print_r($paymentResponse);
-
 if ($type == 'course')
 {
-
+    $amount = $course->price();
+    $month = $course->currentMonth();
     echo    "<div class=\"jumbotron half\">"
-                ."<h2>Вы покупаете курс \"$course->name\"</h2>"
-                ."<h4>Стоимость курса ".$course->price()." рублей.</h4>"
+                ."<h2>Вы покупаете месяц \"$month->name\" курса \"$course->name\"</h2>"
+                ."<h4>Стоимость курса ".$amount." рублей.</h4>"
                 ."<hr>"
                 ."<p>"
                 .Html::a('Оплатить курс', \yii\helpers\Url::to(['/pay/buy']),
                     [
                         'data' => [
                             'method' => 'post',
-                            'params' => ['course' => $course->id, 'type' => 'course'],
+                            'params' => ['course' => $course->id, 'month' => $month->id, 'type' => 'course', 'amount' => $amount],
                         ],
                         'class' => 'btn btn-primary btn-block btn-lg',
                     ]
@@ -59,16 +53,17 @@ elseif ($type == 'short')
 }
 elseif ($type == 'long')
 {
+    $amount = $course->price('long');
     echo    "<div class=\"jumbotron half\">"
                 ."<h2>Вы покупаете годовой абонемент курса \"$course->name\"</h2>"
-                ."<h4>Стоимость абонемента ".$course->price('long')." рублей.</h4>"
+                ."<h4>Стоимость абонемента ".$amount." рублей.</h4>"
                 ."<hr>"
                 ."<p>"
                 .Html::a('Оплатить абонемент', \yii\helpers\Url::to(['/pay/buy']),
                     [
                         'data' => [
                             'method' => 'post',
-                            'params' => ['course' => $course->id, 'type' => 'long'],
+                            'params' => ['course' => $course->id, 'month' => $course->currentMonth()->id, 'type' => 'long', 'amount' => $amount],
                         ],
                         'class' => 'btn btn-primary btn-block btn-lg',
                     ]
@@ -78,16 +73,17 @@ elseif ($type == 'long')
 }
 elseif ($type == 'month')
 {
+    $amount = $course->price('month');
     echo    "<div class=\"jumbotron half\">"
-                ."<h2>Вы покупаете раздел \"$month->name\" курса \"$course->name\"</h2>"
-                ."<h4>Стоимость раздела ".$course->price('month')." рублей.</h4>"
+                ."<h2>Вы покупаете месяц \"$month->name\" курса \"$course->name\"</h2>"
+                ."<h4>Стоимость раздела ".$amount." рублей.</h4>"
                 ."<hr>"
                 ."<p>"
                 .Html::a('Оплатить раздел', \yii\helpers\Url::to(['/pay/buy']),
                     [
                         'data' => [
                             'method' => 'post',
-                            'params' => ['course' => $course->id, 'type' => 'month', 'month' => $month->id],
+                            'params' => ['course' => $course->id, 'month' => $month->id, 'type' => 'month', 'amount' => $amount],
                         ],
                         'class' => 'btn btn-primary btn-block btn-lg',
                     ]
@@ -97,16 +93,17 @@ elseif ($type == 'month')
 }
 elseif ($type == 'spec')
 {
+    $amount = $course->price('spec');
     echo    "<div class=\"jumbotron half\">"
                 ."<h2>Вы покупаете спецкурс \"$course->name\"</h2>"
-                ."<h4>Стоимость спецкурса ".$course->price('spec')." рублей.</h4>"
+                ."<h4>Стоимость спецкурса ".$amount." рублей.</h4>"
                 ."<hr>"
                 ."<p>"
                 .Html::a('Оплатить спецкурс', \yii\helpers\Url::to(['/pay/buy']),
                     [
                         'data' => [
                             'method' => 'post',
-                            'params' => ['course' => $course->id, 'type' => 'month', 'month' => $month->id],
+                            'params' => ['course' => $course->id, 'month' => $course->specMonth()->id, 'type' => 'spec', 'amount' => $amount],
                         ],
                         'class' => 'btn btn-primary btn-block btn-lg',
                     ]

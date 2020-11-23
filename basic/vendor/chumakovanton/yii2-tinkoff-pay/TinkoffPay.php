@@ -43,6 +43,19 @@ class TinkoffPay extends BaseObject
      * @var string
      */
     private $_secretKey;
+    /**
+     * @var string
+     */
+    private $_successUrl;
+    /**
+     * @var string
+     */
+    private $_failUrl;
+    /**
+     * @var string
+     */
+    private $_notificationUrl;
+
 
     /**
      * Initialize the payment
@@ -273,6 +286,27 @@ class TinkoffPay extends BaseObject
         $this->_secretKey = $secretKey;
         return $this;
     }
+
+    /**
+     * @param string $successUrl
+     * @return TinkoffPay
+     */
+    public function setSuccessUrl($successUrl): TinkoffPay
+    {
+        $this->_successUrl = $successUrl;
+        return $this;
+    }
+    /**
+     * @param string $failUrl
+     * @return TinkoffPay
+     */
+    public function setFailUrl($failUrl): TinkoffPay
+    {
+        $this->_failUrl = $failUrl;
+        return $this;
+    }
+
+
 
     /**
      * @return string

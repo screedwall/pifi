@@ -154,4 +154,9 @@ class Courses extends \yii\db\ActiveRecord
 
         return 0;
     }
+
+    public function specMonth()
+    {
+        return Months::findOne(['courseId' => $this->id]);
+    }
 }

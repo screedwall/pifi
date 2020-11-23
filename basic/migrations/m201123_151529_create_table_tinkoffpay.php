@@ -14,11 +14,41 @@ class m201123_151529_create_table_tinkoffpay extends Migration
     {
         $this->createTable('tinkoffpay', [
             'id' => $this->primaryKey(),
-            'amount' => $this->integer(),
+            'amount' => $this->double(),
             'status' => $this->string(),
             'createdAt' => $this->dateTime(),
-            'closedAt' => $this->dateTime(),
+            'courseId' => $this->integer(),
+            'monthId' => $this->integer(),
+            'userId' => $this->integer(),
+            'type' => $this->string(),
         ]);
+
+        $this->addForeignKey(
+            'fk_tinkoffpay_users',
+            'tinkoffpay',
+            'userId',
+            'users',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'fk_tinkoffpay_courses',
+            'tinkoffpay',
+            'courseId',
+            'courses',
+            'id',
+            'CASCADE'
+        );
+
+        $this->addForeignKey(
+            'fk_tinkoffpay_months',
+            'tinkoffpay',
+            'monthId',
+            'months',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -26,9 +56,7 @@ class m201123_151529_create_table_tinkoffpay extends Migration
      */
     public function safeDown()
     {
-        echo "m201123_151529_create_table_tinkoffpay cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('tinkoffpay');
     }
 
     /*
