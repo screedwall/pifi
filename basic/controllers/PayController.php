@@ -36,6 +36,7 @@ class PayController extends Controller
         $getCourse = $request->get('course');
         $getType = $request->get('type');
         $getMonth = $request->get('month');
+        $month = Months::findOne(['id' => $getMonth]);
 
         $error = false;
 
@@ -49,9 +50,6 @@ class PayController extends Controller
 
         if(empty($getType))
             $error = true;
-
-        if(!empty($getMonth))
-            $month = Months::findOne(['id' => $getMonth]);
 
         if(!$error)
             return $this->render('index', [

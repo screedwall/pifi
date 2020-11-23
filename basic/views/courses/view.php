@@ -112,11 +112,7 @@ if(!Yii::$app->user->isGuest)
                             ]
                         ); ?>
 
-<!--                        --><?//= Html::a('Абонемент на 3 месяца', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'short']),
-//                            [
-//                                'class' => 'btn btn-success btn-lg btn-block',
-//                            ] //TODO: 3 months
-//                        ); ?>
+                        <?php //TODO: 3 months ?>
 
                         <?= Html::a('Годовой абонемент', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'long']),
                             [
