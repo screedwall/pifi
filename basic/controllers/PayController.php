@@ -69,7 +69,7 @@ class PayController extends Controller
         $amount = \Yii::$app->request->post('amount');
         $userId = \Yii::$app->user->identity->getId();
 
-        $payment = new TinkoffPay();
+        $payment = new \app\models\TinkoffPay();
         $payment->amount = $amount;
         $payment->status = "NEW";
         $payment->createdAt = date('d.m.Y H:i:s');
