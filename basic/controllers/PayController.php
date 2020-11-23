@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
+use app\models\UsersStream;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -30,32 +31,13 @@ class PayController extends Controller
     {
         $request = \Yii::$app->request;
 
-        $months = [];
-        $getMonths = $request->get('months');
         $getCourse = $request->get('course');
+        $getType = $request->get('type');
+        $getMonth = $request->get('month');
 
-        if (!empty($getMonths))
-        {
-            $queryMonths = \app\models\Months::find()->select(['courseId', 'id'])->orderBy(['id' => SORT_ASC])->where(['in', 'id', $getMonths])->asArray()->all();
+        $error = false;
 
-            $prev = $queryMonths[0]['courseId'];
-            $error = false;
-            foreach ($queryMonths as $month){
-                if($prev <> $month['courseId'])
-                    $error = true;
-            }
-
-            if(!$error)
-            {
-                foreach ($queryMonths as $month){
-                    array_push($months, Months::findOne(['id' => $month['id']]));
-                }
-                $course = \app\models\Courses::findOne(['id' => $prev]);
-                $error = count($course->months) == 1;
-            }
-
-        }
-        elseif(!empty($getCourse))
+        if(!empty($getCourse))
         {
             $course = \app\models\Courses::findOne(['id' => $getCourse]);
             $error = $course == null;
@@ -63,10 +45,17 @@ class PayController extends Controller
         else
             $error = true;
 
+        if(empty($getType))
+            $error = true;
+
+        if(!empty($getMonth))
+            $month = Months::findOne(['id' => $getMonth]);
+
         if(!$error)
             return $this->render('index', [
                 'course' => $course,
-                'months' => $months,
+                'type' => $getType,
+                'month' => $month,
             ]);
         else
             throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
@@ -75,43 +64,61 @@ class PayController extends Controller
     public function actionBuy()
     {
         $courseId = \Yii::$app->request->post('course');
-        $monthsIds = \Yii::$app->request->post('months');
+        $monthId = \Yii::$app->request->post('month');
 
-        $months = mb_split(',', $monthsIds);
+        $course = Courses::findOne(['id' => $courseId]);
+        $getMonth = Months::findOne(['id' => $monthId]);
 
+        $type = \Yii::$app->request->post('type');
         $userId = \Yii::$app->user->identity->getId();
+        $currentMonth = $course->currentMonth();
+        $error = false;
+        $months = [];
 
-        if(!empty($monthsIds))
+        if($type == 'course')
         {
-            $current = BoughtCourses::find()->where(['userId' => $userId])->all();
-            foreach ($current as $item) {
-                $item->delete();
-            }
-            foreach ($months as $monthId) {
+            array_push($months, $course->currentMonth());
+        }
+        elseif ($type == 'short')
+        {
+            $_months = $course->getMonths()->orderBy('dateFrom')->all();
+        }
+        elseif ($type == 'long')
+        {
+            $months = $course->months;
+        }
+        elseif ($type == 'month')
+        {
+            array_push($months, $getMonth);
+        }
+
+        foreach ($months as $month)
+        {
+            $boughtCourse = new BoughtCourses();
+            $boughtCourse->userId = $userId;
+            $boughtCourse->monthId = $month->id;
+            $boughtCourse->courseId = $course->id;
+            $boughtCourse->save();
+
+            foreach ($month->gifts as $gift)
+            {
                 $boughtCourse = new BoughtCourses();
                 $boughtCourse->userId = $userId;
-                $boughtCourse->monthId = $monthId;
-                $boughtCourse->courseId = $courseId;
-                $boughtCourse->save(false);
+                $boughtCourse->monthId = $gift->id;
+                $boughtCourse->courseId = $course->id;
+                $boughtCourse->save();
             }
         }
-        elseif(!empty($courseId))
-        {
-            $course = Courses::findOne(['id' => $courseId]);
-            $months = $course->months;
 
-            $current = BoughtCourses::find()->where(['userId' => $userId])->all();
-            foreach ($current as $item) {
-                $item->delete();
-            }
-            if(isset($months))
-                foreach ($months as $month) {
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $userId;
-                    $boughtCourse->monthId = $month->id;
-                    $boughtCourse->courseId = $course->id;
-                    $boughtCourse->save();
-                }
+        if($type != 'month')
+        {
+            $stream = new UsersStream();
+            $stream->userId = $userId;
+            $stream->courseId = $course->id;
+            $stream->monthId = $currentMonth->id;
+            $stream->type = $type;
+            $stream->boughtId = $boughtCourse->id;
+            $stream->save();
         }
 
         return $this->redirect(['/profile']);

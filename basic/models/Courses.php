@@ -14,13 +14,12 @@ use yii\debug\models\search\Debug;
  * @property string id
  * @property string $name
  * @property string $shortDescription
+ * @property boolean $isVisible
+ * @property boolean $isSpec
  * @property string $description
- * @property string $dateFrom
- * @property string $dateTo
  * @property int $teacherId
  * @property string $subject
  * @property string $examType
- * @property int $price
  * @property string $thumbnail
  */
 class Courses extends \yii\db\ActiveRecord
@@ -39,25 +38,13 @@ class Courses extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'shortDescription', 'description', 'dateFrom', 'dateTo', 'teacherId', 'subject', 'examType', 'price'], 'required'],
+            [['name', 'shortDescription', 'description', 'teacherId', 'subject', 'examType'], 'required'],
             [['description', 'thumbnail'], 'string'],
-            [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
-            ['dateFrom', 'validateDates'],
+            [['isVisible', 'isSpec'], 'boolean'],
             [['teacherId'], 'integer'],
-            ['price', 'double'],
             [['name', 'subject', 'examType'], 'string', 'max' => 255],
             [['shortDescription'], 'string', 'max' => 255],
         ];
-    }
-
-    public function validateDates(){
-        $dateFrom = date_create_from_format('d.m.Y', $this->dateFrom);
-        $dateTo = date_create_from_format('d.m.Y', $this->dateTo);
-
-        if($dateFrom > $dateTo)
-        {
-            $this->addError('dateFrom','Дата начала не может быть больше даты окончания');
-        }
     }
 
     /**
@@ -69,13 +56,12 @@ class Courses extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Название курса'),
             'shortDescription' => Yii::t('app', 'Краткое описание'),
+            'isVisible' => Yii::t('app', 'Невидимый курс'),
+            'isSpec' => Yii::t('app', 'Это спецкурс'),
             'description' => Yii::t('app', 'Описание'),
-            'dateFrom' => Yii::t('app', 'Дата начала'),
-            'dateTo' => Yii::t('app', 'Дата окончания'),
             'teacherId' => Yii::t('app', 'Преподаватель'),
             'subject' => Yii::t('app', 'Предмет'),
             'examType' => Yii::t('app', 'ОГЭ/ЕГЭ'),
-            'price' => Yii::t('app', 'Цена'),
             'thumbnail' => Yii::t('app', 'Изменить картинку'),
         ];
     }
@@ -94,21 +80,78 @@ class Courses extends \yii\db\ActiveRecord
             ->hasMany(Users::class, ['id' => 'userId'])
             ->viaTable('bought_courses', ['courseId' => 'id']);
     }
-    public function beforeSave($insert)
+
+    public function dateFrom()
     {
-        $dateFrom = date_create_from_format('d.m.Y', $this->dateFrom);
-        $dateTo = date_create_from_format('d.m.Y', $this->dateTo);
-
-        $this->dateFrom = $dateFrom->format('Y-m-d');
-        $this->dateTo = $dateTo->format('Y-m-d');
-
-        return parent::beforeSave($insert);
+        if(count($this->months) > 0)
+        {
+            $earliest = date_create_from_format('d.m.Y', $this->months[0]->dateTo);
+            foreach ($this->months as $month)
+            {
+                $monthDate = date_create_from_format('d.m.Y', $month->dateFrom);
+                if($monthDate < $earliest)
+                    $earliest = $monthDate;
+            }
+            return $earliest->format('d.m.Y');
+        }else{
+            return null;
+        }
     }
-    public function afterFind()
-    {
-        $this->dateFrom = date_create_from_format('Y-m-d', $this->dateFrom)->format('d.m.Y');
-        $this->dateTo = date_create_from_format('Y-m-d', $this->dateTo)->format('d.m.Y');
 
-        parent::afterFind();
+    public function currentMonth()
+    {
+        if(count($this->months) > 0)
+        {
+            $current = new \DateTime();
+            foreach ($this->months as $month)
+            {
+                $beginDate = date_create_from_format('d.m.Y', $month->dateFrom);
+                $endDate = date_create_from_format('d.m.Y', $month->dateTo);
+                if($current > $beginDate && $current < $endDate)
+                    return $month;
+            }
+        }
+
+        return null;
+    }
+
+    public function dateTo()
+    {
+        if(count($this->months) > 0)
+        {
+            $latest = date_create_from_format('d.m.Y', $this->months[0]->dateTo);
+            foreach ($this->months as $month)
+            {
+                $monthDate = date_create_from_format('d.m.Y', $month->dateTo);
+                if($monthDate > $latest)
+                    $latest = $monthDate;
+            }
+            return $latest->format('d.m.Y');
+        }else{
+            return null;
+        }
+    }
+
+    public function price($type = 'course')
+    {
+        if(count($this->months) > 0)
+        {
+            $month  = $this->currentMonth();
+            if(!empty($month))
+                switch ($type){
+                    case 'course':
+                        return $month->price;
+                    case 'short':
+                        return $month->priceShort;
+                    case 'long':
+                        return $month->priceLong;
+                    case 'month':
+                        return UsersStream::findOne(['courseId' => $this->id, 'userId' => Yii::$app->user->identity->getId()])->month->price;
+                    case 'spec':
+                        return Months::findOne(['courseId' => $this->id])->price;
+                }
+        }
+
+        return 0;
     }
 }

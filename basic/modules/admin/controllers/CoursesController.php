@@ -2,6 +2,9 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\BoughtCourses;
+use app\models\GiftMonths;
+use app\models\Months;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -109,15 +112,24 @@ class CoursesController extends Controller
 
     public function actionCopy($id)
     {
-        $data = $this->findModel($id)->attributes;
+        $originModel = $this->findModel($id);
+        $data = $originModel->attributes;
         while(Courses::find()->where(['name' => $data['name']])->count() > 0){
             $data['name'] = $data['name'].' копия';
         }
 
         $model = new Courses();
         $model->setAttributes($data);
-
         if ($model->save()) {
+            $months = $originModel->months;
+            if(count($months) > 0)
+                foreach ($months as $month) {
+                    $copyMonth = new Months();
+                    $copyMonth->setAttributes($month->attributes);
+                    $copyMonth->courseId = $model->id;
+                    $copyMonth->save();
+                }
+
             return $this->redirect(['index']);
         }
 

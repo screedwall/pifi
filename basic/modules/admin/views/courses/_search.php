@@ -26,17 +26,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'dateFrom') ?>
-
-    <?php // echo $form->field($model, 'dateTo') ?>
-
     <?php // echo $form->field($model, 'teacher') ?>
 
     <?php // echo $form->field($model, 'subject') ?>
 
     <?php // echo $form->field($model, 'examType') ?>
-
-    <?php // echo $form->field($model, 'price') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Поиск'), ['class' => 'btn btn-primary']) ?>

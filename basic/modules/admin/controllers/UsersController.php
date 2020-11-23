@@ -70,6 +70,7 @@ class UsersController extends AppController
     public function actionCreate()
     {
         $model = new Users();
+        $model->createdAt = date('d.m.Y H:i:s');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         }

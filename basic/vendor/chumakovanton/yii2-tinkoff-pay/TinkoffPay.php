@@ -25,6 +25,9 @@ use yii\base\BaseObject;
  * @property string $terminalKey
  * @property string $secretKey
  * @property string $apiUrl
+ * @property string $successUrl
+ * @property string $failUrl
+ * @property string $notificationUrl
  */
 class TinkoffPay extends BaseObject
 {
@@ -178,10 +181,9 @@ class TinkoffPay extends BaseObject
 
         $url = $this->_combineUrl($url, $path);
 
-//        $postData = $request->setSecretKey($this->_secretKey)
-//            ->setTerminalKey($this->_terminalKey)
-//            ->serialize();
-        $postData = json_encode(['TerminalKey'=>$this->_terminalKey, 'Amount' => '1000', 'OrderId' => '1']);
+        $postData = $request->setSecretKey($this->_secretKey)
+            ->setTerminalKey($this->_terminalKey)
+            ->serialize();
 
         return $this->_sendRequest($url, $postData);
     }

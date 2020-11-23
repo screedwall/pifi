@@ -56,7 +56,9 @@ $config = [
             'rules' => [
                 '<controller>/<id:\d+>' => '<controller>/view',
                 'subjects' => 'site/subjects',
-                'profile' => 'user/profile',
+                'successUrl' => 'pay/success',
+                'failUrl' => 'pay/fail',
+                'notificationUrl' => 'pay/notification',
             ],
         ],
         'i18n' => [
@@ -74,9 +76,12 @@ $config = [
         ],
         'tinkoffPay' => [
             'class' => \chumakovanton\tinkoffPay\TinkoffPay::className(),
-            'terminalKey' => '1565180651170DEMO',
-            'secretKey' => 'hki9rjpnak9sg7nt',
-            'apiUrl' => 'https://securepay.tinkoff.ru/v2'
+            'terminalKey' => '1605637861944DEMO',
+            'secretKey' => 'xlxewlrxlb7chs6v',
+            'apiUrl' => 'https://securepay.tinkoff.ru/v2',
+            'successUrl' => 'successPayment',
+            'failUrl' => 'failedPayment',
+            'notificationUrl' => 'notifyPayment',
         ],
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

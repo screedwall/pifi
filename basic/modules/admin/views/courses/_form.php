@@ -25,6 +25,10 @@ use kartik\form\ActiveForm;
 
     <?= $form->field($model, 'shortDescription')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'isVisible')->checkbox() ?>
+
+    <?= $form->field($model, 'isSpec')->checkbox() ?>
+
     <?= $form->field($model, 'description')->widget(vova07\imperavi\Widget::class, [
         'settings' => [
             'minHeight' => 200,
@@ -34,30 +38,11 @@ use kartik\form\ActiveForm;
         ],
     ]) ?>
 
-
-
-    <?= '<div class="form-group field-courses-datetime_range required">'
-        .'<label class="control-label has-star" for="courses-datetime_range">Выберите время проведения курса</label>'
-        .DateRangePicker::widget([
-            'model' => $model,
-            'name' => 'datetime_range',
-            'value' => (isset($model->dateFrom) ? $model->dateFrom.' - '.$model->dateTo : date("d.m.Y").' - '.date("d.m.Y")),
-            'startAttribute' => 'Courses[dateFrom]',
-            'endAttribute' => 'Courses[dateTo]',
-            'convertFormat'=>true,
-            'pluginOptions'=>[
-                'locale'=>['format' => 'd.m.Y'],
-            ]
-        ])
-        .'</div>' ?>
-
     <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name')) ?>
 
     <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
 
     <?= $form->field($model, 'examType')->dropDownList(AppController::getExams()) ?>
-
-    <?= $form->field($model, 'price')->textInput() ?>
 
     <?= $form->field($model, 'thumbnail')->widget(budyaga\cropper\Widget::class, [
         'uploadUrl' => \yii\helpers\Url::toRoute('courses/uploadPhoto'),

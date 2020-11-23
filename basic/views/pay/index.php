@@ -10,83 +10,108 @@ $this->title = "Купить курс ".$course->name;
 ?>
 
 <?php
-/*
+
 $paymentService = Yii::$app->tinkoffPay;
-
 $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit('25', 100);
+//$paymentRequest->addData('OrderId', '2');
+//$paymentResponse = $paymentService->initPay($paymentRequest);
 
-$paymentRequest->addData('user_id', '123');
+//echo print_r($paymentResponse);
 
-$paymentResponse = $paymentService->initPay($paymentRequest);
-
-echo print_r($paymentResponse);*/
-
-if (!empty($months))
+if ($type == 'course')
 {
-    $monthsIds = [];
-    $hasMany = count($months) > 1;
-    $monthstr = "";
-    $price = 0;
-    if(count($months) > 1){
-        $i = 0;
-        foreach ($months as $month){
-            if($i == count($months) - 1)
-                $monthstr = $monthstr."\"".$month->name."\"";
-            else
-                $monthstr = $monthstr."\"".$month->name."\"".", ";
-            array_push($monthsIds, $month->id);
-            $price += $month->price;
-            $i++;
-        }
-    }
-    else
-    {
-        $monthstr = "\"".$months[0]->name."\"";
-        $price = $months[0]->price;
-        array_push($monthsIds, $months[0]->id);
-    }
 
     echo    "<div class=\"jumbotron half\">"
-                ."<h2>Вы покупаете раздел".($hasMany ? "ы" : null)." $monthstr курса \"$course->name\"</h2>"
-                .($hasMany ? "<h4>Стоимость покупаемых разделов $price рублей.</h4>" : "<h4>Стоимость раздела $price рублей.</h4>")
+                ."<h2>Вы покупаете курс \"$course->name\"</h2>"
+                ."<h4>Стоимость курса ".$course->price()." рублей.</h4>"
+                ."<hr>"
                 ."<p>"
-                .Html::a("Оплатить раздел".($hasMany ? "ы" : null), \yii\helpers\Url::to(['/pay/buy']),
+                .Html::a('Оплатить курс', \yii\helpers\Url::to(['/pay/buy']),
                     [
                         'data' => [
                             'method' => 'post',
-                            'params' => [
-                                'months' => $monthsIds,
-                                'course' => $course->id,
-                            ],
+                            'params' => ['course' => $course->id, 'type' => 'course'],
                         ],
                         'class' => 'btn btn-primary btn-block btn-lg',
                     ]
                 )
-                ."<hr>"
-                ."<h4>А вы знали, что выгоднее "
-                .Html::a('покупать курс',\yii\helpers\Url::to(['/pay', 'course' => $course->id]))
-                ." целиком?</h4>"
-                ."<h4>Он стоит всего $course->price рублей.</h4>"
-            ."</div>";
+                ."</p>
+            </div>";
 }
-elseif (!empty($course))
+elseif ($type == 'short')
 {
-    echo    "<div class=\"jumbotron half\">
-              <h2>Вы покупаете курс \"$course->name\" целиком</h2>
-              <h2>Супер!</h2>"
-              ."<h4>Стоимость курса $course->price рублей.</h4>
-              <hr>
-              <p>"
-              .Html::a('Оплатить курс', \yii\helpers\Url::to(['/pay/buy']),
-                            [
-                                'data' => [
-                                    'method' => 'post',
-                                    'params' => ['course' => $course->id],
-                                ],
-                                'class' => 'btn btn-primary btn-block btn-lg',
-                            ]
-                        )
-              ."</p>
+    echo    "<div class=\"jumbotron half\">"
+                ."<h2>Вы покупаете 3х месячный абонемент курса \"$course->name\"</h2>"
+                ."<h4>Стоимость абонемента ".$course->price('short')." рублей.</h4>"
+                ."<hr>"
+                ."<p>"
+                .Html::a('Оплатить абонемент', \yii\helpers\Url::to(['/pay/buy']),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => ['course' => $course->id, 'type' => 'short'],
+                        ],
+                        'class' => 'btn btn-primary btn-block btn-lg',
+                    ]
+                )
+                ."</p>
+            </div>";
+}
+elseif ($type == 'long')
+{
+    echo    "<div class=\"jumbotron half\">"
+                ."<h2>Вы покупаете годовой абонемент курса \"$course->name\"</h2>"
+                ."<h4>Стоимость абонемента ".$course->price('long')." рублей.</h4>"
+                ."<hr>"
+                ."<p>"
+                .Html::a('Оплатить абонемент', \yii\helpers\Url::to(['/pay/buy']),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => ['course' => $course->id, 'type' => 'long'],
+                        ],
+                        'class' => 'btn btn-primary btn-block btn-lg',
+                    ]
+                )
+                ."</p>
+            </div>";
+}
+elseif ($type == 'month')
+{
+    echo    "<div class=\"jumbotron half\">"
+                ."<h2>Вы покупаете раздел \"$month->name\" курса \"$course->name\"</h2>"
+                ."<h4>Стоимость раздела ".$course->price('month')." рублей.</h4>"
+                ."<hr>"
+                ."<p>"
+                .Html::a('Оплатить раздел', \yii\helpers\Url::to(['/pay/buy']),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => ['course' => $course->id, 'type' => 'month', 'month' => $month->id],
+                        ],
+                        'class' => 'btn btn-primary btn-block btn-lg',
+                    ]
+                )
+                ."</p>
+            </div>";
+}
+elseif ($type == 'spec')
+{
+    echo    "<div class=\"jumbotron half\">"
+                ."<h2>Вы покупаете спецкурс \"$course->name\"</h2>"
+                ."<h4>Стоимость спецкурса ".$course->price('spec')." рублей.</h4>"
+                ."<hr>"
+                ."<p>"
+                .Html::a('Оплатить спецкурс', \yii\helpers\Url::to(['/pay/buy']),
+                    [
+                        'data' => [
+                            'method' => 'post',
+                            'params' => ['course' => $course->id, 'type' => 'month', 'month' => $month->id],
+                        ],
+                        'class' => 'btn btn-primary btn-block btn-lg',
+                    ]
+                )
+                ."</p>
             </div>";
 }
 

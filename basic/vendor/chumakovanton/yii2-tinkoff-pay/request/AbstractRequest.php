@@ -50,9 +50,11 @@ abstract class AbstractRequest implements RequestInterface
 
         unset($this->_dataFields['Token']);
 
+        unset($this->_dataFields['DATA']);
+
         $this->_dataFields['Token'] = $this->_generateToken();
 
-        return http_build_query($this->_dataFields);
+        return json_encode($this->_dataFields);
     }
 
     /**

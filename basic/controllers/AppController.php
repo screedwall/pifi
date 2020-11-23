@@ -29,5 +29,4 @@ class AppController extends Controller
     {
         return array('Администратор', 'Преподаватель', 'Ученик');
     }
-
 }

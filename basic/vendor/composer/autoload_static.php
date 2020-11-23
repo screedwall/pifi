@@ -44,6 +44,11 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
         ),
+        'v' => 
+        array (
+            'vova07\\imperavi\\tests\\' => 22,
+            'vova07\\imperavi\\' => 16,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
@@ -198,6 +203,14 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'vova07\\imperavi\\tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vova07/yii2-imperavi-widget/tests',
+        ),
+        'vova07\\imperavi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vova07/yii2-imperavi-widget/src',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (

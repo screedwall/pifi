@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'teacher',
             'subject',
             'examType',
-            'price',
         ],
     ]) ?>
 

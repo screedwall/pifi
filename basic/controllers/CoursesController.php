@@ -31,7 +31,7 @@ class CoursesController extends Controller
         }
 
         return $this->render('index', [
-            'model' => $model->orderBy(['id' => SORT_ASC])->all(),
+            'model' => $model->orderBy(['id' => SORT_DESC])->all(),
             'subjectRequest' => $subject,
             'examRequest' => $exam,
         ]);

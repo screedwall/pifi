@@ -33,7 +33,7 @@ class Months extends \yii\db\ActiveRecord
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
             ['courseId', 'integer'],
-            ['price', 'double'],
+            [['price', 'priceShort', 'priceLong'], 'double'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -55,6 +55,8 @@ class Months extends \yii\db\ActiveRecord
         return [
             'name' => Yii::t('app', 'Имя'),
             'price' => Yii::t('app', 'Цена'),
+            'priceShort' => Yii::t('app', 'Цена абонемента на 3 месяца'),
+            'priceLong' => Yii::t('app', 'Цена годового абонемента'),
             'dateFrom' => Yii::t('app', 'Дата начала'),
             'dateTo' => Yii::t('app', 'Дата окончания'),
             'courseId' => Yii::t('app', 'Курс'),
@@ -74,6 +76,11 @@ class Months extends \yii\db\ActiveRecord
         return $this
             ->hasMany(Users::class, ['id' => 'userId'])
             ->viaTable('bought_courses', ['monthId' => 'id']);
+    }
+    public function getGifts()
+    {
+        return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
     }
     public function beforeSave($insert)
     {

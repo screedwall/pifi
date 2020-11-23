@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use app\models\BoughtCourses;
+use app\models\GiftMonths;
 use app\models\Users;
 use yii\helpers\Url;
 use Yii;
@@ -71,6 +72,27 @@ class MonthsController extends Controller
         $courseId = Yii::$app->request->get('courseId');
         $model->courseId = $courseId;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $users = Yii::$app->request->post('users');
+
+            if(isset($users))
+                foreach ($users as $user) {
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $user;
+                    $boughtCourse->monthId = $model->id;
+                    $boughtCourse->courseId = $model->courseId;
+                    $boughtCourse->save();
+                }
+
+            $gifts = Yii::$app->request->post('gifts');
+
+            if(isset($gifts))
+                foreach ($gifts as $gift) {
+                    $giftCourse = new GiftMonths();
+                    $giftCourse->monthId = $model->id;
+                    $giftCourse->giftId = $gift;
+                    $giftCourse->save();
+                }
+
             return $this->redirect(['courses/update', 'id' => $model->courseId, '#' => 'months']);
         }
 
@@ -105,6 +127,21 @@ class MonthsController extends Controller
                     $boughtCourse->monthId = $id;
                     $boughtCourse->courseId = $model->courseId;
                     $boughtCourse->save();
+                }
+
+            $gifts = Yii::$app->request->post('gifts');
+
+            $current = GiftMonths::find()->where(['monthId' => $id])->all();
+            foreach ($current as $item) {
+                $item->delete();
+            }
+
+            if(isset($gifts))
+                foreach ($gifts as $gift) {
+                    $giftCourse = new GiftMonths();
+                    $giftCourse->monthId = $model->id;
+                    $giftCourse->giftId = $gift;
+                    $giftCourse->save();
                 }
 
 

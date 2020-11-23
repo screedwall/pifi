@@ -70,7 +70,7 @@ foreach ($courses as $course)
                              Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', \yii\helpers\Url::to(['/months/'.$month->id]), [
                                  'class' => 'btn btn-primary btn-block',
                              ])
-                            : Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить', \yii\helpers\Url::to(['/pay', 'months[]' => $month->id]), [
+                            : Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить', \yii\helpers\Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
                                  'class' => 'btn btn-success btn-block',
                              ]))
                          ?>

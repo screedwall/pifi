@@ -3,6 +3,7 @@ use kartik\tabs\TabsX;
 use app\models\BoughtCourses;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Html;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Courses */
 $this->title = "Курс ".$model->name;
@@ -27,7 +28,7 @@ if(!Yii::$app->user->isGuest)
     <div class="container">
         <div class="row">
             <h1>Курс <?= $model->name ?></h1>
-            <h3>Курс идет с <?= $model->dateFrom.' по '.$model->dateTo ?></h3>
+            <h3>Курс идет с <?= $model->dateFrom().' по '.$model->dateTo() ?></h3>
             <h4><?= $model->subject ?>, готовимся к <?= $model->examType ?></h4>
             <h5><?= $model->shortDescription ?></h5>
         </div>
@@ -103,49 +104,32 @@ if(!Yii::$app->user->isGuest)
                     <p><?=Html::a('Войдите', \yii\helpers\Url::to(['/auth/login'])) ?> чтобы приобретать курсы.</p>
                 <?php else: ?>
                     <?php if(!$bought): ?>
-                        <?php if (!$oneMonth): ?>
-                        <p>Вы можете</p>
-                        <?php endif; ?>
-                        <?= Html::a('Купить курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id]),
+                        <?php if(!$model->isSpec): ?>
+                        <p>Вы можете купить:</p>
+                        <?= Html::a('Курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'course']),
                             [
-                                'data' => [
-                                    'method' => 'post',
-                                ],
                                 'class' => 'btn btn-success btn-lg btn-block',
                             ]
                         ); ?>
 
-                        <?php
-                        if(!$oneMonth)
-                        {
-                            echo "<p>или же</p>";
-                            Modal::begin([
-                                'header' => '<h3>Покупка разделов</h3>',
-                                'toggleButton' => [
-                                    'label' => 'Купить разделы',
-                                    'class' => 'btn btn-primary btn-lg btn-block'
-                                ],
-                            ]);
+<!--                        --><?//= Html::a('Абонемент на 3 месяца', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'short']),
+//                            [
+//                                'class' => 'btn btn-success btn-lg btn-block',
+//                            ] //TODO: 3 months
+//                        ); ?>
 
-                            echo Html::beginForm(['/pay'], 'GET');
-                            foreach ($model->months as $month)
-                            {
-                                if(count($month->lessons) > 0) {
-                                    echo "<div class=\"form-group\">";
-                                    echo Html::checkbox('months[]', false, ['label' => "<span> " . $month->name . "</span>", 'value' => $month->id]);
-                                    echo "</div>";
-                                }
-                            }
-
-                            echo "<div class=\"form-group\">";
-                            echo Html::submitButton('Купить', ['class' => 'btn btn-success btn-lg btn-block']);
-                            echo "</div>";
-                            echo Html::endForm();
-
-
-                            Modal::end();
-                        }
-                        ?>
+                        <?= Html::a('Годовой абонемент', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'long']),
+                            [
+                                'class' => 'btn btn-success btn-lg btn-block',
+                            ]
+                        ); ?>
+                        <?php else: ?>
+                            <?= Html::a('Купить спецкурс', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'spec']),
+                                [
+                                    'class' => 'btn btn-success btn-lg btn-block',
+                                ]
+                            ); ?>
+                        <?php endif; ?>
                     <?php else: ?>
                         <p>Курс приобретен.</p>
                         <p>Посмотреть его можно в <?=Html::a('профиле', \yii\helpers\Url::to(['/profile'])) ?>.</p>

@@ -61,6 +61,7 @@ class AuthController extends Controller
                             return $this->goHome();
                         }else{
                             $user = new Users();
+                            $user->createdAt = date('d.m.Y H:i:s');
                             $user->login = 'vk'.$token['id'];
                             $user->name = $token['first_name']." ".$token['last_name'];
                             $user->vk = $token['id'];

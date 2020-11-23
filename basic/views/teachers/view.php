@@ -23,7 +23,7 @@ foreach (\app\models\Courses::find()->where(['teacherId' => $model->id])->orderB
             .(!empty($item->thumbnail) ? "<img src='".$item->thumbnail."' class='course-card_cover'>" : null)
             .'<a class="course-card_author">'.$item->subject.' ['.$item->examType.']</a>'
             .'<span class="course-card_description">'.$item->description.'</span>'
-            .'<span class="course-card_price">'.$item->price.' руб.</span>'
+            .'<span class="course-card_price">'.$item->price().' руб.</span>'
             .Html::a('Открыть', Url::to(['/courses/view', 'id' => $item->id]), ['class' => 'btn btn-primary course-card_action'])
         .'</div>');
     }

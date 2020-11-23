@@ -25,6 +25,14 @@ use yii\bootstrap\Modal;
     <?php else: ?>
 
     <div class="form-group">
+        <?= Html::label('Дата регистрации', 'register-date') ?>
+        <?= Html::textInput('register-date', $model->createdAt, [
+            'class' => 'form-control',
+            'disabled' => true,
+        ]) ?>
+    </div>
+
+    <div class="form-group">
         <?= Html::label('Логин', 'users-login') ?>
         <?= Html::textInput('users-login', $model->login, [
             'class' => 'form-control',

@@ -30,8 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'name',
 //            'shortDescription',
-            'dateFrom',
-            'dateTo',
+            [
+                'value' => function ($model) {
+                    return  $model->dateFrom();
+                },
+                'label' => 'Дата начала',
+            ],
+            [
+                'value' => function ($model) {
+                    return  $model->dateTo();
+                },
+                'label' => 'Дата окончания',
+            ],
             [
                 'attribute' => 'teacher',
                 'value' => 'teacher.name',
@@ -39,7 +49,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'subject',
             'examType',
-//            'price',
 
             ['class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete} {copy}',
@@ -65,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                 ],
-                ],
+            ],
         ],
     ]); ?>
 

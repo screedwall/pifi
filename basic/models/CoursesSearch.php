@@ -18,7 +18,7 @@ class CoursesSearch extends Courses
     public function rules()
     {
         return [
-            [['id', 'price'], 'integer'],
+            [['id'], 'integer'],
             [['name', 'shortDescription', 'description', 'subject', 'examType', 'teacher'], 'safe'],
         ];
     }
@@ -43,7 +43,7 @@ class CoursesSearch extends Courses
     {
         $query = Courses::find()
             ->joinWith(['teacher'])
-            ->orderBy(['id' => SORT_ASC]);
+            ->orderBy(['id' => SORT_DESC]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -68,7 +68,6 @@ class CoursesSearch extends Courses
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
         ]);
 
         $query->andFilterWhere(['like', 'UPPER(courses.name)', mb_strtoupper($this->name)])
