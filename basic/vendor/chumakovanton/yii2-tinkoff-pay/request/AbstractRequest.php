@@ -51,6 +51,8 @@ abstract class AbstractRequest implements RequestInterface
         $this->_dataFields['TerminalKey'] = $this->_terminalKey;
 
         $this->_dataFields['SuccessUrl'] = Url::to(['/pay/success'], true);
+        $this->_dataFields['FailURL'] = Url::to(['/pay/success'], true);
+        $this->_dataFields['NotificationURL'] = Url::to(['/pay/success'], true);
 
         unset($this->_dataFields['Token']);
 

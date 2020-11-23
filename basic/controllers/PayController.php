@@ -68,7 +68,7 @@ class PayController extends Controller
         $type = \Yii::$app->request->post('type');
         $amount = \Yii::$app->request->post('amount');
         $userId = \Yii::$app->user->identity->getId();
-
+        return Url::to(['/pay/success'], true);
         $payment = new \app\models\TinkoffPay();
         $payment->amount = $amount;
         $payment->status = "NEW";
