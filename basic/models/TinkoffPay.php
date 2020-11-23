@@ -20,7 +20,7 @@ use Yii;
  * @property Months $month
  * @property Users $user
  */
-class Tinkoffpay extends \yii\db\ActiveRecord
+class TinkoffPay extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
