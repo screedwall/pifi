@@ -92,4 +92,21 @@ class TinkoffPay extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::className(), ['id' => 'userId']);
     }
+
+    public function beforeSave($insert)
+    {
+        $createdAt = date_create_from_format('d.m.Y H:i:s', $this->createdAt);
+        if(!empty($this->createdAt))
+            $this->createdAt = $createdAt->format('Y-m-d H:i:s');
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        if(!empty($this->createdAt))
+            $this->createdAt = date_create_from_format('Y-m-d H:i:s', $this->createdAt)->format('d.m.Y H:i:s');
+
+        parent::afterFind();
+    }
 }
