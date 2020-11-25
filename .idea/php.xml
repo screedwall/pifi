@@ -121,5 +121,4 @@
       <path value="$PROJECT_DIR$/basic/vendor/vova07/yii2-imperavi-widget" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
 </project>

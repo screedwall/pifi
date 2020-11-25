@@ -72,6 +72,8 @@ class RequestInit extends AbstractRequest
      */
     private $_customerKey;
 
+    private $_paymentId;
+
     /**
      * Если передается и установлен в Y,
      * то регистрирует платёж как рекуррентный.
@@ -104,15 +106,25 @@ class RequestInit extends AbstractRequest
     private $_data = [];
 
     /**
-     * RequestInit constructor.
+     * Init
      * @param string $orderId Номер заказа в системе Продавца
      * @param int $amount Сумма в копейках
      */
-    public function __construct(string $orderId, int $amount)
+    public function Init(string $orderId, int $amount)
     {
         $this->buildDataFields();
         $this->setOrderId($orderId);
         $this->setAmount($amount);
+    }
+
+    /**
+     * State
+     * @param string $paymentId Номер заказа в системе банка
+     */
+    public function State(string $paymentId)
+    {
+        $this->buildDataFields();
+        $this->setPaymentId($paymentId);
     }
 
     /**
@@ -149,6 +161,9 @@ class RequestInit extends AbstractRequest
         }
         if (null !== $this->_data) {
             $this->_dataFields['DATA'] = $this->getData();
+        }
+        if (null !== $this->_paymentId) {
+            $this->_dataFields['PaymentId'] = $this->_paymentId;
         }
     }
 
@@ -212,6 +227,16 @@ class RequestInit extends AbstractRequest
     public function setOrderId(string $orderId): self
     {
         $this->_orderId = self::truncateString($orderId, 50);
+        return $this;
+    }
+
+    /**
+     * @param string $paymentId
+     * @return self
+     */
+    public function setPaymentId(string $paymentId): self
+    {
+        $this->_paymentId = self::truncateString($paymentId, 50);
         return $this;
     }
 

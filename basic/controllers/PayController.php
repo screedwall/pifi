@@ -80,10 +80,12 @@ class PayController extends Controller
         $payment->save();
 
         $paymentService = \Yii::$app->tinkoffPay;
-        $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit($payment->id, $amount*100);
+        $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit();
+        $paymentRequest->Init($payment->id, $amount*100);
+
         $paymentResponse = $paymentService->initPay($paymentRequest);
 
-        if($paymentResponse->getStatus() == "NEW" && $paymentResponse->getSuccess())
+        if($paymentResponse->getSuccess())
         {
             return $this->redirect($paymentResponse->getPaymentUrl());
         }
@@ -153,6 +155,15 @@ class PayController extends Controller
 //        }
 //
 //        return $this->redirect(['/profile']);
+    }
+
+    public function actionState($id)
+    {
+        $paymentService = \Yii::$app->tinkoffPay;
+        $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit();
+        $paymentRequest->State($id);
+        $paymentResponse = $paymentService->getState($paymentRequest);
+        var_dump($paymentResponse);
     }
 
 }
