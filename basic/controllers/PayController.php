@@ -32,7 +32,7 @@ class PayController extends Controller
 
     public function beforeAction($action)
     {
-//        $this->enableCsrfValidation = false;
+        $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
 
