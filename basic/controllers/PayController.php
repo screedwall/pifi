@@ -19,6 +19,7 @@ class PayController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
+                'only' => ['index', 'buy'],
                 'rules' => [
                     [
                         'allow' => true,
