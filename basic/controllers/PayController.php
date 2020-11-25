@@ -100,15 +100,17 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $productjson = "POST: ".print_r(\Yii::$app->request->post())."\r\n";
-        $productjson .= "GET: ".print_r(\Yii::$app->request->get())."\r\n";
-        $productjson .= "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
+        $productjson = "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
 
-        return $this->render('success');
+        $response = '{"TerminalKey":"1605637861944DEMO","OrderId":"21","Success":true,"Status":"CONFIRMED","PaymentId":372924971,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777"}';
+        $responseObject = json_decode($response);
+
+        if($responseObject->Status == "CONFIRMED")
+            return "OK";
 
 //        $course = Courses::findOne(['id' => $courseId]);
 //        $getMonth = Months::findOne(['id' => $monthId]);
