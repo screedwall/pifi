@@ -94,6 +94,8 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
+        $this->enableCsrfValidation = false;
+
         $productjson = json_encode(\Yii::$app->request->post());
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
