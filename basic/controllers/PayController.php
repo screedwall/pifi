@@ -32,7 +32,7 @@ class PayController extends Controller
 
     public function beforeAction($action)
     {
-        $this->enableCsrfValidation = false;
+//        $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
     }
 
@@ -106,6 +106,8 @@ class PayController extends Controller
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
+
+        return $this->render('success');
 
 //        $course = Courses::findOne(['id' => $courseId]);
 //        $getMonth = Months::findOne(['id' => $monthId]);
