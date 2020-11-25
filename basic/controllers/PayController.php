@@ -30,6 +30,12 @@ class PayController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        $this->enableCsrfValidation = false;
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex()
     {
         $request = \Yii::$app->request;
@@ -94,8 +100,6 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $this->enableCsrfValidation = false;
-
         $productjson = json_encode(\Yii::$app->request->post());
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
