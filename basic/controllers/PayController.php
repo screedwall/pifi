@@ -101,6 +101,7 @@ class PayController extends Controller
     public function actionSuccess()
     {
         $productjson = json_encode(\Yii::$app->request->post());
+        $productjson .= json_encode(\Yii::$app->request->get());
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
