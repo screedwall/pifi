@@ -102,6 +102,7 @@ class PayController extends Controller
     {
         $productjson = "POST: ".\Yii::$app->request->post()."\r\n";
         $productjson .= "GET: ".\Yii::$app->request->get()."\r\n";
+        $productjson .= "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
