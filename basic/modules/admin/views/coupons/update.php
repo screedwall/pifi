@@ -9,8 +9,7 @@ $this->title = Yii::t('app', 'Update Coupons: {name}', [
     'name' => $model->code,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Coupons'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->code, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Изменить');
+$this->params['breadcrumbs'][] = Yii::t('app', $model->code);
 ?>
 <div class="coupons-update">
 

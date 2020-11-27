@@ -7,9 +7,10 @@
 
 namespace app\commands;
 
+use app\models\Users;
 use yii\console\Controller;
 use yii\console\ExitCode;
-
+use Yii;
 /**
  * This command echoes the first argument that you have entered.
  *
@@ -27,7 +28,25 @@ class HelloController extends Controller
      */
     public function actionIndex($message = 'hello world')
     {
-        echo $message . "\n";
+        $model = new Users();
+
+        $handle = fopen('"C:\Program Files\Ampps\www\basic\commands\users_export.csv"', "r");
+        while (($fileop = fgetcsv($handle, 1000, ",")) !== false)
+        {
+            $name = $fileop[0];
+            $age = $fileop[1];
+            $location = $fileop[2];
+//            $sql = "INSERT INTO details(name, age, location) VALUES ('$name', '$age', '$location')";
+//            $query = Yii::$app->db->createCommand($sql)->execute();
+            echo $name;
+        }
+
+        if ($query)
+        {
+            echo "data upload successfully";
+        }
+
+        $model->save();
 
         return ExitCode::OK;
     }

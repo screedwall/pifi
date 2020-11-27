@@ -69,7 +69,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['login' => 'vk'.$token['id']]);
+        return static::findOne(['vk' => $token['id']]);
     }
     public static function findByUsername($username)
     {
@@ -94,7 +94,7 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function beforeSave($insert)
     {
         $createdAt = date_create_from_format('d.m.Y H:i:s', $this->createdAt);
-        if(!empty($this->createdAt))
+        if($createdAt)
             $this->createdAt = $createdAt->format('Y-m-d H:i:s');
 
         $this->authKey = Yii::$app->getSecurity()->generateRandomString();
