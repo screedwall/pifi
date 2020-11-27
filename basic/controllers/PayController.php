@@ -215,8 +215,8 @@ class PayController extends Controller
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
 
-//        $body = \Yii::$app->request->getRawBody();
-        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"25","Success":true,"Status":"CONFIRMED","PaymentId":372932469,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"5f39d12a5ea476cc4e620e2ca2642fda48694ef755962280db1506a2cc6481e2"}';
+        $body = \Yii::$app->request->getRawBody();
+//        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"25","Success":true,"Status":"CONFIRMED","PaymentId":372932469,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"5f39d12a5ea476cc4e620e2ca2642fda48694ef755962280db1506a2cc6481e2"}';
 
         $responseObject = json_decode($body, true);
 
