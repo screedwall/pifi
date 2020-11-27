@@ -211,7 +211,7 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $body = \Yii::$app->request->getRawBody();
+        $body = \Yii::$app->getRequest()->getRawBody();
 //        $productjson = "BODY: ".$body."\r\n";
 //        $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
 //        $fp = fopen($jsonfile, 'a+');
@@ -223,13 +223,13 @@ class PayController extends Controller
 
 
 
-        $responseObject = json_decode(strval($body), true);
+        $responseObject = json_decode($body, true);
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".var_dump($body)."\r\n";
-        $fp = fopen($jsonfile, 'a+');
-        fwrite($fp, $productjson."\r\n ========\r\n");
-        fclose($fp);
+//        $productjson = "BODY: ".var_dump($body)."\r\n";
+//        $fp = fopen($jsonfile, 'a+');
+//        fwrite($fp, $productjson."\r\n ========\r\n");
+//        fclose($fp);
         return var_dump($responseObject);
 
         $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
