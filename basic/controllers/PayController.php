@@ -218,15 +218,15 @@ class PayController extends Controller
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
 
-//        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"25","Success":true,"Status":"CONFIRMED","PaymentId":372932469,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"5f39d12a5ea476cc4e620e2ca2642fda48694ef755962280db1506a2cc6481e2"}';
+        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"34","Success":true,"Status":"CONFIRMED","PaymentId":376057598,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"b98fbc2dd48010459c5c29630c60731eb368a5cbbcf4701695b30b412a81d08f"}';
 
         $responseObject = json_decode($body, true);
 
-        $productjson = "DUMP: ".var_dump($responseObject)."\r\n";
-        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $fp = fopen($jsonfile, 'a+');
-        fwrite($fp, $productjson."\r\n ========\r\n");
-        fclose($fp);
+//        $productjson = "DUMP: ".var_dump($responseObject)."\r\n";
+//        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
+//        $fp = fopen($jsonfile, 'a+');
+//        fwrite($fp, $productjson."\r\n ========\r\n");
+//        fclose($fp);
 
 
 
@@ -366,7 +366,7 @@ class PayController extends Controller
 
                 $boughtCourse = new BoughtCourses();
                 $boughtCourse->userId = $userId;
-                $boughtCourse->monthId = $gift->id;
+                $boughtCourse->monthId = $gift->monthId;
                 $boughtCourse->courseId = $course->id;
                 $boughtCourse->paymentId = $payment->id;
                 $boughtCourse->save();
