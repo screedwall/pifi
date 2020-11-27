@@ -56,6 +56,7 @@ class PayController extends Controller
 
             $coupon = Coupons::find()
                 ->where(['code' => \Yii::$app->request->post('coupon')])
+                ->andWhere(['>', 'rest', 0])
                 ->one();
             if(!empty($coupon))
             {
@@ -210,16 +211,24 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $productjson = "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
+        $body = \Yii::$app->request->getRawBody();
+        $productjson = "BODY: ".$body."\r\n";
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
 
-        $body = \Yii::$app->request->getRawBody();
 //        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"25","Success":true,"Status":"CONFIRMED","PaymentId":372932469,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"5f39d12a5ea476cc4e620e2ca2642fda48694ef755962280db1506a2cc6481e2"}';
 
         $responseObject = json_decode($body, true);
+
+        $productjson = "DUMP: ".var_dump($responseObject)."\r\n";
+        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
+        $fp = fopen($jsonfile, 'a+');
+        fwrite($fp, $productjson."\r\n ========\r\n");
+        fclose($fp);
+
+
 
         $checkingToken = $responseObject["Token"];
         $token = '';
