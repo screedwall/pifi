@@ -65,7 +65,6 @@ class PayController extends Controller
             else
             {
                 $response['failCoupon'] = true;
-                unset($response['coupon']);
             }
 
             return $this->render('index', $response);
