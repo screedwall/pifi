@@ -3,18 +3,39 @@
 namespace app\controllers;
 
 use app\models\Months;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use Yii;
 
 class MonthsController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionView($id)
     {
         $error = true;
-        if(count(Yii::$app->user->identity->months) > 0)
-            foreach (Yii::$app->user->identity->months as $month)
-                if($month->id == $id)
-                    $error = false;
+        if(!Yii::$app->user->identity->isAdmin())
+        {
+            if(count(Yii::$app->user->identity->months) > 0)
+                foreach (Yii::$app->user->identity->months as $month)
+                    if($month->id == $id)
+                        $error = false;
+        }
+        else
+            $error = false;
 
 
         if(!$error)

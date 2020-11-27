@@ -5,10 +5,26 @@ namespace app\controllers;
 use app\models\LessonAttachments;
 use Yii;
 use app\models\Lessons;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 
 class LessonsController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -18,10 +34,15 @@ class LessonsController extends \yii\web\Controller
         $model = $this->findModel($id);
 
         $error = true;
-        if(count(Yii::$app->user->identity->months) > 0)
-            foreach (Yii::$app->user->identity->months as $month)
-                if($month->id == $model->monthId)
-                    $error = false;
+        if(!Yii::$app->user->identity->isAdmin())
+        {
+            if(count(Yii::$app->user->identity->months) > 0)
+                foreach (Yii::$app->user->identity->months as $month)
+                    if($month->id == $model->monthId)
+                        $error = false;
+        }
+        else
+            $error = false;
 
         if(!$error) {
             return $this->render('view', [
