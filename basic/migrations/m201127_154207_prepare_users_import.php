@@ -22,7 +22,7 @@ class m201127_154207_prepare_users_import extends Migration
     {
         echo "m201127_154207_prepare_users_import cannot be reverted.\n";
 
-        return false;
+        return true;
     }
 
     /*
