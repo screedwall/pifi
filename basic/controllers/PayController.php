@@ -211,7 +211,7 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $body = \Yii::$app->request->getRawBody();
+        $body = \Yii::$app->request->getBodyParams();
         $productjson = "BODY: ".$body."\r\n";
         $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
         $fp = fopen($jsonfile, 'a+');
