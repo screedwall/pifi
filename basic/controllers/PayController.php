@@ -6,7 +6,7 @@ use app\models\BoughtCourses;
 use app\models\Coupons;
 use app\models\Courses;
 use app\models\Months;
-use app\models\Tinkoffpay;
+use app\models\TinkoffPay;
 use app\models\Users;
 use app\models\UsersStream;
 use yii\filters\AccessControl;
@@ -51,6 +51,7 @@ class PayController extends Controller
             $response = \Yii::$app->request->post();
             $response['course'] = Courses::findOne(['id' => $response['course']]);
             $response['month'] = Months::findOne(['id' => $response['month']]);
+            $response['bought'] = false;
 
             $coupon = Coupons::find()
                 ->where(['code' => \Yii::$app->request->post('coupon')])
