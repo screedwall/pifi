@@ -61,6 +61,7 @@ AppAsset::register($this);
                 'items' => [
                     '<li class="dropdown-header">Курсы, месяца, уроки</li>',
                     ['label' => 'Курсы', 'url' => ['/admin/courses']],
+                    ['label' => 'Купоны', 'url' => ['/admin/coupons']],
                     '<li class="dropdown-header">Пользователи</li>',
                     ['label' => 'Пользователи', 'url' => ['/admin/users']],
                     ['label' => 'Преподаватели', 'url' => ['/admin/teachers']],

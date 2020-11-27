@@ -90,7 +90,7 @@ body::-webkit-scrollbar-thumb {
     background-color: transparent;
 }
 
-.jumbotron .btn {
+.jumbotron .btn-primary {
     font-size: 21px;
     padding: 14px 24px;
 }

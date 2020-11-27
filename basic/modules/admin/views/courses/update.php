@@ -33,7 +33,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 <div class="months-index">
     <h1><a id="months"></a>Месяцы</h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(!$model->isSpec)
+                echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
+            elseif(count($model->months) == 0)
+                echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
+        ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -43,7 +48,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <?php
     echo GridView::widget([
         'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getMonths()->orderBy(['id' => SORT_ASC]),
+            'query' => $model->getMonths(),
         ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

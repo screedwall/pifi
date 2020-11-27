@@ -141,6 +141,12 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             ->viaTable('bought_courses', ['userId' => 'id'])
             ->orderBy(['id' => SORT_ASC]);
     }
+    public function getStreams()
+    {
+        return $this
+            ->hasMany(UsersStream::class, ['userId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
+    }
     public function getCourses()
     {
         return $this

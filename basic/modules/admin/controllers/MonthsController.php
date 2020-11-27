@@ -4,7 +4,9 @@ namespace app\modules\admin\controllers;
 
 use app\models\BoughtCourses;
 use app\models\GiftMonths;
+use app\models\User;
 use app\models\Users;
+use app\models\UsersStream;
 use yii\helpers\Url;
 use Yii;
 use yii\web\Controller;
@@ -93,6 +95,31 @@ class MonthsController extends Controller
                     $giftCourse->save();
                 }
 
+            $streamUsers = UsersStream::find()->with('user')->where(['courseId' => $courseId])->andWhere(['>', 'remains', 0])->all();
+            foreach ($streamUsers as $streamUser)
+            {
+                $user = $streamUser->user;
+                $skip = false;
+                foreach ($user->months as $uMonth)
+                    if($uMonth == $model)
+                    {
+                        $skip = true;
+                        break;
+                    }
+                if($skip)
+                    continue;
+
+                $streamUser->remains--;
+                $streamUser->save();
+
+                $boughtCourse = new BoughtCourses();
+                $boughtCourse->userId = $user->id;
+                $boughtCourse->monthId = $model->id;
+                $boughtCourse->courseId = $model->courseId;
+                $boughtCourse->isStream = true;
+                $boughtCourse->save();
+            }
+
             return $this->redirect(['courses/update', 'id' => $model->courseId, '#' => 'months']);
         }
 
@@ -114,35 +141,82 @@ class MonthsController extends Controller
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save()) {
-            $users = $request->post('users');
+            //Adding gift months
+            $giftsId = Yii::$app->request->post('gifts');
 
-            $current = BoughtCourses::find()->where(['monthId' => $id])->all();
-            foreach ($current as $item) {
-                $item->delete();
-            }
-            if(isset($users))
-                foreach ($users as $user) {
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $user;
-                    $boughtCourse->monthId = $id;
-                    $boughtCourse->courseId = $model->courseId;
-                    $boughtCourse->save();
-                }
+            GiftMonths::deleteAll(['monthId' => $id]);
 
-            $gifts = Yii::$app->request->post('gifts');
-
-            $current = GiftMonths::find()->where(['monthId' => $id])->all();
-            foreach ($current as $item) {
-                $item->delete();
-            }
-
-            if(isset($gifts))
-                foreach ($gifts as $gift) {
+            $gifts = [];
+            if(isset($giftsId))
+                foreach ($giftsId as $gift) {
                     $giftCourse = new GiftMonths();
                     $giftCourse->monthId = $model->id;
                     $giftCourse->giftId = $gift;
                     $giftCourse->save();
+                    array_push($gifts, $giftCourse);
                 }
+
+            //Give months to users and register streams
+            $usersId = $request->post('users');
+            if(!empty($usersId))
+            {
+
+
+                foreach (BoughtCourses::find()->where(['monthId' => $id])->with('streams')->all() as $boughtCourse)
+                {
+                    foreach ($boughtCourse->streams as $stream)
+                        $stream->delete();
+                }
+
+                BoughtCourses::deleteAll(['monthId' => $id]);
+
+                $users = Users::find()
+                    ->where(['in','id', $usersId])
+                    ->with('months')
+                    ->with(['streams' => function($query) use ($model) {
+                        return $query->where(['courseId' => $model->courseId]);
+                    }])->all();
+
+                if(isset($users))
+                    foreach ($users as $user) {
+                        if(count($user->streams) == 0 && !$model->course->isSpec) //Register stream and give gifts
+                        {
+                            $stream = new UsersStream();
+                            $stream->userId = $user->id;
+                            $stream->courseId = $model->courseId;
+                            $stream->monthId = $id;
+                            $stream->type = 'course';
+                            $stream->remains = 0;
+                            $stream->save();
+
+                            foreach ($gifts as $gift)
+                            {
+                                $skip = false;
+                                foreach ($user->months as $uMonth)
+                                    if($uMonth == $model)
+                                    {
+                                        $skip = true;
+                                        break;
+                                    }
+                                if($skip)
+                                    continue;
+
+                                $boughtCourse = new BoughtCourses();
+                                $boughtCourse->userId = $user->id;
+                                $boughtCourse->courseId = $model->courseId;
+                                $boughtCourse->monthId = $id;
+                                $boughtCourse->save();
+                            }
+                        }
+
+                        $boughtCourse = new BoughtCourses();
+                        $boughtCourse->userId = $user->id;
+                        $boughtCourse->monthId = $id;
+                        $boughtCourse->courseId = $model->courseId;
+                        $boughtCourse->save();
+                    }
+            }
+
 
 
             return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months', 'users' => $users]);
@@ -163,7 +237,25 @@ class MonthsController extends Controller
      */
     public function actionDelete($id, $courseId)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        //Returning stream counter
+        $boughtCourses = BoughtCourses::find()
+            ->where(['monthId' => $id])
+            ->andWhere(['isStream' => true])
+            ->with('streams')
+            ->all();
+
+        foreach ($boughtCourses as $boughtCourse)
+        {
+            foreach ($boughtCourse->streams as $stream)
+            {
+                $stream->remains++;
+                $stream->save();
+            }
+        }
+
+        $model->delete();
 
         return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
     }

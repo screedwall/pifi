@@ -288,6 +288,14 @@ class TinkoffPay extends BaseObject
     }
 
     /**
+     * @return string $secretKey
+     */
+    public function getSecretKey(): string
+    {
+        return $this->_secretKey;
+    }
+
+    /**
      * @param string $successUrl
      * @return TinkoffPay
      */

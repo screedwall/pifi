@@ -15,4 +15,7 @@ return [
     'Teachers' => 'Преподаватели',
     'Create Teachers' => 'Добавить преподавателя',
     'Update Teachers: {name}' => 'Изменить преподавателя: {name}',
+    'Coupons' => 'Купоны',
+    'Create Coupons' => 'Добавить купон',
+    'Update Coupons: {name}' => 'Изменить купон: {name}',
 ];

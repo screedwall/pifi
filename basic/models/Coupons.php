@@ -8,11 +8,11 @@ use Yii;
  * This is the model class for table "coupons".
  *
  * @property int $id
- * @property int|null $courseId
  * @property int|null $count
  * @property bool|null $unique
+ * @property int|null $monthId
  *
- * @property Courses $course
+ * @property Months $month
  */
 class Coupons extends \yii\db\ActiveRecord
 {
@@ -30,10 +30,11 @@ class Coupons extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['courseId', 'count'], 'default', 'value' => null],
-            [['courseId', 'count'], 'integer'],
+            [['count', 'monthId', 'code', 'discount'], 'required'],
+            [['count', 'monthId'], 'integer'],
+            [['discount'], 'double'],
             [['unique'], 'boolean'],
-            [['courseId'], 'exist', 'skipOnError' => true, 'targetClass' => Courses::className(), 'targetAttribute' => ['courseId' => 'id']],
+            [['code'], 'string'],
         ];
     }
 
@@ -44,19 +45,22 @@ class Coupons extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'courseId' => Yii::t('app', 'Course ID'),
-            'count' => Yii::t('app', 'Count'),
+            'count' => Yii::t('app', 'Количество'),
+            'discount' => Yii::t('app', 'Скидка'),
+            'code' => Yii::t('app', 'Код купона'),
+            'rest' => Yii::t('app', 'Остаток'),
             'unique' => Yii::t('app', 'Unique'),
+            'monthId' => Yii::t('app', 'Месяц'),
         ];
     }
 
     /**
-     * Gets query for [[Course]].
+     * Gets query for [[Month]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCourse()
+    public function getMonth()
     {
-        return $this->hasOne(Courses::className(), ['id' => 'courseId']);
+        return $this->hasOne(Months::className(), ['id' => 'monthId']);
     }
 }

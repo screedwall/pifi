@@ -32,8 +32,6 @@ class GiftMonths extends \yii\db\ActiveRecord
         return [
             [['monthId', 'giftId'], 'default', 'value' => null],
             [['monthId', 'giftId'], 'integer'],
-            [['monthId'], 'exist', 'skipOnError' => true, 'targetClass' => Months::className(), 'targetAttribute' => ['monthId' => 'id']],
-            [['giftId'], 'exist', 'skipOnError' => true, 'targetClass' => Months::className(), 'targetAttribute' => ['giftId' => 'id']],
         ];
     }
 

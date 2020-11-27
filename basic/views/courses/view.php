@@ -106,13 +106,17 @@ if(!Yii::$app->user->isGuest)
                     <?php if(!$bought): ?>
                         <?php if(!$model->isSpec): ?>
                         <p>Вы можете купить:</p>
-                        <?= Html::a('Курс', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'course']),
+                        <?= Html::a('Месяц', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'course']),
                             [
                                 'class' => 'btn btn-success btn-lg btn-block',
                             ]
                         ); ?>
 
-                        <?php //TODO: 3 months ?>
+                            <?= Html::a('3 месяца', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'short']),
+                                [
+                                    'class' => 'btn btn-success btn-lg btn-block',
+                                ]
+                            ); ?>
 
                         <?= Html::a('Годовой абонемент', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'long']),
                             [

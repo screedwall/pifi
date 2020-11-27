@@ -34,7 +34,6 @@ class LessonAttachments extends \yii\db\ActiveRecord
             [['lessonId'], 'default', 'value' => null],
             [['lessonId'], 'integer'],
             [['name', 'path'], 'string', 'max' => 255],
-            [['lessonId'], 'exist', 'skipOnError' => true, 'targetClass' => Lessons::className(), 'targetAttribute' => ['lessonId' => 'id']],
         ];
     }
 

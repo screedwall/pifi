@@ -2,9 +2,11 @@
 
 namespace app\modules\admin\controllers;
 
+use app\controllers\AppController;
 use app\models\BoughtCourses;
 use app\models\GiftMonths;
 use app\models\Months;
+use Cassandra\Date;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -82,7 +84,27 @@ class CoursesController extends Controller
         $model = new Courses();
 
         if ($model->load(Yii::$app->request->post())&&$model->save()) {
-                return $this->redirect(['update', 'id' => $model->id]);
+            if(!$model->isSpec)
+                foreach (AppController::defaultMonths() as $defaultMonth)
+                {
+                    $month = new Months();
+                    $month->name = $defaultMonth;
+                    $month->courseId = $model->id;
+                    $month->dateFrom = date('d.m.Y');
+                    $month->dateTo = date('d.m.Y');
+                    $month->save();
+                }
+            else
+            {
+                $month = new Months();
+                $month->name = "Месяц спецкурса";
+                $month->courseId = $model->id;
+                $month->dateFrom = date('d.m.Y');
+                $month->dateTo = date('d.m.Y');
+                $month->save();
+            }
+
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('create', [

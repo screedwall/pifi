@@ -61,6 +61,10 @@ foreach ($courses as $course)
             <div class="profile-card">
                 <p><?= $course->name ?></p>
                 <?php foreach ($course->months as $month): ?>
+                    <?php
+                        if($month->getLessons()->count() == 0)
+                            continue;
+                    ?>
                 <div class="row">
                     <div class="profile-month col-md-9">
                         <p><?= $month->name ?></p>

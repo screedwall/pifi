@@ -24,12 +24,11 @@ use kartik\daterange\DateRangePicker;
 
     <?php
 
-        if(!isset($new))
-            if(!$model->course->isSpec)
-            {
-                echo $form->field($model, 'priceShort');
-                echo $form->field($model, 'priceLong');
-            }
+        if(!\app\models\Courses::findOne(['id' => $model->courseId])->isSpec)
+        {
+            echo $form->field($model, 'priceShort');
+            echo $form->field($model, 'priceLong');
+        }
 
     ?>
 
@@ -60,9 +59,9 @@ use kartik\daterange\DateRangePicker;
 
         <?php
             if(isset($new))
-                $months = \app\models\Months::find()->all();
+                $months = \app\models\Months::find()->with('course')->all();
             else
-                $months = \app\models\Months::find()->where(['<>', 'id', $model->id])->all();
+                $months = \app\models\Months::find()->with('course')->where(['<>', 'id', $model->id])->all();
 
             foreach ($months as $month) {
                 $month->name = $month->course->name." ".$month->name;

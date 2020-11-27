@@ -72,8 +72,18 @@ class Courses extends \yii\db\ActiveRecord
     public function getMonths()
     {
         return $this->hasMany(Months::class, ['courseId' => 'id'])
-            ->orderBy(['id' => SORT_ASC]);
+            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['dateFrom' => SORT_ASC]);
     }
+
+    public function getMonthsWithLessons()
+    {
+        return $this->hasMany(Months::class, ['courseId' => 'id'])
+            ->with('lessons')
+            ->orderBy(['id' => SORT_ASC])
+            ->orderBy(['dateFrom' => SORT_ASC]);
+    }
+
     public function getUsers()
     {
         return $this

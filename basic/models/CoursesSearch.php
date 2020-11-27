@@ -42,6 +42,7 @@ class CoursesSearch extends Courses
     public function search($params)
     {
         $query = Courses::find()
+            ->with('months')
             ->joinWith(['teacher'])
             ->orderBy(['id' => SORT_DESC]);
         // add conditions that should always apply here

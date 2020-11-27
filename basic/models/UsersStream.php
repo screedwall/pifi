@@ -33,12 +33,9 @@ class UsersStream extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userId', 'courseId', 'monthId', 'type', 'boughtId'], 'required'],
-            [['userId', 'courseId', 'monthId', 'boughtId'], 'integer'],
+            [['userId', 'courseId', 'monthId', 'type'], 'required'],
+            [['userId', 'courseId', 'monthId'], 'integer'],
             ['type', 'string'],
-            [['courseId'], 'exist', 'skipOnError' => true, 'targetClass' => Courses::className(), 'targetAttribute' => ['courseId' => 'id']],
-            [['monthId'], 'exist', 'skipOnError' => true, 'targetClass' => Months::className(), 'targetAttribute' => ['monthId' => 'id']],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['userId' => 'id']],
         ];
     }
 

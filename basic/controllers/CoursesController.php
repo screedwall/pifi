@@ -54,7 +54,7 @@ class CoursesController extends Controller
     }
     protected function findCourse($id)
     {
-        if (($model = Courses::findOne($id)) !== null) {
+        if (($model = Courses::find()->where(['id' => $id])->one()) !== null) {
             return $model;
         }
 

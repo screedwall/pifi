@@ -29,4 +29,9 @@ class AppController extends Controller
     {
         return array('Администратор', 'Преподаватель', 'Ученик');
     }
+
+    public static function defaultMonths()
+    {
+        return array('Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май');
+    }
 }

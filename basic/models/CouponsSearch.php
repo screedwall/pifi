@@ -4,21 +4,22 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\admin\models;
+use app\models\Coupons;
 
 /**
- * MonthsSearch represents the model behind the search form of `app\models\months`.
+ * CouponsSearch represents the model behind the search form of `app\models\Coupons`.
  */
-class MonthsSearch extends Months
+class CouponsSearch extends Coupons
 {
+    public $month;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'course'], 'integer'],
-            [['name', 'dateFrom', 'dateTo'], 'safe'],
+            [['id', 'code', 'monthId', 'month'], 'safe'],
+            [['unique'], 'boolean'],
         ];
     }
 
@@ -40,14 +41,22 @@ class MonthsSearch extends Months
      */
     public function search($params)
     {
-        $query = Months::find()
-            ->orderBy(['id' => SORT_ASC, 'dateFrom' => SORT_ASC]);
+        $query = Coupons::find()
+            ->joinWith(['month'])
+            ->orderBy(['id' => SORT_DESC]);;
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['month'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['months.name' => SORT_ASC],
+            'desc' => ['months.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -60,17 +69,11 @@ class MonthsSearch extends Months
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'dateFrom' => $this->dateFrom,
-            'dateTo' => $this->dateTo,
-            'course' => $this->course,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'UPPER(months.name)', mb_strtoupper($this->month)])
+        ->andFilterWhere(['like', 'UPPER(code)', mb_strtoupper($this->code)]);
 
         return $dataProvider;
-    }
-    public function getCourse()
-    {
-        return $this->hasOne(Courses::class, ['id' => 'course']);
     }
 }

@@ -40,9 +40,6 @@ class TinkoffPay extends \yii\db\ActiveRecord
             [['courseId', 'monthId', 'userId'], 'integer'],
             ['amount', 'double'],
             [['status', 'type'], 'string', 'max' => 255],
-            [['courseId'], 'exist', 'skipOnError' => true, 'targetClass' => Courses::className(), 'targetAttribute' => ['courseId' => 'id']],
-            [['monthId'], 'exist', 'skipOnError' => true, 'targetClass' => Months::className(), 'targetAttribute' => ['monthId' => 'id']],
-            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['userId' => 'id']],
         ];
     }
 
@@ -97,7 +94,8 @@ class TinkoffPay extends \yii\db\ActiveRecord
     {
         $createdAt = date_create_from_format('d.m.Y H:i:s', $this->createdAt);
         if(!empty($this->createdAt))
-            $this->createdAt = $createdAt->format('Y-m-d H:i:s');
+            if(!empty($createdAt))
+                $this->createdAt = $createdAt->format('Y-m-d H:i:s');
 
         return parent::beforeSave($insert);
     }

@@ -82,6 +82,11 @@ class Months extends \yii\db\ActiveRecord
         return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
             ->orderBy(['id' => SORT_ASC]);
     }
+    public function getCoupons()
+    {
+        return $this->hasMany(Coupons::class, ['monthId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
+    }
     public function beforeSave($insert)
     {
         $dateFrom = date_create_from_format('d.m.Y', $this->dateFrom);
