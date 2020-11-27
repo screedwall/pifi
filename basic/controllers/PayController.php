@@ -223,10 +223,10 @@ class PayController extends Controller
 
 
 
-        $responseObject = json_decode($body, true);
+//        $responseObject = json_decode($body, true);
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".print_r($body)."\r\n";
+        $productjson = "BODY: ".$body["TerminalKey"]."\r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
