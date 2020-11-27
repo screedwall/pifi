@@ -52,6 +52,7 @@ class PayController extends Controller
             $response['course'] = Courses::findOne(['id' => $response['course']]);
             $response['month'] = Months::findOne(['id' => $response['month']]);
             $response['bought'] = false;
+            $response['coupon'] = null;
 
             $coupon = Coupons::find()
                 ->where(['code' => \Yii::$app->request->post('coupon')])
