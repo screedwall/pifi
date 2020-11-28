@@ -225,14 +225,16 @@ class PayController extends Controller
 
 
 //        $responseObject = json_decode($body, true);
-        $OrderId = \Yii::$app->request->getBodyParam('OrderId');
+
+        $requestToken = \Yii::$app->request->getBodyParam('Token');
+        $requestOrderId = \Yii::$app->request->getBodyParam('OrderId');
+        $requestStatus = \Yii::$app->request->getBodyParam('Status');
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".$OrderId."\r\n";
+        $productjson = "BODY: $requestToken $requestOrderId $requestStatus \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
-        return $OrderId;
 //
 //        $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
 //        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
@@ -242,24 +244,22 @@ class PayController extends Controller
 
 
 
-        $checkingToken = $responseObject["Token"];
-        $token = '';
+//        $checkingToken = $requestToken;
+//        $token = '';
 
-        unset($responseObject["Token"]);
-
-        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
-        $responseObject['Password'] = $secretKey;
-        ksort($responseObject);
-        foreach ($responseObject as $field) {
-            $token .= $field;
-        }
-
-        $token = hash('sha256', $token);
+//        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
+//        $responseObject['Password'] = $secretKey;
+//        ksort($responseObject);
+//        foreach ($responseObject as $field) {
+//            $token .= $field;
+//        }
+//
+//        $token = hash('sha256', $token);
 
         //TODO: Compare tokens
 
-        $payment = TinkoffPay::findOne(['id' => $responseObject["OrderId"]]);
-        $payment->status = $responseObject["Status"];
+        $payment = TinkoffPay::findOne(['id' => $requestOrderId]);
+        $payment->status = $requestStatus;
         $payment->save();
 
         if($payment->status = "CONFIRMED") {
