@@ -10,6 +10,7 @@ use app\models\TinkoffPay;
 use app\models\Users;
 use app\models\UsersStream;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -224,13 +225,14 @@ class PayController extends Controller
 
 
 //        $responseObject = json_decode($body, true);
+        $jsonObj = Json::decode(\Yii::$app->request->getRawBody(), true);
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".var_dump($responseObject)."\r\n";
+        $productjson = "BODY: ".var_dump($jsonObj)."\r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
-        return var_dump($responseObject);
+        return var_dump($jsonObj);
 //
 //        $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
 //        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
