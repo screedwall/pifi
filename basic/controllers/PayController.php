@@ -259,11 +259,11 @@ class PayController extends Controller
         $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".$payment->id." \r\n";
+        $productjson = "BODY: ".$payment->status." ".print_r($payment)." \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
-        return $payment->id;
+        return $payment->status;
 
         $payment->status = $jsonObj['Status'];
         $payment->save();
