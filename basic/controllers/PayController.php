@@ -260,6 +260,13 @@ class PayController extends Controller
         $payment->status = $jsonObj['Status'];
         $payment->save();
 
+//        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
+//        $productjson = "BODY: ".serialize($payment)." \r\n";
+//        $fp = fopen($jsonfile, 'a+');
+//        fwrite($fp, $productjson."\r\n ========\r\n");
+//        fclose($fp);
+//        return var_dump($payment);
+
         if($payment->status = "CONFIRMED") {
             $course = Courses::findOne(['id' => $payment->courseId]);
             $currentMonth = Months::findOne(['id' => $payment->monthId]);
@@ -342,7 +349,7 @@ class PayController extends Controller
                 array_push($months, $currentMonth);
             }
 
-            if($type == "month" || $type == "spec")
+            if($type == "month" || $type == "spec" || $type == "course")
                 foreach ($months as $month) {
                     $skip = false;
                     foreach ($user->months as $uMonth)
