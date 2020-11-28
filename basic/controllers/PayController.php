@@ -211,61 +211,25 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $responseObject = \Yii::$app->getRequest()->getBodyParams();
-//        $productjson = "BODY: ".$body."\r\n";
-//        $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
-//        $fp = fopen($jsonfile, 'a+');
-//        fwrite($fp, $productjson."\r\n ========\r\n");
-//        fclose($fp);
+        $body = \Yii::$app->getRequest()->getBodyParams();
 
-//        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"34","Success":true,"Status":"CONFIRMED","PaymentId":376057598,"ErrorCode":"0","Amount":199000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"b98fbc2dd48010459c5c29630c60731eb368a5cbbcf4701695b30b412a81d08f"}';
+        $checkingToken = $body["Token"];
+        $token = '';
 
+        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
+        $body['Password'] = $secretKey;
+        ksort($responseObject);
+        foreach ($responseObject as $field) {
+            $token .= $field;
+        }
 
-
-
-//        $responseObject = json_decode($body, true);
-
-//        $requestToken = strval(\Yii::$app->request->getBodyParam('Token'));
-//        $requestOrderId = intval(\Yii::$app->request->getBodyParam('OrderId'));
-//        $requestStatus = strval(\Yii::$app->request->getBodyParam('Status'));
-
-        $body = file_get_contents('php://input');
-        $jsonObj = Json::decode($body, true);
-
-
-//
-//        $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
-//        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-//        $fp = fopen($jsonfile, 'a+');
-//        fwrite($fp, $productjson."\r\n ========\r\n");
-//        fclose($fp);
-
-
-
-//        $checkingToken = $requestToken;
-//        $token = '';
-
-//        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
-//        $responseObject['Password'] = $secretKey;
-//        ksort($responseObject);
-//        foreach ($responseObject as $field) {
-//            $token .= $field;
-//        }
-//
-//        $token = hash('sha256', $token);
+        $token = hash('sha256', $token);
 
         //TODO: Compare tokens
 
-        $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
-        $payment->status = $jsonObj['Status'];
+        $payment = TinkoffPay::findOne(['id' => $body['OrderId']]);
+        $payment->status = $body['Status'];
         $payment->save();
-
-//        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-//        $productjson = "BODY: ".serialize($payment)." \r\n";
-//        $fp = fopen($jsonfile, 'a+');
-//        fwrite($fp, $productjson."\r\n ========\r\n");
-//        fclose($fp);
-//        return var_dump($payment);
 
         if($payment->status = "CONFIRMED") {
             $course = Courses::findOne(['id' => $payment->courseId]);
