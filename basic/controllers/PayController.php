@@ -200,7 +200,6 @@ class PayController extends Controller
 
         if($paymentResponse->getSuccess())
         {
-            $payment->save();
             return $this->redirect($paymentResponse->getPaymentUrl());
         }
         else
@@ -226,19 +225,14 @@ class PayController extends Controller
 
 //        $responseObject = json_decode($body, true);
 
-        $requestToken = strval(\Yii::$app->request->getBodyParam('Token'));
-        $requestOrderId = intval(\Yii::$app->request->getBodyParam('OrderId'));
-        $requestStatus = strval(\Yii::$app->request->getBodyParam('Status'));
+//        $requestToken = strval(\Yii::$app->request->getBodyParam('Token'));
+//        $requestOrderId = intval(\Yii::$app->request->getBodyParam('OrderId'));
+//        $requestStatus = strval(\Yii::$app->request->getBodyParam('Status'));
 
         $body = file_get_contents('php://input');
         $jsonObj = Json::decode($body, true);
 
-        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".$jsonObj." \r\n";
-        $fp = fopen($jsonfile, 'a+');
-        fwrite($fp, $productjson."\r\n ========\r\n");
-        fclose($fp);
-        return print_r($jsonObj);
+
 //
 //        $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
 //        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
@@ -262,7 +256,14 @@ class PayController extends Controller
 
         //TODO: Compare tokens
 
-        $payment = TinkoffPay::findOne(['id' => $requestOrderId]);
+        $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
+        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
+        $productjson = "BODY: ".$jsonObj['OrderId']." ".print_r($payment)." \r\n";
+        $fp = fopen($jsonfile, 'a+');
+        fwrite($fp, $productjson."\r\n ========\r\n");
+        fclose($fp);
+        return $jsonObj['OrderId'];
+
         $payment->status = $requestStatus;
         $payment->save();
 
