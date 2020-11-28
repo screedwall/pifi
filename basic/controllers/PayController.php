@@ -218,8 +218,8 @@ class PayController extends Controller
 
         $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
         $body['Password'] = $secretKey;
-        ksort($responseObject);
-        foreach ($responseObject as $field) {
+        ksort($body);
+        foreach ($body as $field) {
             $token .= $field;
         }
 
