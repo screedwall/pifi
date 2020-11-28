@@ -260,15 +260,6 @@ class PayController extends Controller
         $payment->status = $jsonObj['Status'];
         $payment->save();
 
-        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".serialize($payment)." \r\n";
-        $fp = fopen($jsonfile, 'a+');
-        fwrite($fp, $productjson."\r\n ========\r\n");
-        fclose($fp);
-        return serialize($payment);
-
-
-
         if($payment->status = "CONFIRMED") {
             $course = Courses::findOne(['id' => $payment->courseId]);
             $currentMonth = Months::findOne(['id' => $payment->monthId]);
