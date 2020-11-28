@@ -189,6 +189,7 @@ class PayController extends Controller
         $payment->type = $type;
         $payment->save();
 
+        return var_dump($payment);
         if(!empty($payment->getErrors()))
             throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
