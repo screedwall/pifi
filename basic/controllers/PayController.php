@@ -262,7 +262,7 @@ class PayController extends Controller
         $payment->save();
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".var_dump($payment)." \r\n";
+        $productjson = "BODY: ".$payment->getErrors()." \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
