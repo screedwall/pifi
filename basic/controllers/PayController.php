@@ -238,7 +238,7 @@ class PayController extends Controller
             $type = $payment->type;
             $userId = $payment->userId;
 
-            $user = Users::findOne(['id' => $userId]);
+            $user = Users::find()->where(['id' => $userId])->with('months')->with('streams')->one();
 
             $error = false;
             $remains = 0;
@@ -353,15 +353,26 @@ class PayController extends Controller
                 $boughtCourse->save();
             }
 
-            if ($type != 'month' || $type != 'spec') {
-                $stream = new UsersStream();
-                $stream->userId = $userId;
-                $stream->courseId = $course->id;
-                $stream->monthId = $currentMonth->id;
-                $stream->type = $type;
-                $stream->remains = $remains;
-                $stream->save();
-            }
+
+            foreach ($user->streams as $uStream)
+                if($uStream->monthId == $currentMonth->id)
+                {
+                    $skip = true;
+                    break;
+                }
+            if(!$skip)
+                if ($type != 'month' || $type != 'spec') {
+                    $skip = false;
+
+
+                    $stream = new UsersStream();
+                    $stream->userId = $userId;
+                    $stream->courseId = $course->id;
+                    $stream->monthId = $currentMonth->id;
+                    $stream->type = $type;
+                    $stream->remains = $remains;
+                    $stream->save();
+                }
 
         }
 
