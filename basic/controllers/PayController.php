@@ -230,12 +230,15 @@ class PayController extends Controller
         $requestOrderId = intval(\Yii::$app->request->getBodyParam('OrderId'));
         $requestStatus = strval(\Yii::$app->request->getBodyParam('Status'));
 
+        $body = file_get_contents('php://input');
+        $jsonObj = Json::decode($body, true);
+
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".file_get_contents('php://input')." \r\n";
+        $productjson = "BODY: ".$jsonObj." \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
-        return file_get_contents('php://input');
+        return print_r($jsonObj);
 //
 //        $productjson = "DUMP: ".$responseObject["Token"]."\r\n";
 //        $jsonfile = \Yii::getAlias('@webroot/Logs.html');
