@@ -60,25 +60,4 @@ class SiteController extends Controller
     {
         return $this->render('subjects');
     }
-
-    public function actionCommand($message = 'hello world')
-    {
-        $handle = fopen(Yii::getAlias('@webroot')."/users_export.csv", "r");
-        while (($fileop = fgetcsv($handle, 1000, ",")) !== false)
-        {
-            $model = new Users();
-            $model->id = $fileop[0];
-            $model->login = $fileop[1];
-            $model->name = $fileop[2];
-            $model->email = $fileop[1];
-            $model->vk = $fileop[4];
-            $model->description = $fileop[5];
-            $model->role = $fileop[6];
-            $model->password = $fileop[9];
-            $model->createdAt = $fileop[11];
-            $model->save(false);
-        }
-
-        return "OK";
-    }
 }

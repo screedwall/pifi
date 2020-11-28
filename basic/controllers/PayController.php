@@ -362,9 +362,6 @@ class PayController extends Controller
                 }
             if(!$skip)
                 if ($type != 'month' || $type != 'spec') {
-                    $skip = false;
-
-
                     $stream = new UsersStream();
                     $stream->userId = $userId;
                     $stream->courseId = $course->id;
