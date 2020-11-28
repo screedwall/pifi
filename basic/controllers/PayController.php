@@ -257,6 +257,8 @@ class PayController extends Controller
         //TODO: Compare tokens
 
         $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
+        $payment->status = $jsonObj['Status'];
+        $payment->save();
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
         $productjson = "BODY: ".serialize($payment)." \r\n";
@@ -264,10 +266,6 @@ class PayController extends Controller
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
         return serialize($payment);
-
-        $payment->status = $jsonObj['Status'];
-        $payment->save();
-
 
 
 
