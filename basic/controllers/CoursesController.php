@@ -27,11 +27,19 @@ class CoursesController extends Controller
 
         if(!empty($exam)&&!empty($subject))
         {
-            $model = $model->where(['subject' => $subject, 'examType' => $exam]);
+            $model = $model
+                ->where(['subject' => $subject])
+                ->andWhere(['examType' => $exam]);
         }
 
         return $this->render('index', [
-            'model' => $model->orderBy(['id' => SORT_DESC])->all(),
+            'model' => $model
+                        ->orderBy(['id' => SORT_DESC])
+                        ->with(['months' => function($query) {
+                        return $query
+                            ->with('lessons')
+                            ->orderBy(['dateFrom' => SORT_ASC]);
+                    }])->all(),
             'subjectRequest' => $subject,
             'examRequest' => $exam,
         ]);
@@ -54,7 +62,14 @@ class CoursesController extends Controller
     }
     protected function findCourse($id)
     {
-        if (($model = Courses::find()->where(['id' => $id])->one()) !== null) {
+        if (($model = Courses::find()
+                ->where(['id' => $id])
+                ->with(['months' => function($query) {
+                    return $query
+                        ->with('lessons')
+                        ->orderBy(['dateFrom' => SORT_ASC]);
+                }])
+                ->one()) !== null) {
             return $model;
         }
 

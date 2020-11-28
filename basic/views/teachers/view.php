@@ -6,25 +6,34 @@ use yii\bootstrap4\Carousel;
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\helpers\Url;
+use app\models\Courses;
+
 if(!isset($partial)){
     $this->title = $model->name;
 }
 
 $arr = [];
 
-foreach (\app\models\Courses::find()->where(['teacherId' => $model->id])->orderBy(['id' => SORT_ASC])->all() as $item)
+$courses = Courses::find()
+            ->where(['teacherId' => $model->id])
+            ->orderBy(['id' => SORT_ASC])
+            ->with('months')
+            ->with('lessons')
+            ->all();
+
+foreach ($courses as $course)
     {
-    if($item->getMonths()->count() == 0)
+    if(count($course->lessons) == 0)
         continue;
 
         array_push($arr, '
             <div class="course-card">'
-            .'<span class="course-card_title">'.$item->name.'</span>'
-            .(!empty($item->thumbnail) ? "<img src='".$item->thumbnail."' class='course-card_cover'>" : null)
-            .'<a class="course-card_author">'.$item->subject.' ['.$item->examType.']</a>'
-            .'<span class="course-card_description">'.$item->description.'</span>'
-            .'<span class="course-card_price">'.$item->price().' руб.</span>'
-            .Html::a('Открыть', Url::to(['/courses/view', 'id' => $item->id]), ['class' => 'btn btn-primary course-card_action'])
+            .'<span class="course-card_title">'.$course->name.'</span>'
+            .(!empty($course->thumbnail) ? "<img src='".$course->thumbnail."' class='course-card_cover'>" : null)
+            .'<a class="course-card_author">'.$course->subject.' ['.$course->examType.']</a>'
+            .'<span class="course-card_description">'.$course->description.'</span>'
+            .'<span class="course-card_price">'.$course->price().' руб.</span>'
+            .Html::a('Открыть', Url::to(['/courses/view', 'id' => $course->id]), ['class' => 'btn btn-primary course-card_action'])
         .'</div>');
     }
 

@@ -76,12 +76,10 @@ class Courses extends \yii\db\ActiveRecord
             ->orderBy(['dateFrom' => SORT_ASC]);
     }
 
-    public function getMonthsWithLessons()
+    public function getLessons()
     {
-        return $this->hasMany(Months::class, ['courseId' => 'id'])
-            ->with('lessons')
-            ->orderBy(['id' => SORT_ASC])
-            ->orderBy(['dateFrom' => SORT_ASC]);
+        return $this->hasMany(Lessons::class, ['courseId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
     }
 
     public function getUsers()
