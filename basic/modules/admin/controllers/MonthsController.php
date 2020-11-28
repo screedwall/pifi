@@ -158,18 +158,17 @@ class MonthsController extends Controller
 
             //Give months to users and register streams
             $usersId = $request->post('users');
+
+            foreach (BoughtCourses::find()->where(['monthId' => $id])->with('streams')->all() as $boughtCourse)
+            {
+                foreach ($boughtCourse->streams as $stream)
+                    $stream->delete();
+            }
+
+            BoughtCourses::deleteAll(['monthId' => $id]);
+
             if(!empty($usersId))
             {
-
-
-                foreach (BoughtCourses::find()->where(['monthId' => $id])->with('streams')->all() as $boughtCourse)
-                {
-                    foreach ($boughtCourse->streams as $stream)
-                        $stream->delete();
-                }
-
-                BoughtCourses::deleteAll(['monthId' => $id]);
-
                 $users = Users::find()
                     ->where(['in','id', $usersId])
                     ->with('months')
