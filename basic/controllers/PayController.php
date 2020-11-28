@@ -257,15 +257,16 @@ class PayController extends Controller
         //TODO: Compare tokens
 
         $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
+
+        $payment->status = $jsonObj['Status'];
+        $payment->save();
+
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".$jsonObj['OrderId']." ".print_r($payment)." \r\n";
+        $productjson = "BODY: ".$payment->getErrors()." ".print_r($payment)." \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
         return $jsonObj['OrderId'];
-
-        $payment->status = $requestStatus;
-        $payment->save();
 
         if($payment->status = "CONFIRMED") {
             $course = Courses::findOne(['id' => $payment->courseId]);
