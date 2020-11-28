@@ -188,7 +188,6 @@ class PayController extends Controller
         $payment->userId = $userId;
         $payment->type = $type;
         $payment->save();
-        return var_dump($payment);
 
         if(!empty($payment->getErrors()))
             throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
@@ -260,11 +259,11 @@ class PayController extends Controller
         $payment = TinkoffPay::findOne(['id' => $jsonObj['OrderId']]);
 
         $jsonfile = \Yii::getAlias('@webroot/Logs.html');
-        $productjson = "BODY: ".var_dump($payment)." \r\n";
+        $productjson = "BODY: ".serialize($payment)." \r\n";
         $fp = fopen($jsonfile, 'a+');
         fwrite($fp, $productjson."\r\n ========\r\n");
         fclose($fp);
-        return var_dump($payment);
+        return serialize($payment);
 
         $payment->status = $jsonObj['Status'];
         $payment->save();
