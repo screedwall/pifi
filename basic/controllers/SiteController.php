@@ -61,6 +61,8 @@ class SiteController extends Controller
         return $this->render('subjects');
     }
 
+    /*
+     * USERS IMPORT FUNC, CSV REQUIRED
     public function actionCommand($message = 'hello world')
     {
         $users = Users::find()->all();
@@ -89,4 +91,5 @@ class SiteController extends Controller
 
         return "OK";
     }
+    */
 }
