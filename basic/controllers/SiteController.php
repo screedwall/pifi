@@ -60,4 +60,33 @@ class SiteController extends Controller
     {
         return $this->render('subjects');
     }
+
+    public function actionCommand($message = 'hello world')
+    {
+        $users = Users::find()->all();
+        $handle = fopen(Yii::getAlias('@webroot')."/users_export.csv", "r");
+        while (($fileop = fgetcsv($handle, 1000, ",")) !== false)
+        {
+            $model = new Users();
+            if(Users::find()
+                    ->where(['id' => $fileop[0]])
+                    ->orWhere(['vk' => $fileop[32]])
+                    ->count() > 0)
+            {
+                continue;
+            }
+            $model->id = $fileop[0];
+            $model->login = $fileop[4];
+            $model->name = $fileop[1]." ".$fileop[2];
+            $model->email = $fileop[4];
+            $model->vk = $fileop[32];
+            $model->description = $fileop[9];
+            $model->role = 2;
+            $model->password = $fileop[5];
+            $model->createdAt = $fileop[18];
+            $model->save(false);
+        }
+
+        return "OK";
+    }
 }
