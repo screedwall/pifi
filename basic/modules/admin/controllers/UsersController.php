@@ -9,6 +9,7 @@ use app\models\Months;
 use Yii;
 use app\models\Users;
 use app\models\UsersSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -138,16 +139,24 @@ class UsersController extends AppController
         return $this->redirect(['index']);
     }
 
-    public function actionList($q)
+    public function actionList($q = null, $id = null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = ['results' => ['id' => '', 'text' => '']];
-        $users = Users::find()
-                        ->select(['id', 'CONCAT(name,\' \',vk) AS name'])
-                        ->orFilterWhere(['like', 'UPPER(name)', mb_strtoupper($q)])
-                        ->orFilterWhere(['like', 'UPPER(vk)', mb_strtoupper($q)])
-                        ->all();
-        $out['results'] = array_values($users);
+        $out = ['results' => ['id' => '', 'name' => '']];
+        if (!is_null($q)) {
+            $query  = new Query();
+            $query->select(['id', "CONCAT(name,' ',vk) AS text"])
+                ->from('users')
+                ->orFilterWhere(['like', 'UPPER(name)', mb_strtoupper($q)])
+                ->orFilterWhere(['like', 'UPPER(vk)', mb_strtoupper($q)])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'name' => Users::findOne(['id' => $id])->name];
+        }
 
         return $out;
     }

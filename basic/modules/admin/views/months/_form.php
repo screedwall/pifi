@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Users;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
@@ -25,7 +26,7 @@ use yii\web\JsExpression;
 
     <?php
 
-        if(!\app\models\Courses::findOne(['id' => $model->courseId])->isSpec)
+        if(!$model->course->isSpec)
         {
             echo $form->field($model, 'priceShort');
             echo $form->field($model, 'priceLong');
@@ -74,23 +75,27 @@ use yii\web\JsExpression;
         ]) ?>
     </div>
 
-
     <?php
-        $users = \app\models\Users::find()->all();
-        foreach ($users as $user) {
-            $user->name = $user->name." ".$user->vk;
-        }
+
+    $values = [];
+    $keys = [];
+    foreach ($model->users as $user)
+    {
+        array_push($values, $user->name.' '.$user->vk);
+        array_push($keys, $user->id);
+    }
+
     ?>
 
     <div class="form-group">
         <?= Html::label('Пользователи месяца', 'users[]') ?>
         <?= Select2::widget([
-            'name' => 'users',
-            'value' => ArrayHelper::map($model->users, 'id', 'id'),
-            'data' => ArrayHelper::map($users, 'id', 'name'),
+            'name' => "users[]",
+            'initValueText' => $values,
+            'value' => $keys,
             'options' => [
                 'placeholder' => 'Подберите пользователей...',
-                'multiple' => true
+                'multiple' => true,
             ],
             'pluginOptions' => [
                 'allowClear' => true,
@@ -99,10 +104,11 @@ use yii\web\JsExpression;
                     'url' => \yii\helpers\Url::to(['users/list']),
                     'dataType' => 'json',
                     'data' => new JsExpression('function(params) { return {q:params.term}; }'),
+                    'delay' => 350,
                 ],
                 'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                'templateResult' => new JsExpression('function(user) { return user.name; }'),
-                'templateSelection' => new JsExpression('function (user) { return user.text; }'),
+                'templateResult' => new JsExpression('function(user) { return user.text; }'),
+                'templateSelection' => new JsExpression('function(user) { return user.text; }'),
             ],
         ]) ?>
     </div>
