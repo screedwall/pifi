@@ -211,6 +211,12 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
+        $productjson = "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
+        $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
+        $fp = fopen($jsonfile, 'a+');
+        fwrite($fp, $productjson."\r\n ========\r\n");
+        fclose($fp);
+
         $body = \Yii::$app->getRequest()->getBodyParams();
 
         $checkingToken = $body["Token"];
