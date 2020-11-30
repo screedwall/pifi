@@ -77,7 +77,7 @@ else
 {
     echo Html::beginForm(['pay/index'], 'post', ['data-pjax' => '1','enctype' => 'multipart/form-data']);
     echo '<div class="form-group">'
-        .Html::label('У вас есть промокод? Впиште его ниже!', 'promo')
+        .Html::label('Есть промокод? Впиши его ниже!', 'promo')
         .\yii\bootstrap\Html::textInput('coupon', '', [
             'class' => "form-control",
         ])

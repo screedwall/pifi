@@ -237,7 +237,7 @@ class PayController extends Controller
         $payment->status = $body['Status'];
         $payment->save();
 
-        if($payment->status = "CONFIRMED") {
+        if($payment->status == "CONFIRMED") {
             $course = Courses::findOne(['id' => $payment->courseId]);
             $currentMonth = Months::findOne(['id' => $payment->monthId]);
 
