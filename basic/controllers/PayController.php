@@ -147,7 +147,7 @@ class PayController extends Controller
 
             if(!$error)
             {
-                $amount = ($discount ? $course->price($getType)/2 : $course->price($getType));
+                $amount = ($discount ? $month->price / 2 : $course->price($getType));
                 return $this->render('index', [
                     'course' => $course,
                     'type' => $getType,
