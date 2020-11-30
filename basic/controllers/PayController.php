@@ -220,18 +220,24 @@ class PayController extends Controller
         $body = \Yii::$app->getRequest()->getBodyParams();
 
         $checkingToken = $body["Token"];
-        $token = '';
 
+        $token = '';
+        unset($body["Token"]);
         $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
         $body['Password'] = $secretKey;
+
         ksort($body);
         foreach ($body as $field) {
-            $token .= $field;
+            if(gettype($field) == "boolean")
+                $token .= $field ? "true" : "false";
+            else
+                $token .= strval($field);
         }
 
         $token = hash('sha256', $token);
 
-        //TODO: Compare tokens
+        if($token != $checkingToken)
+            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
         $payment = TinkoffPay::findOne(['id' => $body['OrderId']]);
         $payment->status = $body['Status'];
@@ -380,5 +386,27 @@ class PayController extends Controller
         }
 
         return "OK";
+    }
+
+    public function actionToken()
+    {
+        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"78","Success":true,"Status":"CONFIRMED","PaymentId":378242479,"ErrorCode":"0","Amount":540000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"c6fc342d8046988beb891f8f89f0d3820cd748dc03bbaa319f0cbca38ee3996a"}';
+
+        $json = Json::decode($body, true);
+        $checkingToken = $json["Token"];
+        $token = '';
+        unset($json["Token"]);
+        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
+        $json['Password'] = $secretKey;
+        ksort($json);
+        foreach ($json as $field) {
+            if(gettype($field) == "boolean")
+                $token .= $field ? "true" : "false";
+            else
+                $token .= strval($field);
+        }
+
+        $token = hash('sha256', $token);
+        return $token;
     }
 }
