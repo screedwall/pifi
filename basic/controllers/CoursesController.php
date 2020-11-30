@@ -35,6 +35,7 @@ class CoursesController extends Controller
         return $this->render('index', [
             'model' => $model
                         ->orderBy(['id' => SORT_DESC])
+                        ->with('teacher')
                         ->with(['months' => function($query) {
                         return $query
                             ->with('lessons')

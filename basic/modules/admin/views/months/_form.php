@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\BoughtCourses;
 use kartik\daterange\DateRangePicker;
+use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Months */
@@ -47,13 +48,6 @@ use kartik\daterange\DateRangePicker;
     ])
     .'</div>' ?>
 
-    <?php
-        $users = \app\models\Users::find()->all();
-        foreach ($users as $user) {
-            $user->name = $user->name." ".$user->vk;
-        }
-    ?>
-
     <div class="form-group">
         <?= Html::label('Подарочные месяцы', 'gifts[]') ?>
 
@@ -80,6 +74,14 @@ use kartik\daterange\DateRangePicker;
         ]) ?>
     </div>
 
+
+    <?php
+        $users = \app\models\Users::find()->all();
+        foreach ($users as $user) {
+            $user->name = $user->name." ".$user->vk;
+        }
+    ?>
+
     <div class="form-group">
         <?= Html::label('Пользователи месяца', 'users[]') ?>
         <?= Select2::widget([
@@ -89,6 +91,18 @@ use kartik\daterange\DateRangePicker;
             'options' => [
                 'placeholder' => 'Подберите пользователей...',
                 'multiple' => true
+            ],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'minimumInputLength' => 3,
+                'ajax' => [
+                    'url' => \yii\helpers\Url::to(['users/list']),
+                    'dataType' => 'json',
+                    'data' => new JsExpression('function(params) { return {q:params.term}; }'),
+                ],
+                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                'templateResult' => new JsExpression('function(user) { return user.name; }'),
+                'templateSelection' => new JsExpression('function (user) { return user.text; }'),
             ],
         ]) ?>
     </div>

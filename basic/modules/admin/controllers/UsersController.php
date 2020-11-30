@@ -138,6 +138,20 @@ class UsersController extends AppController
         return $this->redirect(['index']);
     }
 
+    public function actionList($q)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        $users = Users::find()
+                        ->select(['id', 'CONCAT(name,\' \',vk) AS name'])
+                        ->orFilterWhere(['like', 'UPPER(name)', mb_strtoupper($q)])
+                        ->orFilterWhere(['like', 'UPPER(vk)', mb_strtoupper($q)])
+                        ->all();
+        $out['results'] = array_values($users);
+
+        return $out;
+    }
+
     /**
      * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
