@@ -95,9 +95,10 @@ class UsersController extends AppController
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save(false)) {
-            $getMonths = $request->post('months');
+
             BoughtCourses::deleteAll(['userId' => $id]);
 
+            $getMonths = $request->post('months');
             if(!empty($getMonths))
             {
                 $months = Months::find()->where(['in', 'id', $getMonths])->all();
@@ -110,12 +111,12 @@ class UsersController extends AppController
                 }
             }
 
-            $getStreams = $request->post('streams');
             UsersStream::deleteAll(['userId' => $id]);
 
+            $getStreams = $request->post('streams');
             if(!empty($getStreams))
             {
-                $months = Months::find()->where(['in', 'id', $getStreams])->all();
+                $months = Months::find()->where(['in', 'id', $getStreams])->with('gifts')->all();
                 foreach ($months as $month) {
                     $stream = new UsersStream();
                     $stream->userId = $id;
@@ -124,6 +125,25 @@ class UsersController extends AppController
                     $stream->type = 'course';
                     $stream->remains = 0;
                     $stream->save();
+
+                    foreach ($month->gifts as $gift)
+                    {
+                        $skip = false;
+                        foreach ($gift->months as $uMonth)
+                            if($uMonth->id == $month->id)
+                            {
+                                $skip = true;
+                                break;
+                            }
+                        if($skip)
+                            continue;
+
+                        $boughtCourse = new BoughtCourses();
+                        $boughtCourse->userId = $id;
+                        $boughtCourse->courseId = $gift->courseId;
+                        $boughtCourse->monthId = $gift->id;
+                        $boughtCourse->save();
+                    }
                 }
             }
 

@@ -75,44 +75,47 @@ use yii\web\JsExpression;
         ]) ?>
     </div>
 
-    <?php
+    <?php if(!isset($new)): ?>
 
-    $values = [];
-    $keys = [];
-    foreach ($model->users as $user)
-    {
-        array_push($values, $user->name.' '.$user->vk);
-        array_push($keys, $user->id);
-    }
+        <?php
 
-    ?>
+        $values = [];
+        $keys = [];
+        foreach ($model->users as $user)
+        {
+            array_push($values, $user->name.' '.$user->vk);
+            array_push($keys, $user->id);
+        }
 
-    <div class="form-group">
-        <?= Html::label('Пользователи месяца', 'users[]') ?>
-        <?= Select2::widget([
-            'name' => "users[]",
-            'initValueText' => $values,
-            'value' => $keys,
-            'options' => [
-                'placeholder' => 'Подберите пользователей...',
-                'multiple' => true,
-            ],
-            'pluginOptions' => [
-                'allowClear' => true,
-                'minimumInputLength' => 3,
-                'ajax' => [
-                    'url' => \yii\helpers\Url::to(['users/list']),
-                    'dataType' => 'json',
-                    'data' => new JsExpression('function(params) { return {q:params.term}; }'),
-                    'delay' => 350,
+        ?>
+
+        <div class="form-group">
+            <?= Html::label('Пользователи месяца', 'users[]') ?>
+            <?= Select2::widget([
+                'name' => "users[]",
+                'initValueText' => $values,
+                'value' => $keys,
+                'options' => [
+                    'placeholder' => 'Подберите пользователей...',
+                    'multiple' => true,
                 ],
-                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                'templateResult' => new JsExpression('function(user) { return user.text; }'),
-                'templateSelection' => new JsExpression('function(user) { return user.text; }'),
-            ],
-        ]) ?>
-    </div>
-    <br>
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'minimumInputLength' => 3,
+                    'ajax' => [
+                        'url' => \yii\helpers\Url::to(['users/list']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }'),
+                        'delay' => 350,
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(user) { return user.text; }'),
+                    'templateSelection' => new JsExpression('function(user) { return user.text; }'),
+                ],
+            ]) ?>
+        </div>
+        <br>
+    <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
     </div>

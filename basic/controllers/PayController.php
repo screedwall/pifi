@@ -219,6 +219,9 @@ class PayController extends Controller
 
         $body = \Yii::$app->getRequest()->getBodyParams();
 
+        if(empty($body))
+            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+
         $checkingToken = $body["Token"];
 
         $token = '';
@@ -264,14 +267,14 @@ class PayController extends Controller
                 $remains = 3;
                 foreach ($_months as $lMonth)
                 {
-                    if($lMonth == $currentMonth)
+                    if($lMonth->id == $currentMonth->id)
                         $flag = true;
 
                     if($flag && $remains > 0)
                     {
                         $skip = false;
                         foreach ($user->months as $uMonth)
-                            if($uMonth == $lMonth)
+                            if($uMonth->id == $lMonth->id)
                             {
                                 $skip = true;
                                 break;
@@ -296,14 +299,14 @@ class PayController extends Controller
 
                 foreach ($_months as $lMonth)
                 {
-                    if($lMonth == $currentMonth)
+                    if($lMonth->id == $currentMonth->id)
                         $flag = true;
 
                     if($flag)
                     {
                         $skip = false;
                         foreach ($user->months as $uMonth)
-                            if($uMonth == $lMonth)
+                            if($uMonth->id == $lMonth->id)
                             {
                                 $skip = true;
                                 break;
@@ -329,7 +332,7 @@ class PayController extends Controller
                 foreach ($months as $month) {
                     $skip = false;
                     foreach ($user->months as $uMonth)
-                        if($uMonth == $month)
+                        if($uMonth->id == $month->id)
                         {
                             $skip = true;
                             break;
@@ -349,7 +352,7 @@ class PayController extends Controller
             {
                 $skip = false;
                 foreach ($user->months as $uMonth)
-                    if($uMonth == $gift->month)
+                    if($uMonth->id == $gift->giftId)
                     {
                         $skip = true;
                         break;
@@ -359,7 +362,7 @@ class PayController extends Controller
 
                 $boughtCourse = new BoughtCourses();
                 $boughtCourse->userId = $userId;
-                $boughtCourse->monthId = $gift->monthId;
+                $boughtCourse->monthId = $gift->giftId;
                 $boughtCourse->courseId = $course->id;
                 $boughtCourse->paymentId = $payment->id;
                 $boughtCourse->save();
@@ -386,27 +389,5 @@ class PayController extends Controller
         }
 
         return "OK";
-    }
-
-    public function actionToken()
-    {
-        $body = '{"TerminalKey":"1605637861944DEMO","OrderId":"78","Success":true,"Status":"CONFIRMED","PaymentId":378242479,"ErrorCode":"0","Amount":540000,"CardId":53417669,"Pan":"430000******0777","ExpDate":"1122","Token":"c6fc342d8046988beb891f8f89f0d3820cd748dc03bbaa319f0cbca38ee3996a"}';
-
-        $json = Json::decode($body, true);
-        $checkingToken = $json["Token"];
-        $token = '';
-        unset($json["Token"]);
-        $secretKey = \Yii::$app->tinkoffPay->getSecretKey();
-        $json['Password'] = $secretKey;
-        ksort($json);
-        foreach ($json as $field) {
-            if(gettype($field) == "boolean")
-                $token .= $field ? "true" : "false";
-            else
-                $token .= strval($field);
-        }
-
-        $token = hash('sha256', $token);
-        return $token;
     }
 }

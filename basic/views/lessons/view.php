@@ -46,8 +46,8 @@ if(!empty($model->video))
         'divOptions'=>[ /*for container div*/
             'class'=>'embed-responsive embed-responsive-16by9'
         ],
-        'height'=>390,
-        'width'=>640,
+        'height' => 390,
+        'width' => 640,
         'playerVars'=>[
             /*https://developers.google.com/youtube/player_parameters?playerVersion=HTML5&hl=ru#playerapiid*/
             /*	Значения: 0, 1 или 2. Значение по умолчанию: 1. Этот параметр определяет, будут ли отображаться элементы управления проигрывателем. При встраивании IFrame с загрузкой проигрывателя Flash он также определяет, когда элементы управления отображаются в проигрывателе и когда загружается проигрыватель:*/
@@ -75,7 +75,7 @@ if(!empty($model->video))
                 Стрелка вверх: увеличить громкость
                 Стрелка вниз: уменьшить громкость
             */
-            'disablekb'=>1
+            'disablekb' => 1
         ],
         'events'=>[
             /*https://developers.google.com/youtube/iframe_api_reference?hl=ru*/
