@@ -19,7 +19,15 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'description')->widget(vova07\imperavi\Widget::class, [
+        'settings' => [
+            'minHeight' => 200,
+            'plugins' => [
+                'fullscreen',
+            ],
+        ],
+    ]) ?>
 
     <?= $form->field($model, 'video')->textInput(['maxlength' => true]) ?>
 
