@@ -57,7 +57,7 @@ class AuthController extends Controller
                         $identity = Users::findIdentityByAccessToken($token);
                         if($identity != null){
                             Yii::$app->user->login($identity, 3600*24*30);
-                            if($identity->role == null)
+                            if($identity->role === null)
                             {
                                 $identity->role = '2';
                                 $identity->password = Yii::$app->getSecurity()->generateRandomString(24);
