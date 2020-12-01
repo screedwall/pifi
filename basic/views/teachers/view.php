@@ -23,6 +23,8 @@ $courses = Courses::find()
 
 foreach ($courses as $course)
     {
+    if ($course->invisible)
+        continue;
     if(count($course->lessons) == 0)
         continue;
 
