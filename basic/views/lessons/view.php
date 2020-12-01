@@ -34,6 +34,8 @@ $this->title = $model->name;
     <br>
 <?php endif; ?>
 
+<h3><?=  $model->description ?></h3>
+
 <?php
 if(!empty($model->video))
     echo Youtube::widget([
@@ -84,5 +86,5 @@ if(!empty($model->video))
         ]
     ]);
 else
-    echo "<h2>Скоро тут будет запись</h2>";
+    echo "<h3>Скоро тут будет запись</h3>";
 ?>

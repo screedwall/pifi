@@ -21,6 +21,7 @@ return array(
     'vova07\\imperavi\\tests\\' => array($vendorDir . '/vova07/yii2-imperavi-widget/tests'),
     'vova07\\imperavi\\' => array($vendorDir . '/vova07/yii2-imperavi-widget/src'),
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
+    'onmotion\\apexcharts\\' => array($vendorDir . '/onmotion/yii2-widget-apexcharts'),
     'newerton\\fancybox\\' => array($vendorDir . '/newerton/yii2-fancybox'),
     'lesha724\\youtubewidget\\' => array($vendorDir . '/lesha724/yii2-youtube-widget'),
     'kartik\\tabs\\' => array($vendorDir . '/kartik-v/yii2-tabs-x/src'),

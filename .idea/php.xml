@@ -119,6 +119,7 @@
       <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-tabs-x" />
       <path value="$PROJECT_DIR$/basic/vendor/kartik-v/bootstrap-tabs-x" />
       <path value="$PROJECT_DIR$/basic/vendor/vova07/yii2-imperavi-widget" />
+      <path value="$PROJECT_DIR$/basic/vendor/onmotion/yii2-widget-apexcharts" />
     </include_path>
   </component>
 </project>

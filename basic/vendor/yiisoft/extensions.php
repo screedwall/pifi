@@ -220,4 +220,13 @@ return array (
       '@vova07/imperavi/tests' => $vendorDir . '/vova07/yii2-imperavi-widget/tests',
     ),
   ),
+  'onmotion/yii2-widget-apexcharts' => 
+  array (
+    'name' => 'onmotion/yii2-widget-apexcharts',
+    'version' => '1.0.7.0',
+    'alias' => 
+    array (
+      '@onmotion/apexcharts' => $vendorDir . '/onmotion/yii2-widget-apexcharts',
+    ),
+  ),
 );

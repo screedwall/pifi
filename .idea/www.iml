@@ -51,6 +51,7 @@
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/newerton/yii2-fancybox" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/npm-asset/bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/onmotion/yii2-widget-apexcharts" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/phar-io/manifest" />

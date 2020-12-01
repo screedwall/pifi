@@ -53,6 +53,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'o' => 
+        array (
+            'onmotion\\apexcharts\\' => 20,
+        ),
         'n' => 
         array (
             'newerton\\fancybox\\' => 18,
@@ -217,6 +221,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'onmotion\\apexcharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/onmotion/yii2-widget-apexcharts',
         ),
         'newerton\\fancybox\\' => 
         array (
