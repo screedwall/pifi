@@ -22,48 +22,4 @@ $this->params['breadcrumbs'][] = ['label' => $model->name];
         'model' => $model
     ]) ?>
 
-    <h2>Потоки пользователя</h2>
-    <?php
-    echo GridView::widget([
-        'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getStreams(),
-        ]),
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute' => 'course',
-                'value' => 'course.name',
-                'label' => 'Курс',
-            ],
-            [
-                'attribute' => 'month',
-                'value' => 'month.name',
-                'label' => 'Поток',
-            ],
-
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '',
-                'buttons' => [
-                    'delete' => function ($url, $model) {
-                        return Html::a('', $url,
-                            [
-                                'title' => Yii::t('app', 'Удалить'),
-                                'data' => [
-                                    'method' => 'post',
-                                    'confirm' => "Поток удалится без возможности востановления.\nПродолжить?",
-                                ],
-                                'class' => 'glyphicon glyphicon-trash'
-                            ]
-                        );
-                    }
-                ],
-                'urlCreator' => function ($action, $model, $key, $index) {
-                    $url = Url::to(['users_stream/'.$action, 'id' => $model->id]);
-                    return $url;
-                }
-            ],
-        ],
-    ]); ?>
-
 </div>

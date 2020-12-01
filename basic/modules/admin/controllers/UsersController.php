@@ -6,6 +6,7 @@ use app\controllers\AppController;
 use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
+use app\models\UsersStream;
 use Yii;
 use app\models\Users;
 use app\models\UsersSearch;
@@ -94,20 +95,38 @@ class UsersController extends AppController
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save(false)) {
-            $months = $request->post('months');
+            $getMonths = $request->post('months');
+            BoughtCourses::deleteAll(['userId' => $id]);
 
-            $current = BoughtCourses::find()->where(['userId' => $id])->all();
-            foreach ($current as $item) {
-                $item->delete();
-            }
-            if(isset($months))
+            if(!empty($getMonths))
+            {
+                $months = Months::find()->where(['in', 'id', $getMonths])->all();
                 foreach ($months as $month) {
                     $boughtCourse = new BoughtCourses();
                     $boughtCourse->userId = $id;
-                    $boughtCourse->monthId = $month;
-                    $boughtCourse->courseId = Months::findOne([$month])->courseId;
+                    $boughtCourse->monthId = $month->id;
+                    $boughtCourse->courseId = $month->courseId;
                     $boughtCourse->save();
                 }
+            }
+
+            $getStreams = $request->post('streams');
+            UsersStream::deleteAll(['userId' => $id]);
+
+            if(!empty($getStreams))
+            {
+                $months = Months::find()->where(['in', 'id', $getStreams])->all();
+                foreach ($months as $month) {
+                    $stream = new UsersStream();
+                    $stream->userId = $id;
+                    $stream->courseId = $month->courseId;
+                    $stream->monthId = $month->id;
+                    $stream->type = 'course';
+                    $stream->remains = 0;
+                    $stream->save();
+                }
+            }
+
 
             return $this->redirect(['index']);
         }
