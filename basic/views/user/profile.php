@@ -177,7 +177,7 @@ foreach ($courses as $course)
                 <?php foreach ($teachers as $teacher): ?>
                     <div class="profile-card">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 text-center">
                                 <img src="<?=$teacher['data']->thumbnail?>" class="teacher-thumbnail">
                             </div>
                             <div class="col-md-7">

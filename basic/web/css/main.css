@@ -2320,6 +2320,7 @@ text-align: center;
     .nav-subjects .btn{
         width: 100%;
         margin-left: 0;
+        margin-bottom: 5px;
     }
 }
 
