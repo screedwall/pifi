@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 $this->title = $model->name;
 ?>
 <h2>Урок: <?= $model->name ?></h2>
-<h4>Урок состоялся: <?= $model->lessonDate ?></h4>
+<h4><?= new \DateTime() >= date_create_from_format('d.m.Y H:i', $model->lessonDate) ? "Урок состоялся: ".$model->lessonDate : "Урок будет: ".$model->lessonDate ?></h4>
 
 <?php if(count($model->attachments) > 0): ?>
     <h3 class="text-center">Материалы к уроку</h3>
