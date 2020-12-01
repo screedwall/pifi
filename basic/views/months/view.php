@@ -5,9 +5,11 @@ use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 use yii\helpers\Html;
+
+$this->title = "Расписание на ".mb_strtolower($model->name);
 ?>
 
-<h2>Расписание на <?= mb_strtolower($model->name) ?></h2>
+<h2><?= $this->title ?></h2>
 <?php
 $items = [];
 
