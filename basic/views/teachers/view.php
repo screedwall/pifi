@@ -23,7 +23,7 @@ $courses = Courses::find()
 
 foreach ($courses as $course)
     {
-    if ($course->invisible)
+    if ($course->isVisible)
         continue;
     if(count($course->lessons) == 0)
         continue;
