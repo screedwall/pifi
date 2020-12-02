@@ -1,6 +1,8 @@
 <?php
 use lesha724\youtubewidget\Youtube;
 use yii\bootstrap\Html;
+use yii\httpclient\Client;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Lessons */
 $this->title = $model->name;
@@ -37,6 +39,12 @@ $this->title = $model->name;
 <h3><?=  $model->description ?></h3>
 
 <?php
+$client = new Client();
+$response = $client->createRequest()
+    ->setMethod('GET')
+    ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=asdas&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
+    ->send();
+return var_dump($response->data);
 if(!empty($model->video))
     echo Youtube::widget([
         'video' => $model->video,
