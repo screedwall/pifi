@@ -241,7 +241,6 @@ JS;
                                 ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$this->_getVideoId().'&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
                                 ->send();
 
-
         $json = Json::decode($response->data, true);
         if(count($response->data["items"]) > 0)
             foreach ($response->data["items"] as $item)

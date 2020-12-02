@@ -44,7 +44,7 @@ $response = $client->createRequest()
     ->setMethod('GET')
     ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=asdas&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
     ->send();
-return var_dump($response->data);
+return print_r(count($response->data["items"]));
 if(!empty($model->video))
     echo Youtube::widget([
         'video' => $model->video,
