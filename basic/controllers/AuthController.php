@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use Yii;
 use yii\httpclient\Client;
+use yii\helpers\Url;
 
 class AuthController extends Controller
 {
@@ -63,7 +64,7 @@ class AuthController extends Controller
                                 $identity->password = Yii::$app->getSecurity()->generateRandomString(24);
                                 $identity->save();
                             }
-                            return $this->goHome();
+                            return $this->goBack();
                         }else{
                             $user = new Users();
                             $user->createdAt = date('d.m.Y H:i:s');
@@ -75,7 +76,7 @@ class AuthController extends Controller
                             $user->save(false);
 
                             Yii::$app->user->login($user, 3600*24*30);
-                            return $this->goHome();
+                            return $this->goBack();
                         }
                     }
                 }

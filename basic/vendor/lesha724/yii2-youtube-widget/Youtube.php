@@ -235,6 +235,7 @@ JS;
                 )
             );
 
+        // TODO: Send requests within a day
         $client = new Client();
         $response = $client->createRequest()
                                 ->setMethod('GET')
