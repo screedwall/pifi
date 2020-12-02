@@ -241,8 +241,8 @@ JS;
                                 ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$this->_videoId.'&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
                                 ->send();
 
-        if(count($response->getData()["items"]) > 0)
-            foreach ($response->getData()["items"] as $item)
+        if ($response->isOk)
+            foreach ($response->data["items"] as $item)
                 if($item["snippet"]["liveBroadcastContent"] == 'live')
                     $html .=
                         "<br>"
