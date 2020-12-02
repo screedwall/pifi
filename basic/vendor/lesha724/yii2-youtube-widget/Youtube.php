@@ -238,7 +238,7 @@ JS;
         $client = new Client();
         $response = $client->createRequest()
                                 ->setMethod('GET')
-                                ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$this->_getVideoId().'&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
+                                ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$this->_videoId.'&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
                                 ->send();
 
         if(count($response->getData()["items"]) > 0)
