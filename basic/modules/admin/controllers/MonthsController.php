@@ -208,17 +208,18 @@ class MonthsController extends Controller
                         {
                             $skip = false;
                             foreach ($user->months as $uMonth)
-                                if($uMonth->id == $model->id)
+                                if($uMonth->id == $gift->giftId)
                                 {
                                     $skip = true;
                                     break;
                                 }
+
                             if($skip)
                                 continue;
 
                             $boughtCourse = new BoughtCourses();
                             $boughtCourse->userId = $user->id;
-                            $boughtCourse->courseId = $model->courseId;
+                            $boughtCourse->courseId = $gift->gift->courseId;
                             $boughtCourse->monthId = $gift->giftId;
                             $boughtCourse->save();
                         }

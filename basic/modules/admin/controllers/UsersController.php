@@ -101,7 +101,9 @@ class UsersController extends AppController
             $getMonths = $request->post('months');
             if(!empty($getMonths))
             {
-                $months = Months::find()->where(['in', 'id', $getMonths])->all();
+                $months = Months::find()
+                    ->where(['in', 'id', $getMonths])
+                    ->all();
                 foreach ($months as $month) {
                     $boughtCourse = new BoughtCourses();
                     $boughtCourse->userId = $id;
@@ -116,32 +118,62 @@ class UsersController extends AppController
             $getStreams = $request->post('streams');
             if(!empty($getStreams))
             {
-                $months = Months::find()->where(['in', 'id', $getStreams])->with('gifts')->all();
-                foreach ($months as $month) {
+                $streamMonths = Months::find()
+                    ->where(['in', 'id', $getStreams])
+                    ->with(['gifts' => function($query) {
+                        return $query->with('gift');
+                    }])
+                    ->all();
+
+                foreach ($streamMonths as $streamMonth) {
+                    //Register stream
                     $stream = new UsersStream();
                     $stream->userId = $id;
-                    $stream->courseId = $month->courseId;
-                    $stream->monthId = $month->id;
+                    $stream->courseId = $streamMonth->courseId;
+                    $stream->monthId = $streamMonth->id;
                     $stream->type = 'course';
                     $stream->remains = 0;
                     $stream->save();
 
-                    foreach ($month->gifts as $gift)
-                    {
-                        $skip = false;
-                        foreach ($gift->months as $uMonth)
-                            if($uMonth->id == $month->id)
+                    //Give stream month & check collision
+                    if(!empty($getMonths))
+                        foreach ($getMonths as $uMonth)
+                            if($uMonth == $streamMonth->id)
                             {
                                 $skip = true;
                                 break;
                             }
+
+                    if(!$skip)
+                    {
+                        $boughtCourse = new BoughtCourses();
+                        $boughtCourse->userId = $id;
+                        $boughtCourse->courseId = $streamMonth->courseId;
+                        $boughtCourse->monthId = $streamMonth->id;
+                        $boughtCourse->save();
+                    }
+
+                    //Give stream gifts
+                    foreach ($streamMonth->gifts as $gift)
+                    {
+                        $skip = false;
+                        //Collision check
+                        if(!empty($getMonths))
+                            foreach ($getMonths as $uMonth)
+                                if($uMonth == $gift->giftId)
+                                {
+                                    $skip = true;
+                                    break;
+                                }
+
                         if($skip)
                             continue;
 
+                        //Give gift
                         $boughtCourse = new BoughtCourses();
                         $boughtCourse->userId = $id;
-                        $boughtCourse->courseId = $gift->courseId;
-                        $boughtCourse->monthId = $gift->id;
+                        $boughtCourse->courseId = $gift->gift->courseId;
+                        $boughtCourse->monthId = $gift->giftId;
                         $boughtCourse->save();
                     }
                 }

@@ -154,7 +154,11 @@ class Courses extends \yii\db\ActiveRecord
                     case 'long':
                         return $month->priceLong;
                     case 'month':
-                        return UsersStream::findOne(['courseId' => $this->id, 'userId' => Yii::$app->user->identity->getId()])->month->price;
+                        $amount = 0;
+                        $stream = UsersStream::findOne(['courseId' => $this->id, 'userId' => Yii::$app->user->identity->getId()]);
+                        if(!empty($stream))
+                            $amount = $stream->month->price;
+                        return $amount;
                     case 'spec':
                         return Months::findOne(['courseId' => $this->id])->price;
                 }

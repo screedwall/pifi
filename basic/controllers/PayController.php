@@ -148,6 +148,9 @@ class PayController extends Controller
             if(!$error)
             {
                 $amount = ($discount ? $month->price / 2 : $course->price($getType));
+                if($amount == 0)
+                    $amount = $month->price;
+
                 return $this->render('index', [
                     'course' => $course,
                     'type' => $getType,
@@ -247,13 +250,23 @@ class PayController extends Controller
         $payment->save();
 
         if($payment->status == "CONFIRMED") {
-            $course = Courses::findOne(['id' => $payment->courseId]);
-            $currentMonth = Months::findOne(['id' => $payment->monthId]);
+            $currentMonth = Months::find()
+                ->where(['id' => $payment->monthId])
+                ->with(['gifts' => function($query) {
+                    return $query->with('gift');
+                }])
+                ->with('course')
+                ->all();
+            $course = $currentMonth->course;
 
             $type = $payment->type;
             $userId = $payment->userId;
 
-            $user = Users::find()->where(['id' => $userId])->with('months')->with('streams')->one();
+            $user = Users::find()
+                ->where(['id' => $userId])
+                ->with('months')
+                ->with('streams')
+                ->one();
 
             $error = false;
             $remains = 0;
@@ -363,20 +376,21 @@ class PayController extends Controller
                 $boughtCourse = new BoughtCourses();
                 $boughtCourse->userId = $userId;
                 $boughtCourse->monthId = $gift->giftId;
-                $boughtCourse->courseId = $course->id;
+                $boughtCourse->courseId = $gift->gift->courseId;
                 $boughtCourse->paymentId = $payment->id;
                 $boughtCourse->save();
             }
 
 
-            foreach ($user->streams as $uStream)
-                if($uStream->monthId == $currentMonth->id)
+            if ($type != 'month' || $type != 'spec') {
+                foreach ($user->streams as $uStream)
+                    if($uStream->monthId == $currentMonth->id)
+                    {
+                        $skip = true;
+                        break;
+                    }
+                if(!$skip)
                 {
-                    $skip = true;
-                    break;
-                }
-            if(!$skip)
-                if ($type != 'month' || $type != 'spec') {
                     $stream = new UsersStream();
                     $stream->userId = $userId;
                     $stream->courseId = $course->id;
@@ -385,7 +399,7 @@ class PayController extends Controller
                     $stream->remains = $remains;
                     $stream->save();
                 }
-
+            }
         }
 
         return "OK";
