@@ -243,21 +243,20 @@ JS;
 
 
 
-        foreach ($response->data['items'] as $item)
-            if($item["snippet"]["liveBroadcastContent"] == 'live')
-                $html .=
-                    "<br>"
-                    .Html::tag('div',
-                        Html::tag('iframe', '', [
-                            'class' => $this->iframeOptions['class'],
-                            'height' => 390,
-                            'width' => 640,
-                            'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
-                        ]),
-                        $this->divOptions
-                    );
-//                $html.= '<iframe width="560" height="315" src="https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName.'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-
+        if(count($response->data["items"]) > 0)
+            foreach ($response->data["items"] as $item)
+                if($item["snippet"]["liveBroadcastContent"] == 'live')
+                    $html .=
+                        "<br>"
+                        .Html::tag('div',
+                            Html::tag('iframe', '', [
+                                'class' => $this->iframeOptions['class'],
+                                'height' => 390,
+                                'width' => 640,
+                                'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
+                            ]),
+                            $this->divOptions
+                        );
 
         return $html;
     }
