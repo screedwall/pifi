@@ -242,9 +242,9 @@ JS;
                                 ->send();
 
 
-
-        if(count($response->data["items"]) > 0)
-            foreach ($response->data["items"] as $item)
+        $json = Json::decode($response->getContent(), true);
+        if(count($json["items"]) > 0)
+            foreach ($json["items"] as $item)
                 if($item["snippet"]["liveBroadcastContent"] == 'live')
                     $html .=
                         "<br>"
