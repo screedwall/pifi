@@ -4,6 +4,7 @@ namespace lesha724\youtubewidget;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\httpclient\Client;
 use yii\web\JsExpression;
 use yii\web\View;
 
@@ -233,6 +234,30 @@ JS;
                     $this->divOptions
                 )
             );
+
+        $client = new Client();
+        $response = $client->createRequest()
+                                ->setMethod('GET')
+                                ->setUrl('https://www.googleapis.com/youtube/v3/videos?part=snippet&id='.$this->_getVideoId().'&maxResults=50&key=AIzaSyBlhaG2bYwD7hMQ7S2p28IzgTfuVkCc5Xw')
+                                ->send();
+
+
+
+        foreach ($response->data['items'] as $item)
+            if($item["snippet"]["liveBroadcastContent"] == 'live')
+                $html .=
+                    "<br>"
+                    .Html::tag('div',
+                        Html::tag('iframe', '', [
+                            'class' => $this->iframeOptions['class'],
+                            'height' => 390,
+                            'width' => 640,
+                            'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
+                        ]),
+                        $this->divOptions
+                    );
+//                $html.= '<iframe width="560" height="315" src="https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName.'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+
 
         return $html;
     }
