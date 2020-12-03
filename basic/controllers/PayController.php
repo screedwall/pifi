@@ -255,7 +255,11 @@ class PayController extends Controller
         if($payment->status == "CONFIRMED") {
             $currentMonth = Months::find()
                 ->where(['id' => $payment->monthId])
-                ->with([($payment->isExtension ? 'extensions' : 'gifts') => function($query) {
+                ->with(['extensions' => function($query) {
+                    return $query
+                        ->with('gift');
+                }])
+                ->with(['gifts' => function($query) {
                     return $query
                         ->with('gift');
                 }])
@@ -344,8 +348,10 @@ class PayController extends Controller
                     $boughtCourse->save();
                 }
 
-            if(!empty($currentMonth->gifts))
-                foreach ($currentMonth->gifts as $gift)
+
+            $gifts = ($type == 'month' ? $currentMonth->extensions : $currentMonth->gifts);
+            if(!empty($gifts))
+                foreach ($gifts as $gift)
                 {
                     if(ArrayHelper::isIn($gift->giftId, $user->months))
                         continue;
