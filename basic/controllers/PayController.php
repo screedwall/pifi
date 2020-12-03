@@ -276,6 +276,14 @@ class PayController extends Controller
                 ->with('streams')
                 ->one();
 
+            $userMonths = [];
+            foreach ($user->months as $userMonth)
+                array_push($userMonths, $userMonth->id);
+
+            $userStreams = [];
+            foreach ($user->streams as $userStream)
+                array_push($userStreams, $userStream->id);
+
             $error = false;
             $remains = 0;
             $months = [];
@@ -293,7 +301,7 @@ class PayController extends Controller
 
                     if($flag && $remains > 0)
                     {
-                        if(ArrayHelper::isIn($lMonth->id, $user->months))
+                        if(ArrayHelper::isIn($lMonth->id, $userMonths))
                             continue;
 
                         $boughtCourse = new BoughtCourses();
@@ -318,7 +326,7 @@ class PayController extends Controller
 
                     if($flag)
                     {
-                        if(ArrayHelper::isIn($lMonth->id, $user->months))
+                        if(ArrayHelper::isIn($lMonth->id, $userMonths))
                             continue;
 
                         $boughtCourse = new BoughtCourses();
@@ -337,7 +345,7 @@ class PayController extends Controller
 
             if($type == "month" || $type == "course")
                 foreach ($months as $month) {
-                    if(ArrayHelper::isIn($month->id, $user->months))
+                    if(ArrayHelper::isIn($month->id, $userMonths))
                         continue;
 
                     $boughtCourse = new BoughtCourses();
@@ -353,7 +361,7 @@ class PayController extends Controller
             if(!empty($gifts))
                 foreach ($gifts as $gift)
                 {
-                    if(ArrayHelper::isIn($gift->giftId, $user->months))
+                    if(ArrayHelper::isIn($gift->giftId, $userMonths))
                         continue;
 
                     $boughtCourse = new BoughtCourses();
@@ -366,7 +374,7 @@ class PayController extends Controller
 
 
             if ($type != 'month') {
-                if(!ArrayHelper::isIn($currentMonth->id, $user->streams))
+                if(!ArrayHelper::isIn($currentMonth->id, $userStreams))
                 {
                     $stream = new UsersStream();
                     $stream->userId = $userId;
