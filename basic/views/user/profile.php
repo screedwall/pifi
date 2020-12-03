@@ -65,9 +65,11 @@ foreach ($courses as $course)
                 <p><?= $course->name ?></p>
                 <?php foreach ($course->months as $month): ?>
                     <?php
-                        $noLessons = false;
-                        if(count($month->lessons) == 0)
-                            $noLessons = true;
+                        $bought = ArrayHelper::isIn($month->id, $months);
+                        $noLessons = count($month->lessons) == 0;
+
+                        if(!$bought && $noLessons)
+                            continue;
 
                         if(!ArrayHelper::isIn($month->id, $months))
                             if($course->isSpec)
@@ -78,7 +80,7 @@ foreach ($courses as $course)
                         <p><?= $month->name ?></p>
                     </div>
                     <div class="profile-action col-md-3 text-center">
-                         <?= ArrayHelper::isIn($month->id, $months) ?
+                         <?= $bought ?
                              Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
                                  'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
                              ])
