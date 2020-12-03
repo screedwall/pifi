@@ -243,8 +243,8 @@ class PayController extends Controller
         $token = hash('sha256', $token);
 
 //        if(!YII_ENV_DEV)
-            if($token != $checkingToken)
-                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+//            if($token != $checkingToken)
+//                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
         $payment = TinkoffPay::findOne(['id' => $body['OrderId']]);
         $payment->status = $body['Status'];
