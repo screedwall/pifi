@@ -7,6 +7,7 @@ use app\models\GiftMonths;
 use app\models\User;
 use app\models\Users;
 use app\models\UsersStream;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use Yii;
 use yii\web\Controller;
@@ -78,46 +79,6 @@ class MonthsController extends Controller
         $courseId = Yii::$app->request->get('courseId');
         $model->courseId = $courseId;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            $streamUsers = UsersStream::find()
-                ->with('user')
-                ->where(['courseId' => $courseId])
-                ->andWhere(['>', 'remains', 0])
-                ->all();
-            foreach ($streamUsers as $streamUser)
-            {
-                $user = $streamUser->user;
-                $skip = false;
-                foreach ($user->months as $uMonth)
-                    if($uMonth->id == $model->id)
-                    {
-                        $skip = true;
-                        break;
-                    }
-                if($skip)
-                    continue;
-
-                $streamUser->remains--;
-                $streamUser->save();
-
-                $boughtCourse = new BoughtCourses();
-                $boughtCourse->userId = $user->id;
-                $boughtCourse->monthId = $model->id;
-                $boughtCourse->courseId = $model->courseId;
-                $boughtCourse->isStream = true;
-                $boughtCourse->save();
-            }
-
-            $gifts = Yii::$app->request->post('gifts');
-
-            if(!empty($gifts))
-                foreach ($gifts as $gift) {
-                    $giftCourse = new GiftMonths();
-                    $giftCourse->monthId = $model->id;
-                    $giftCourse->giftId = $gift;
-                    $giftCourse->save();
-                }
-
             return $this->redirect(['courses/update', 'id' => $model->courseId, '#' => 'months']);
         }
 
@@ -146,6 +107,7 @@ class MonthsController extends Controller
         if ($model->load($request->post()) && $model->save()) {
             //Adding gift months
             $giftsId = Yii::$app->request->post('gifts');
+            $extensionsId = Yii::$app->request->post('extensions');
 
             $giftMonths = GiftMonths::findAll(['monthId' => $id]);
             $streamUsers = UsersStream::findAll(['monthId' => $id]);
@@ -168,14 +130,28 @@ class MonthsController extends Controller
             GiftMonths::deleteAll(['monthId' => $id]);
 
             $gifts = [];
-            if(isset($giftsId))
+            if(!empty($giftsId))
             {
                 foreach ($giftsId as $gift) {
                     $giftCourse = new GiftMonths();
                     $giftCourse->monthId = $model->id;
                     $giftCourse->giftId = $gift;
+                    $giftCourse->isExtension = false;
                     $giftCourse->save();
                     array_push($gifts, $giftCourse);
+                }
+            }
+
+            $extensions = [];
+            if(!empty($extensionsId))
+            {
+                foreach ($extensionsId as $extension) {
+                    $giftCourse = new GiftMonths();
+                    $giftCourse->monthId = $model->id;
+                    $giftCourse->giftId = $extension;
+                    $giftCourse->isExtension = true;
+                    $giftCourse->save();
+                    array_push($extensions, $giftCourse);
                 }
             }
 
@@ -206,15 +182,7 @@ class MonthsController extends Controller
 
                         foreach ($gifts as $gift)
                         {
-                            $skip = false;
-                            foreach ($user->months as $uMonth)
-                                if($uMonth->id == $gift->giftId)
-                                {
-                                    $skip = true;
-                                    break;
-                                }
-
-                            if($skip)
+                            if(ArrayHelper::isIn($gift->giftId, $user->months))
                                 continue;
 
                             $boughtCourse = new BoughtCourses();
@@ -230,10 +198,20 @@ class MonthsController extends Controller
                     $boughtCourse->monthId = $id;
                     $boughtCourse->courseId = $model->courseId;
                     $boughtCourse->save();
+
+                    foreach ($extensions as $extension)
+                    {
+                        if(ArrayHelper::isIn($extension->giftId, $user->months))
+                            continue;
+
+                        $boughtCourse = new BoughtCourses();
+                        $boughtCourse->userId = $user->id;
+                        $boughtCourse->courseId = $extension->gift->courseId;
+                        $boughtCourse->monthId = $extension->giftId;
+                        $boughtCourse->save();
+                    }
                 }
             }
-
-
 
             return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
         }

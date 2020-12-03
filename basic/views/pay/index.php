@@ -44,11 +44,6 @@ switch ($type){
         $secondLine = "<h4>Стоимость месяца ".$amount." рублей.</h4>";
         $buttonName = 'Оплатить месяц';
         break;
-    case 'spec':
-        $firstLine = "<h2>Вы покупаете спецкурс \"$course->name\"</h2>";
-        $secondLine = "<h4>Стоимость спецкурса ".$amount." рублей.</h4>";
-        $buttonName = 'Оплатить спецкурс';
-        break;
 
 }
 

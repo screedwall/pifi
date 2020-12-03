@@ -11,6 +11,7 @@ use Yii;
 use app\models\Users;
 use app\models\UsersSearch;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -99,10 +100,15 @@ class UsersController extends AppController
             BoughtCourses::deleteAll(['userId' => $id]);
 
             $getMonths = $request->post('months');
+            $getStreams = $request->post('streams');
+
             if(!empty($getMonths))
             {
                 $months = Months::find()
                     ->where(['in', 'id', $getMonths])
+                    ->with(['extensions' => function($query) {
+                        return $query->with('gift');
+                    }])
                     ->all();
                 foreach ($months as $month) {
                     $boughtCourse = new BoughtCourses();
@@ -115,13 +121,13 @@ class UsersController extends AppController
 
             UsersStream::deleteAll(['userId' => $id]);
 
-            $getStreams = $request->post('streams');
             if(!empty($getStreams))
             {
                 $streamMonths = Months::find()
                     ->where(['in', 'id', $getStreams])
                     ->with(['gifts' => function($query) {
-                        return $query->with('gift');
+                        return $query
+                            ->with('gift');
                     }])
                     ->all();
 
@@ -136,15 +142,7 @@ class UsersController extends AppController
                     $stream->save();
 
                     //Give stream month & check collision
-                    if(!empty($getMonths))
-                        foreach ($getMonths as $uMonth)
-                            if($uMonth == $streamMonth->id)
-                            {
-                                $skip = true;
-                                break;
-                            }
-
-                    if(!$skip)
+                    if(!ArrayHelper::isIn($streamMonth->id, $getMonths))
                     {
                         $boughtCourse = new BoughtCourses();
                         $boughtCourse->userId = $id;
@@ -156,17 +154,7 @@ class UsersController extends AppController
                     //Give stream gifts
                     foreach ($streamMonth->gifts as $gift)
                     {
-                        $skip = false;
-                        //Collision check
-                        if(!empty($getMonths))
-                            foreach ($getMonths as $uMonth)
-                                if($uMonth == $gift->giftId)
-                                {
-                                    $skip = true;
-                                    break;
-                                }
-
-                        if($skip)
+                        if(ArrayHelper::isIn($gift->giftId, $getMonths))
                             continue;
 
                         //Give gift

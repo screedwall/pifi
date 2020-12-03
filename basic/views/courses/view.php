@@ -104,7 +104,6 @@ if(!Yii::$app->user->isGuest)
                     <p><?=Html::a('Войдите', \yii\helpers\Url::to(['/auth/login'])) ?> чтобы приобретать курсы.</p>
                 <?php else: ?>
                     <?php if(!$bought): ?>
-                        <?php if(!$model->isSpec): ?>
                         <p>Вы можете купить:</p>
                         <?= Html::a('Месяц', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'course']),
                             [
@@ -123,13 +122,6 @@ if(!Yii::$app->user->isGuest)
                                 'class' => 'btn btn-success btn-lg btn-block',
                             ]
                         ); ?>
-                        <?php else: ?>
-                            <?= Html::a('Купить спецкурс', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'spec']),
-                                [
-                                    'class' => 'btn btn-success btn-lg btn-block',
-                                ]
-                            ); ?>
-                        <?php endif; ?>
                     <?php else: ?>
                         <p>Курс приобретен.</p>
                         <p>Посмотреть его можно в <?=Html::a('профиле', \yii\helpers\Url::to(['/profile'])) ?>.</p>

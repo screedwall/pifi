@@ -154,16 +154,6 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             ->viaTable('bought_courses', ['userId' => 'id'])
             ->orderBy(['id' => SORT_ASC]);
     }
-
-    public function getCoursesBySubject($subject)
-    {
-        return $this
-            ->hasMany(Courses::class, ['id' => 'courseId'])
-            ->viaTable('bought_courses', ['userId' => 'id'])
-            ->orderBy(['id' => SORT_ASC])
-            ->where(['subject' => $subject]);
-    }
-
     protected function AssignRole($role, $id)
     {
         $auth = Yii::$app->authManager;

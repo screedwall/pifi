@@ -10,6 +10,7 @@ use app\models\TinkoffPay;
 use app\models\Users;
 use app\models\UsersStream;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -77,7 +78,11 @@ class PayController extends Controller
         $getMonth = $request->get('month');
 
         if(!empty($getCourse))
+        {
             $course = Courses::findOne(['id' => $getCourse]);
+            if($course->isSpec)
+                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+        }
         else
             $error = true;
 
@@ -95,9 +100,6 @@ class PayController extends Controller
                 case 'short':
                     break;
                 case 'long':
-                    break;
-                case 'spec':
-                    $month = $course->specMonth();
                     break;
                 default:
                     $error = true;
@@ -253,11 +255,12 @@ class PayController extends Controller
         if($payment->status == "CONFIRMED") {
             $currentMonth = Months::find()
                 ->where(['id' => $payment->monthId])
-                ->with(['gifts' => function($query) {
-                    return $query->with('gift');
+                ->with([($payment->isExtension ? 'extensions' : 'gifts') => function($query) {
+                    return $query
+                        ->with('gift');
                 }])
                 ->with('course')
-                ->all();
+                ->one();
             $course = $currentMonth->course;
 
             $type = $payment->type;
@@ -286,14 +289,7 @@ class PayController extends Controller
 
                     if($flag && $remains > 0)
                     {
-                        $skip = false;
-                        foreach ($user->months as $uMonth)
-                            if($uMonth->id == $lMonth->id)
-                            {
-                                $skip = true;
-                                break;
-                            }
-                        if($skip)
+                        if(ArrayHelper::isIn($lMonth->id, $user->months))
                             continue;
 
                         $boughtCourse = new BoughtCourses();
@@ -318,14 +314,7 @@ class PayController extends Controller
 
                     if($flag)
                     {
-                        $skip = false;
-                        foreach ($user->months as $uMonth)
-                            if($uMonth->id == $lMonth->id)
-                            {
-                                $skip = true;
-                                break;
-                            }
-                        if($skip)
+                        if(ArrayHelper::isIn($lMonth->id, $user->months))
                             continue;
 
                         $boughtCourse = new BoughtCourses();
@@ -342,16 +331,9 @@ class PayController extends Controller
                 array_push($months, $currentMonth);
             }
 
-            if($type == "month" || $type == "spec" || $type == "course")
+            if($type == "month" || $type == "course")
                 foreach ($months as $month) {
-                    $skip = false;
-                    foreach ($user->months as $uMonth)
-                        if($uMonth->id == $month->id)
-                        {
-                            $skip = true;
-                            break;
-                        }
-                    if($skip)
+                    if(ArrayHelper::isIn($month->id, $user->months))
                         continue;
 
                     $boughtCourse = new BoughtCourses();
@@ -365,14 +347,7 @@ class PayController extends Controller
             if(!empty($currentMonth->gifts))
                 foreach ($currentMonth->gifts as $gift)
                 {
-                    $skip = false;
-                    foreach ($user->months as $uMonth)
-                        if($uMonth->id == $gift->giftId)
-                        {
-                            $skip = true;
-                            break;
-                        }
-                    if($skip)
+                    if(ArrayHelper::isIn($gift->giftId, $user->months))
                         continue;
 
                     $boughtCourse = new BoughtCourses();
@@ -384,14 +359,8 @@ class PayController extends Controller
                 }
 
 
-            if ($type != 'month' || $type != 'spec') {
-                foreach ($user->streams as $uStream)
-                    if($uStream->monthId == $currentMonth->id)
-                    {
-                        $skip = true;
-                        break;
-                    }
-                if(!$skip)
+            if ($type != 'month') {
+                if(!ArrayHelper::isIn($currentMonth->id, $user->streams))
                 {
                     $stream = new UsersStream();
                     $stream->userId = $userId;

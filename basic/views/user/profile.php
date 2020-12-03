@@ -8,6 +8,9 @@ use yii\bootstrap\NavBar;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\Html;
 use yii\bootstrap\Modal;
+use app\models\Courses;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 $this->title = "Личный кабинет";
 
@@ -38,13 +41,11 @@ function RusEnding($n, $n1, $n2, $n5) {
 
 $teachersRaw = [];
 $teachersData = [];
-
 $subjects = [];
 
 foreach ($courses as $course)
     if(!isIntersect($subjects, $course->subject))
         array_push($subjects, $course->subject);
-
 ?>
 
 <h1>Личный кабинет</h1>
@@ -52,9 +53,11 @@ foreach ($courses as $course)
     <?php $this->beginBlock('courses'); ?>
         <?php foreach ($subjects as $subject): ?>
         <?php $this->beginBlock($subject) ?>
-            <?php foreach (Yii::$app->user->identity->getCoursesBySubject($subject)->all() as $course): ?>
-
+            <?php foreach ($courses as $course): ?>
             <?php
+                if($course->subject != $subject)
+                    continue;
+
                 array_push($teachersRaw, $course->teacher);
             ?>
 
@@ -62,21 +65,26 @@ foreach ($courses as $course)
                 <p><?= $course->name ?></p>
                 <?php foreach ($course->months as $month): ?>
                     <?php
-                        if($month->getLessons()->count() == 0)
-                            continue;
+                        $noLessons = false;
+                        if(count($month->lessons) == 0)
+                            $noLessons = true;
+
+                        if(!ArrayHelper::isIn($month->id, $months))
+                            if($course->isSpec)
+                                continue;
                     ?>
                 <div class="row">
                     <div class="profile-month col-md-9">
                         <p><?= $month->name ?></p>
                     </div>
                     <div class="profile-action col-md-3 text-center">
-                         <?= (isIntersect($months, $month) ?
-                             Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', \yii\helpers\Url::to(['/months/'.$month->id]), [
-                                 'class' => 'btn btn-primary btn-block',
+                         <?= ArrayHelper::isIn($month->id, $months) ?
+                             Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
+                                 'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
                              ])
-                            : Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить', \yii\helpers\Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
+                            : Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
                                  'class' => 'btn btn-success btn-block',
-                             ]))
+                             ])
                          ?>
                     </div>
                 </div>

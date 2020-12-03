@@ -73,7 +73,7 @@ $items = [];
         foreach ($model as $item) : ?>
             <?php
 
-                if($item->isVisible)
+                if($item->isVisible or $item->isSpec)
                     continue;
 
                 $skip = true;

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -38,25 +39,26 @@ class UserController extends Controller
 
     public function actionProfile()
     {
-        $model = Users::findOne(Yii::$app->user->identity->getId());
+        $model = Yii::$app->user->identity;
 
-        $courses = Yii::$app->user->identity->courses;
-        $months = Yii::$app->user->identity->months;
-
-        if ($model->load(Yii::$app->request->post())&&$model->save(false)) {
-            return $this->redirect(['profile']);
-        }
+        $months = ArrayHelper::getColumn(Yii::$app->user->identity->getMonths()->select('id')->asArray()->all(), 'id');
+        $courses = $model->getCourses()
+            ->with('teacher')
+            ->with(['months' => function($query){
+                return $query->with('lessons');
+            }])
+            ->all();
 
         return $this->render('profile', [
-            'model' => $model,
-            'courses' => $courses,
+            'model' => Yii::$app->user->identity,
             'months' => $months,
+            'courses' => $courses,
         ]);
     }
 
     public function actionChangePassword()
     {
-        $model = Users::findOne(['id' => Yii::$app->user->identity->getId()]);
+        $model = Yii::$app->user->identity;
         $password = Yii::$app->request->post('password');
         if(!empty($password))
         {

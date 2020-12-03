@@ -12,6 +12,7 @@ use Yii;
  * @property int|null $courseId
  * @property int|null $monthId
  * @property int|null $type
+ * @property int|null $remains
  *
  * @property Courses $course
  * @property Months $month

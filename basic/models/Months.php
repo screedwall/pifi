@@ -80,6 +80,13 @@ class Months extends \yii\db\ActiveRecord
     public function getGifts()
     {
         return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
+            ->where(['isExtension' => false])
+            ->orderBy(['id' => SORT_ASC]);
+    }
+    public function getExtensions()
+    {
+        return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
+            ->where(['isExtension' => true])
             ->orderBy(['id' => SORT_ASC]);
     }
     public function getCoupons()

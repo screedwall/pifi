@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property int|null $monthId
  * @property int|null $giftId
+ * @property boolean|null $isExtension
  *
  * @property Months $month
  * @property Months $gift

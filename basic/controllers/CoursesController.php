@@ -50,9 +50,12 @@ class CoursesController extends Controller
     {
         $this->layout = 'mainPage';
         $model = $this->findCourse($id);
-        return $this->render('view', [
-            'model' => $model
-        ]);
+        if (!$model->isSpec)
+            return $this->render('view', [
+                'model' => $model
+            ]);
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
     public function actionLesson($id)
     {

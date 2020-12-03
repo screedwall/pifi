@@ -159,8 +159,6 @@ class Courses extends \yii\db\ActiveRecord
                         if(!empty($stream))
                             $amount = $stream->month->price;
                         return $amount;
-                    case 'spec':
-                        return Months::findOne(['courseId' => $this->id])->price;
                 }
         }
 

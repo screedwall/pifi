@@ -34,10 +34,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <h1><a id="months"></a>Месяцы</h1>
     <p>
         <?php
-            if(!$model->isSpec)
-                echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
-            elseif(count($model->months) == 0)
-                echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
+            echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
         ?>
     </p>
 
@@ -58,7 +55,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
             'dateTo',
 
             ['class' => 'yii\grid\ActionColumn',
-                'template'=>'{update} {delete}',
+                'template'=>'{view} {update} {delete}',
                 'buttons' => [
                     'view' => function ($url, $model) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [

@@ -49,33 +49,52 @@ use yii\web\JsExpression;
     ])
     .'</div>' ?>
 
-    <div class="form-group">
-        <?= Html::label('Подарочные месяцы', 'gifts[]') ?>
-
-        <?php
-            if(isset($new))
-                $months = \app\models\Months::find()->with('course')->all();
-            else
-                $months = \app\models\Months::find()->with('course')->where(['<>', 'id', $model->id])->all();
-
-            foreach ($months as $month) {
-                $month->name = $month->course->name." ".$month->name;
-                $month->courseId = $month->course->name;
-            }
-        ?>
-
-        <?= Select2::widget([
-            'name' => 'gifts',
-            'value' => ArrayHelper::map($model->gifts, 'id', 'giftId'),
-            'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
-            'options' => [
-                'placeholder' => 'Выберите курсы...',
-                'multiple' => true
-            ],
-        ]) ?>
-    </div>
 
     <?php if(!isset($new)): ?>
+
+        <?php if(!$model->course->isSpec): ?>
+            <div class="form-group">
+                <?= Html::label('Потоковые подарки', 'gifts[]') ?>
+
+                <?php
+                    $months = \app\models\Months::find()
+                                ->where(['courseId' => $model->courseId])
+                                ->orWhere(['in', 'courseId', ArrayHelper::getColumn(\app\models\Courses::find()->select('id')->where(['isSpec' => true])->asArray()->all(), 'id')])
+                                ->with('course')
+                                ->all();
+
+                    foreach ($months as $month) {
+                        $month->name = $month->course->name." ".$month->name;
+                        $month->courseId = $month->course->name;
+                    }
+                ?>
+
+                <?= Select2::widget([
+                    'name' => 'gifts',
+                    'value' => ArrayHelper::map($model->gifts, 'id', 'giftId'),
+                    'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
+                    'options' => [
+                        'placeholder' => 'Выберите курсы...',
+                        'multiple' => true
+                    ],
+                ]) ?>
+            </div>
+
+            <div class="form-group">
+                <?= Html::label('Подарки за продление', 'extensions[]') ?>
+
+                <?= Select2::widget([
+                    'name' => 'extensions',
+                    'value' => ArrayHelper::map($model->extensions, 'id', 'giftId'),
+                    'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
+                    'options' => [
+                        'placeholder' => 'Выберите курсы...',
+                        'multiple' => true
+                    ],
+                ]) ?>
+            </div>
+
+        <?php endif; ?>
 
         <?php
 
@@ -115,6 +134,7 @@ use yii\web\JsExpression;
             ]) ?>
         </div>
         <br>
+
     <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
