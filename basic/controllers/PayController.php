@@ -242,8 +242,9 @@ class PayController extends Controller
 
         $token = hash('sha256', $token);
 
-        if($token != $checkingToken)
-            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+//        if(!YII_ENV_DEV)
+            if($token != $checkingToken)
+                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
         $payment = TinkoffPay::findOne(['id' => $body['OrderId']]);
         $payment->status = $body['Status'];
@@ -361,25 +362,26 @@ class PayController extends Controller
                     $boughtCourse->save();
                 }
 
-            foreach ($currentMonth->gifts as $gift)
-            {
-                $skip = false;
-                foreach ($user->months as $uMonth)
-                    if($uMonth->id == $gift->giftId)
-                    {
-                        $skip = true;
-                        break;
-                    }
-                if($skip)
-                    continue;
+            if(!empty($currentMonth->gifts))
+                foreach ($currentMonth->gifts as $gift)
+                {
+                    $skip = false;
+                    foreach ($user->months as $uMonth)
+                        if($uMonth->id == $gift->giftId)
+                        {
+                            $skip = true;
+                            break;
+                        }
+                    if($skip)
+                        continue;
 
-                $boughtCourse = new BoughtCourses();
-                $boughtCourse->userId = $userId;
-                $boughtCourse->monthId = $gift->giftId;
-                $boughtCourse->courseId = $gift->gift->courseId;
-                $boughtCourse->paymentId = $payment->id;
-                $boughtCourse->save();
-            }
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $userId;
+                    $boughtCourse->monthId = $gift->giftId;
+                    $boughtCourse->courseId = $gift->gift->courseId;
+                    $boughtCourse->paymentId = $payment->id;
+                    $boughtCourse->save();
+                }
 
 
             if ($type != 'month' || $type != 'spec') {
