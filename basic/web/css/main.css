@@ -204,16 +204,6 @@ height: 100%;
 width: auto;
 }
 
-.phone::before {
-content: "";
-position: absolute;
-left: 0;
-width: 17px;
-height: 17px;
-background: url(../img/phone-icon.svg) center no-repeat;
-background-size: contain;
-}
-
 .header a{
 font-weight: 700;
 }
@@ -2365,4 +2355,8 @@ text-align: center;
 
 .attachment-file {
     font-size: 30px;
+}
+
+.phone {
+    padding-bottom: 0 !important;
 }
