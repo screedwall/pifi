@@ -73,6 +73,7 @@ class Lessons extends \yii\db\ActiveRecord
 
     public function getVideos()
     {
+
         return $this->hasMany(Videos::class, ['lessonId' => 'id'])
             ->orderBy(['id' => SORT_ASC]);
     }
