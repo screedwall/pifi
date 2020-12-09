@@ -74,8 +74,9 @@ AppAsset::register($this);
             .'<li class="socials__item hidden-xs hidden-sm"><a href="https://www.youtube.com/channel/UCY1a1U9BAQ2lTg_DnuhLb7A" target="_blank" class="socials__link"><img src="/img/youtube-icon.svg" alt="youtube" class="socials__icon"></a></li>'
             .'<li class="socials__item hidden-xs hidden-sm"><a href="https://vk.com/pifi_school" target="_blank" class="socials__link"><img src="/img/vk-icon.svg" alt="vk" class="socials__icon"></a></li>',
             '<li>
-                <a class="phone" href="tel:88006000362">8 (800) 600 0362</a>
-                <small>Звонок бесплатный</small>
+                <a class="phone" href="tel:88006000362">8 (800) 600 0362
+                <br>
+                <small>Звонок бесплатный</small></a>
             </li>',
             Yii::$app->user->isGuest ? (
             ['label' => 'Войти', 'url' => ['/auth/login'], 'options' => ['class' => 'login-button']]
