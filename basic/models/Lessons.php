@@ -71,6 +71,12 @@ class Lessons extends \yii\db\ActiveRecord
             ->orderBy(['id' => SORT_ASC]);
     }
 
+    public function getVideos()
+    {
+        return $this->hasMany(Videos::class, ['lessonId' => 'id'])
+            ->orderBy(['id' => SORT_ASC]);
+    }
+
     public function beforeSave($insert)
     {
         $lessonDate = date_create_from_format('d.m.Y H:i', $this->lessonDate);

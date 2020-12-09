@@ -34,7 +34,8 @@
         "budyaga/yii2-cropper": "*",
         "kartik-v/yii2-tabs-x": "dev-master",
         "vova07/yii2-imperavi-widget": "*",
-        "onmotion/yii2-widget-apexcharts": "^1.0"
+        "onmotion/yii2-widget-apexcharts": "^1.0",
+        "wbraganca/yii2-dynamicform": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

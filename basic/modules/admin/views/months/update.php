@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
             'name',
 //            'shortDescription',
 //            'description:ntext',
-            'video',
+//            'video',
             'lessonDate',
             'homeworkDate',
 //            'month',

@@ -3,13 +3,14 @@
 namespace app\models;
 
 use Yii;
+use yii\validators\UrlValidator;
 
 /**
  * This is the model class for table "videos".
  *
  * @property int $id
  * @property int|null $lessonId
- * @property string|null $video
+ * @property string|null $url
  *
  * @property Lessons $lesson
  */
@@ -29,10 +30,9 @@ class Videos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lessonId'], 'default', 'value' => null],
+            [['url', 'lessonId'], 'required'],
             [['lessonId'], 'integer'],
-            [['video'], 'string', 'max' => 255],
-            [['lessonId'], 'exist', 'skipOnError' => true, 'targetClass' => Lessons::className(), 'targetAttribute' => ['lessonId' => 'id']],
+            [['url'], 'url', 'validSchemes' => ['https', 'http']],
         ];
     }
 
@@ -44,7 +44,7 @@ class Videos extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'lessonId' => Yii::t('app', 'Lesson ID'),
-            'video' => Yii::t('app', 'Видео'),
+            'url' => Yii::t('app', 'Ссылка на видео'),
         ];
     }
 

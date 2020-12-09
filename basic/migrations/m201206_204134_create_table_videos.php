@@ -15,7 +15,7 @@ class m201206_204134_create_table_videos extends Migration
         $this->createTable('videos', [
             'id' => $this->primaryKey(),
             'lessonId' => $this->integer(),
-            'video' => $this->string(),
+            'url' => $this->string(),
         ]);
 
         $this->addForeignKey(
@@ -26,6 +26,17 @@ class m201206_204134_create_table_videos extends Migration
             'id',
             'CASCADE'
         );
+
+        foreach (\app\models\Lessons::find()->all() as $lesson)
+        {
+            if(!empty($lesson->video))
+            {
+                $video = new \app\models\Videos();
+                $video->lessonId = $lesson->id;
+                $video->url = $lesson->video;
+                $video->save();
+            }
+        }
     }
 
     /**

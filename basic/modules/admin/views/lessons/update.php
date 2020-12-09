@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Lessons */
 /* @var $courseId app\models\Lessons */
 /* @var $monthId app\models\Lessons */
+/* @var $modelsVideo app\models\Videos */
 
 $this->title = Yii::t('app', 'Update Lessons: {name}', [
     'name' => $model->name,
@@ -20,7 +21,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model
+        'model' => $model,
+        'modelsVideo' => $modelsVideo,
     ]) ?>
 
 </div>

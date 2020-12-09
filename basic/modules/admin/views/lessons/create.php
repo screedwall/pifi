@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Lessons */
+/* @var $modelsVideo app\models\Videos */
 
 $this->title = Yii::t('app', 'Create Lessons');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => ['courses/index']];
@@ -17,6 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Create Lessons');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelsVideo' => $modelsVideo,
         'new' => true,
     ]) ?>
 
