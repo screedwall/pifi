@@ -6,6 +6,21 @@ use yii\httpclient\Client;
 /* @var $this yii\web\View */
 /* @var $model app\models\Lessons */
 $this->title = $model->name;
+
+$js = "
+    function resizeIframe(obj) {
+        var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
+        if (mobile) { 
+            obj.parentElement.parentElement.style.display = 'none';
+            obj.parentElement.parentElement.previousElementSibling.className = 'col-md-12';
+        } 
+        obj.height = $('#wyoutube0').outerHeight();
+        obj.width = obj.parentElement.clientWidth;
+      }
+";
+
+$this->registerJs($js, \yii\web\View::POS_HEAD);
+
 ?>
 <h2>Урок: <?= $model->name ?></h2>
 <h4><?= new \DateTime() >= date_create_from_format('d.m.Y H:i', $model->lessonDate) ? "Урок состоялся: ".$model->lessonDate : "Урок будет: ".$model->lessonDate ?></h4>

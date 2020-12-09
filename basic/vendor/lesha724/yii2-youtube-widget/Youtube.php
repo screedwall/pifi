@@ -245,17 +245,26 @@ JS;
         if ($response->isOk)
             foreach ($response->data["items"] as $item)
                 if($item["snippet"]["liveBroadcastContent"] == 'live')
-                    $html .=
-                        "<br>"
-                        .Html::tag('div',
-                            Html::tag('iframe', '', [
-                                'class' => $this->iframeOptions['class'],
-                                'height' => 390,
-                                'width' => 640,
-                                'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
-                            ]),
-                            $this->divOptions
-                        );
+                    $chat = Html::tag('div',
+                                Html::tag('iframe', '', [
+                                    'class' => $this->iframeOptions['class'],
+                                    'onload' => 'resizeIframe(this)',
+                                    'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
+                                ]),
+                                [
+                                    'class' => 'chat'
+                                ]
+                            );
+
+        if(isset($chat))
+            $html = "<div class='row'>
+                        <div class='col-md-8 col-sm-12'>$html</div>
+                        <div class='col-md-4 hidden-sm hidden-xs'>$chat</div>
+                    </div>";
+        else
+            $html = "<div class='row'>
+                        <div class='col-md-12'>$html</div>
+                    </div>";
 
         return $html;
     }
