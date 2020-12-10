@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/basic/vendor/onmotion/yii2-widget-apexcharts" />
       <path value="$PROJECT_DIR$/basic/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/basic/vendor/wbraganca/yii2-dynamicform" />
+      <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-redis" />
     </include_path>
   </component>
 </project>

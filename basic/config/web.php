@@ -26,7 +26,7 @@ $config = [
             ],
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\redis\Cache',
         ],
         'user' => [
             'identityClass' => 'app\models\Users',
@@ -105,6 +105,16 @@ $config = [
             'thousandSeparator' => ' ',
             'currencyCode' => 'RUB',
             'locale' => 'ru-RU',
+        ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port' => 6379,
+            'database' => 0,
+        ],
+        'session' => [
+            'class' => 'yii\redis\Session',
+            'timeout' => 5*60,
         ],
     ],
     'language' => 'ru-RU',

@@ -92,4 +92,10 @@ class SiteController extends Controller
         return "OK";
     }
     */
+
+//    public function actionTest()
+//    {
+//        Yii::$app->redis->set('mykey', 'some value');
+//        return var_dump(Yii::$app->redis->get('mykey'));
+//    }
 }
