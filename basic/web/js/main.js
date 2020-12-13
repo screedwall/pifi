@@ -7,3 +7,14 @@ $(window).scroll(function() {
             $('.header').removeClass("sticky");
         }
 });
+
+function ping() {
+    $.ajax({
+        url: "/site/ping",
+    });
+}
+$( document ).ready(function () {
+    setInterval(function(){
+        ping();
+    }, 30000);
+});

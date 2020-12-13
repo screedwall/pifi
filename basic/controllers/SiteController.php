@@ -93,9 +93,9 @@ class SiteController extends Controller
     }
     */
 
-//    public function actionTest()
-//    {
-//        Yii::$app->redis->set('mykey', 'some value');
-//        return var_dump(Yii::$app->redis->get('mykey'));
-//    }
+    public function actionPing()
+    {
+        Yii::$app->session->open();
+        return "PONG";
+    }
 }

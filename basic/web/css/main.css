@@ -2364,3 +2364,19 @@ text-align: center;
 .embed-responsive-16by9 {
     margin-bottom: 15px;
 }
+
+.dot-disabled {
+    height: 15px;
+    width: 15px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-enabled {
+    height: 15px;
+    width: 15px;
+    background-color: #4bb34b;
+    border-radius: 50%;
+    display: inline-block;
+}
