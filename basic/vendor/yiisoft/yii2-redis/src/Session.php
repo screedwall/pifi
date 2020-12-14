@@ -142,6 +142,7 @@ class Session extends \yii\web\Session
      */
     protected function calculateKey($id)
     {
+
         return (Yii::$app->user->isGuest ? "anon:".md5(json_encode([__CLASS__, $id])) : "user:".Yii::$app->user->getId());
     }
 }
