@@ -21,6 +21,8 @@ $(function () {
 SCRIPT;
 // Register tooltip/popover initialization javascript
 $this->registerJs($js);
+
+$this->title = "Статистика";
 ?>
 <h1>Pi-Fi статистика</h1>
 
