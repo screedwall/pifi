@@ -363,29 +363,6 @@ $this->title = Yii::$app->name;
                                     'class' => 'teachers-menu__button teachers-menu--icon-physics',
                                 ],
                             ],
-                            [
-                                'label' => '<span>Правоведение</span>',
-                                'content' => '<div class="teachers-card__content">
-                                                <p class="title-2 teachers-card__name">Денис Красноярцев</p>
-            
-                                                <ul class="teacher-list teachers-card__list">
-                                                    <li class="teacher-list__item">Преподаю уже 9-ой год</li>
-                                                    <li class="teacher-list__item">2 года назад сдал ЕГЭ по обществознанию на 99 баллов</li>
-                                                    <li class="teacher-list__item">Средний балл моих учеников на ЕГЭ 2019 — 79</li>
-                                                    <li class="teacher-list__item">На сегодняшний день, я действующий юрист, у меня своя фирма, сужусь со всеми, с кем хочу 😂</li>
-                                                    <li class="teacher-list__item">С недавних пор защищаю блогеров в суде</li>
-                                                    <li class="teacher-list__item">Также, я подал в суд на собственный универ и выиграл</li>
-                                                </ul>
-            
-                                                <img src="img/denis-krasnoyartsev.png" alt="Денис Красноярцев" class="teachers-card__photo">
-                                            </div>',
-                                'options' => [
-                                    'id' => 'teacher-jurisprudence',
-                                ],
-                                'linkOptions' => [
-                                    'class' => 'teachers-menu__button teachers-menu--icon-jurisprudence',
-                                ],
-                            ],
                     ],
                     'position' => TabsX::POS_RIGHT,
                     'encodeLabels' => false,
@@ -483,23 +460,6 @@ $this->title = Yii::$app->name;
                                         </ul>
 
                                         <img src="img/alisa-yeremina.png" alt="Алиса Еремина" class="m-teachers-card__photo hidden-xs">
-                                    </div>',
-                            '<div class="m-teachers-card">
-                                        <img src="img/denis-krasnoyartsev-small.png" alt="Денис Красноярцев" class="m-teachers-card__small-photo visible-xs">
-
-                                        <p class="m-teachers-card__subject">Правоведение</p>
-
-                                        <p class="m-teachers-card__name">Денис Красноярцев</p>
-
-                                        <ul class="teacher-list teachers-card__list">
-                                            <li class="teacher-list__item">Преподаю физику 7-ой год</li>
-                                            <li class="teacher-list__item">Сдал ЕГЭ по физике на 100 баллов</li>
-                                            <li class="teacher-list__item">Средний балл моих учеников в прошлом году 78,8</li>
-                                            <li class="teacher-list__item">Выпускник МГТУ им. Баумана</li>
-                                            <li class="teacher-list__item">По специальности я инженер космических летательных аппаратов</li>
-                                        </ul>
-
-                                        <img src="img/denis-krasnoyartsev.png" alt="Денис Красноярцев" class="m-teachers-card__photo hidden-xs">
                                     </div>',
                     ],
 
