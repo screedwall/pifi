@@ -223,7 +223,9 @@ JS;
             Html::tag('div',
                 Html::tag('div', '', ArrayHelper::merge(
                     [
-                        'id' => 'div_'.$this->id
+                        'id' => 'div_'.$this->id,
+                        'onload' => 'resizeIframe(this)',
+                        'onresize' => 'resizeIframe(this)',
                     ],
                     $this->iframeOptions
                 )),
@@ -245,21 +247,32 @@ JS;
         if ($response->isOk)
             foreach ($response->data["items"] as $item)
                 if($item["snippet"]["liveBroadcastContent"] == 'live')
-                    $chat = Html::tag('div',
-                                Html::tag('iframe', '', [
-                                    'class' => $this->iframeOptions['class'],
-                                    'onload' => 'resizeIframe(this)',
-                                    'src' => 'https://www‍.youtube.com/live_chat?v='.$this->_getVideoId().'&embed_domain='.\Yii::$app->request->hostName,
-                                ]),
-                                [
-                                    'class' => 'chat'
-                                ]
-                            );
+                    $chat = true;
 
         if(isset($chat))
             $html = "<div class='row'>
                         <div class='col-md-8 col-sm-12'>$html</div>
-                        <div class='col-md-4 hidden-sm hidden-xs'>$chat</div>
+                        <div class='col-md-4 col-sm-12 chat'>
+                            <div class='messages'></div>"
+                            .Html::beginForm(\Yii::$app->request->hostName.':3000', 'POST', [
+                                'class' => 'message-form',
+                            ])
+                            ."<div class='input-group'>"
+                            .Html::input('text', 'message', null, [
+                                'placeholder' => 'Введите сообщение',
+                                'autocomplete' => 'off',
+                                'class' => 'form-control',
+                                'id' => 'chat-message',
+                            ])
+                            ."<div class='input-group-btn'>"
+                            .Html::submitButton("<i class='glyphicon glyphicon-send'></i>", [
+                                'class' => 'btn btn-default',
+                                'id' => 'send-message'
+                            ])
+                                ."</div>
+                            </div>"
+                            .Html::endForm()
+                        ."</div>
                     </div>";
         else
             $html = "<div class='row'>

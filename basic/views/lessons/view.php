@@ -9,14 +9,13 @@ $this->title = $model->name;
 
 $js = "
     function resizeIframe(obj) {
-        var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
-        if (mobile) { 
-            obj.parentElement.parentElement.style.display = 'none';
-            obj.parentElement.parentElement.previousElementSibling.className = 'col-md-12';
-        } 
-        obj.height = $('#wyoutube0').outerHeight();
-        obj.width = obj.parentElement.clientWidth;
-      }
+        $('.messages').css('height', obj.height);
+        scrollToBottom($('.messages'));
+     }
+     
+     function scrollToBottom(el) {
+        el.scrollTop(el[0].scrollHeight);
+     }
 ";
 
 $this->registerJs($js, \yii\web\View::POS_HEAD);
@@ -71,7 +70,7 @@ if(!empty($model->videos))
                 /*	Значения: 0, 1 или 2. Значение по умолчанию: 1. Этот параметр определяет, будут ли отображаться элементы управления проигрывателем. При встраивании IFrame с загрузкой проигрывателя Flash он также определяет, когда элементы управления отображаются в проигрывателе и когда загружается проигрыватель:*/
                 'controls' => 1,
                 /*Значения: 0 или 1. Значение по умолчанию: 0. Определяет, начинается ли воспроизведение исходного видео сразу после загрузки проигрывателя.*/
-                'autoplay' => 0,
+                'autoplay' => 1,
                 /*Значения: 0 или 1. Значение по умолчанию: 1. При значении 0 проигрыватель перед началом воспроизведения не выводит информацию о видео, такую как название и автор видео.*/
                 'showinfo' => 0,
                 /*Значение: положительное целое число. Если этот параметр определен, то проигрыватель начинает воспроизведение видео с указанной секунды. Обратите внимание, что, как и для функции seekTo, проигрыватель начинает воспроизведение с ключевого кадра, ближайшего к указанному значению. Это означает, что в некоторых случаях воспроизведение начнется в момент, предшествующий заданному времени (обычно не более чем на 2 секунды).*/
@@ -102,7 +101,52 @@ if(!empty($model->videos))
                                 event.target.playVideo();
                     }',
             ]
-        ]);
+        ])."<br>";
 else
     echo "<h3>Скоро тут будет запись</h3>";
 ?>
+
+<?php
+/** @var $model \app\models\Lessons */
+$js = "
+    $(document).ready(function() {
+            const socket = io.connect('".Yii::$app->request->hostName.":3000', {query: 'user=".Yii::$app->user->identity->name."&room=".$model->id."'});
+            const messages = $('.messages');
+            
+            socket.on('prev messages', res => {
+                res.reverse().forEach((item) => {
+                    let msg = JSON.parse(item)
+                    messages.append('<p>'+msg.username+': '+msg.message+'</p>');
+                });
+            });
+            
+            socket.on('user joined', username => {
+                messages.append('<p>'+username+' присоединился к чату</p>');
+                scrollToBottom(messages);
+            });
+            
+            socket.on('user left', username => {
+                messages.append('<p>'+username+' отсоединился</p>');
+                scrollToBottom(messages);
+            });
+            
+            socket.on('chat message', (msg) => {
+                messages.append('<p>'+msg.username+': '+msg.message+'</p>');
+                scrollToBottom(messages);
+            });
+            
+            const form = $('.message-form'); 
+            form.submit((e) => {
+                e.preventDefault();
+                let message = $('#chat-message');
+                if(message)
+                {
+                    socket.emit('chat message', message.val());
+                    message.val('');
+                }
+            });
+    });
+";
+$this->registerJs($js);
+?>
+

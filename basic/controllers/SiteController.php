@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Lessons;
 use app\models\Users;
 use Yii;
 use yii\console\ExitCode;
@@ -97,5 +98,13 @@ class SiteController extends Controller
     {
         Yii::$app->session->open();
         return "PONG";
+    }
+
+    public function actionChat()
+    {
+        $model = Lessons::findOne(['id' => 1]);
+        return $this->render('chat', [
+            'model' => $model,
+        ]);
     }
 }

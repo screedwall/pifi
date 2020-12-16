@@ -2380,3 +2380,7 @@ text-align: center;
     border-radius: 50%;
     display: inline-block;
 }
+
+.messages {
+    overflow-y: scroll;
+}
