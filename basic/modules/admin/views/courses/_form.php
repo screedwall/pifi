@@ -38,7 +38,7 @@ use kartik\form\ActiveForm;
         ],
     ]) ?>
 
-    <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name')) ?>
+    <?= Yii::$app->user->identity->isAdmin() ? $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name')) : '' ?>
 
     <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
 

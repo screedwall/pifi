@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
     <h1><a id="months"></a>Месяцы</h1>
     <p>
         <?php
-            echo Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']);
+            echo Yii::$app->user->identity->isAdmin() ? Html::a(Yii::t('app', 'Create Months'), ['months/create', 'courseId' => $model->id], ['class' => 'btn btn-success']) : '';
         ?>
     </p>
 
@@ -69,6 +69,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
                         ]);
                     },
                     'delete' => function ($url, $model) {
+                        if(Yii::$app->user->identity->isTeacher())
+                            return false;
                         return Html::a('', $url,
                             [
                                 'title' => Yii::t('app', 'Удалить'),

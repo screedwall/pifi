@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Courses'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Yii::$app->user->identity->isAdmin() ? Html::a(Yii::t('app', 'Create Courses'), ['create'], ['class' => 'btn btn-success']) : '' ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -62,6 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 'buttons' => [
                     'copy' => function ($url, $model) {
+                        if(Yii::$app->user->identity->isTeacher())
+                            return false;
                         return Html::a('', $url,
                             [
                                 'title' => Yii::t('app', 'Скопировать'),
@@ -79,6 +81,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         else
                             return null;
+                    },
+                    'delete' => function ($url, $model) {
+                        if(Yii::$app->user->identity->isTeacher())
+                            return false;
+                        return Html::a('', $url,
+                            [
+                                'title' => Yii::t('app', 'Удалить'),
+                                'data' => [
+                                    'method' => 'post',
+                                    'confirm' => "Удалится курс и все вложенные месяца.\nПродолжить?",
+                                ],
+                                'class' => 'glyphicon glyphicon-trash'
+                            ]
+                        );
                     },
                 ],
             ],

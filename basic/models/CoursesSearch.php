@@ -45,6 +45,9 @@ class CoursesSearch extends Courses
             ->with('months')
             ->joinWith(['teacher'])
             ->orderBy(['id' => SORT_DESC]);
+
+        if(\Yii::$app->user->identity->isTeacher())
+            $query = $query->andWhere(['teacherId' => \Yii::$app->user->identity->teacher->id]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

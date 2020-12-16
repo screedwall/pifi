@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 <div class="lessons-index">
     <h1>Уроки</h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Lessons'), Url::to(['lessons/create', 'courseId' => $courseId, 'monthId'=>$model->id]), ['class' => 'btn btn-success']) ?>
+        <?= Yii::$app->user->identity->isAdmin() ? Html::a(Yii::t('app', 'Create Lessons'), Url::to(['lessons/create', 'courseId' => $courseId, 'monthId'=>$model->id]), ['class' => 'btn btn-success']) : '' ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -66,6 +66,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
                         ]);
                     },
                     'delete' => function ($url, $model) {
+                        if(Yii::$app->user->identity->isTeacher())
+                            return false;
                         return Html::a('', $url,
                             [
                                 'title' => Yii::t('app', 'Удалить'),

@@ -66,9 +66,10 @@ AppAsset::register($this);
                     ['label' => 'Статистика', 'url' => ['/admin/statistics']],
                 ],
             ]
-            ) : (
-            ''
-            )),
+            ) : (Yii::$app->user->identity->isTeacher() ?
+                ['label' => 'Мои курсы', 'url' => ['/admin/courses']]
+                : '')
+            ),
             '<li class="socials__item hidden-xs hidden-sm"><a href="https://www.instagram.com/pifi_school/" target="_blank" class="socials__link"><img src="/img/instagram-icon.svg" alt="instagram" class="socials__icon"></a></li>'
             .'<li class="socials__item hidden-xs hidden-sm"><a href="https://www.youtube.com/channel/UCY1a1U9BAQ2lTg_DnuhLb7A" target="_blank" class="socials__link"><img src="/img/youtube-icon.svg" alt="youtube" class="socials__icon"></a></li>'
             .'<li class="socials__item hidden-xs hidden-sm"><a href="https://vk.com/pifi_school" target="_blank" class="socials__link"><img src="/img/vk-icon.svg" alt="vk" class="socials__icon"></a></li>',
