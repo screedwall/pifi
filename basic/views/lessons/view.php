@@ -9,7 +9,10 @@ $this->title = $model->name;
 
 $js = "
     function resizeIframe(obj) {
-        $('.messages').css('height', obj.height);
+        if((/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase())))
+            $('.messages').css('height', 150);
+        else
+            $('.messages').css('height', obj.height);
         scrollToBottom($('.messages'));
      }
      
