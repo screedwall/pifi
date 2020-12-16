@@ -254,7 +254,7 @@ JS;
                         <div class='col-md-8 col-sm-12'>$html</div>
                         <div class='col-md-4 col-sm-12 chat'>
                             <div class='messages'></div>"
-                            .Html::beginForm(\Yii::$app->request->hostName.':3000', 'POST', [
+                            .Html::beginForm('https://'.\Yii::$app->request->hostName.':3000', 'POST', [
                                 'class' => 'message-form',
                             ])
                             ."<div class='input-group'>"
