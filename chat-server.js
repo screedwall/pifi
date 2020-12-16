@@ -1,27 +1,27 @@
 const HOST = 'localhost';
 
 const express = require('express');
-const http = require('http');
+var fs = require('fs');
+var https = require('https');
 const socketIO = require('socket.io');
 
+var options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/pi-fi.ru/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/pi-fi.ru/fullchain.pem')
+};
+
 const app = express();
-const server = http.Server(app);
+const server = https.Server(options, app);
 const port = 3000;
 const io = socketIO(server, {
     cors: {
-        origin: "http://localhost",
+        origin: "https://localhost",
         methods: ["GET", "POST"]
     }
 });
 
-//app.use(express.static('./public'));
-
 const redis = require('redis');
 const client = redis.createClient();
-
-//app.get('/', (req, res) => {
-//	res.sendFile(__dirname + '/public/index.html');
-//});
 
 server.listen(port, () => {
     console.log('listening on *:' + port);
