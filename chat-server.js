@@ -15,7 +15,7 @@ const server = https.Server(options, app);
 const port = 3000;
 const io = socketIO(server, {
     cors: {
-        origin: "https://localhost",
+        origin: "https://pi-fi.ru",
         methods: ["GET", "POST"]
     }
 });
