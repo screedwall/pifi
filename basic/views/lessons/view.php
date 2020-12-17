@@ -119,7 +119,7 @@ $js = "
             socket.on('prev messages', res => {
                 res.reverse().forEach((item) => {
                     let msg = JSON.parse(item)
-                    messages.append('<p>'+msg.username+': '+msg.message+'</p>');
+                    messages.append('<p><strong>'+msg.username+':</strong> '+msg.message+'</p>');
                 });
             });
             
