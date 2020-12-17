@@ -2383,4 +2383,6 @@ text-align: center;
 
 .messages {
     overflow-y: scroll;
+    word-wrap: break-word;
+    padding: 5px;
 }
