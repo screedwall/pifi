@@ -49,6 +49,15 @@ class UserController extends Controller
             }])
             ->all();
 
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            return $this->render('profile', [
+                'model' => Yii::$app->user->identity,
+                'months' => $months,
+                'courses' => $courses,
+            ]);
+        }
+
         return $this->render('profile', [
             'model' => Yii::$app->user->identity,
             'months' => $months,
