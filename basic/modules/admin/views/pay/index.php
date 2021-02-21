@@ -76,21 +76,21 @@ $this->registerJs($JS);
                 },
                 'filter' => $types,
             ],
-            [
-                'attribute' => 'createdAt',
-                'filter' => \kartik\date\DatePicker::widget([
-                    'name' => 'TinkoffPaySearch[createdAt]',
-                    'value' => empty(Yii::$app->request->get('TinkoffPaySearch')['createdAt']) ? Yii::$app->request->get('TinkoffPaySearch')['createdAt'] : null,
-                    'options' => ['autocomplete' => 'off'],
-                    'type' => \kartik\date\DatePicker::TYPE_COMPONENT_APPEND,
-                    'pickerButton' => false,
-                    'pluginOptions' => [
-                        'autoclose' => true,
-                        'format' => 'dd.mm.yyyy',
-                    ],
-                ]),
-                'format' => 'html',
-            ],
+//            [
+//                'attribute' => 'createdAt',
+//                'filter' => \kartik\date\DatePicker::widget([
+//                    'name' => 'TinkoffPaySearch[createdAt]',
+//                    'value' => Yii::$app->request->get('TinkoffPaySearch')['createdAt'],
+//                    'options' => ['autocomplete' => 'off'],
+//                    'type' => \kartik\date\DatePicker::TYPE_COMPONENT_APPEND,
+//                    'pickerButton' => false,
+//                    'pluginOptions' => [
+//                        'autoclose' => true,
+//                        'format' => 'dd.mm.yyyy',
+//                    ],
+//                ]),
+//                'format' => 'html',
+//            ],
             [
                 'attribute' => 'status',
                 'content' => function($model){
