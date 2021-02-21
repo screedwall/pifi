@@ -80,7 +80,7 @@ $this->registerJs($JS);
                 'attribute' => 'createdAt',
                 'filter' => \kartik\date\DatePicker::widget([
                     'name' => 'TinkoffPaySearch[createdAt]',
-                    'value' => Yii::$app->request->get('TinkoffPaySearch')['createdAt'],
+                    'value' => empty(Yii::$app->request->get('TinkoffPaySearch')['createdAt']) ? Yii::$app->request->get('TinkoffPaySearch')['createdAt'] : null,
                     'options' => ['autocomplete' => 'off'],
                     'type' => \kartik\date\DatePicker::TYPE_COMPONENT_APPEND,
                     'pickerButton' => false,
