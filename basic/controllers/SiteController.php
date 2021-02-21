@@ -100,11 +100,8 @@ class SiteController extends Controller
         return "PONG";
     }
 
-    public function actionChat()
+    public function actionTest()
     {
-        $model = Lessons::findOne(['id' => 1]);
-        return $this->render('chat', [
-            'model' => $model,
-        ]);
+        return $this->render('test');
     }
 }

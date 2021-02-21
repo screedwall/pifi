@@ -15,6 +15,7 @@ use Yii;
  * @property int|null $monthId
  * @property int|null $userId
  * @property string|null $type
+ * @property array|null $response
  *
  * @property Courses $course
  * @property Months $month
@@ -50,13 +51,13 @@ class TinkoffPay extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'amount' => Yii::t('app', 'Amount'),
-            'status' => Yii::t('app', 'Status'),
-            'createdAt' => Yii::t('app', 'Created At'),
+            'amount' => Yii::t('app', 'Сумма'),
+            'status' => Yii::t('app', 'Статус'),
+            'createdAt' => Yii::t('app', 'Дата'),
             'courseId' => Yii::t('app', 'Course ID'),
             'monthId' => Yii::t('app', 'Month ID'),
             'userId' => Yii::t('app', 'User ID'),
-            'type' => Yii::t('app', 'Type'),
+            'type' => Yii::t('app', 'Покупка'),
         ];
     }
 

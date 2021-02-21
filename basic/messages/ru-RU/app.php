@@ -18,4 +18,5 @@ return [
     'Coupons' => 'Купоны',
     'Create Coupons' => 'Добавить купон',
     'Update Coupons: {name}' => 'Изменить купон: {name}',
+    'Payments' => 'Оплаты',
 ];

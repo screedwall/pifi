@@ -40,12 +40,14 @@
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/imagine/imagine" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/bootstrap-fileinput" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/bootstrap-tabs-x" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/dependent-dropdown" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-date-range" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-krajee-base" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-tabs-x" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-activeform" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-datepicker" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-datetimepicker" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-depdrop" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-fileinput" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-select2" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/lesha724/yii2-youtube-widget" />

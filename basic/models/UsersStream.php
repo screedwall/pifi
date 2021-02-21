@@ -11,7 +11,7 @@ use Yii;
  * @property int|null $userId
  * @property int|null $courseId
  * @property int|null $monthId
- * @property int|null $type
+ * @property string|null $type
  * @property int|null $remains
  *
  * @property Courses $course

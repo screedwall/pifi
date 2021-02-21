@@ -76,8 +76,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
             'kartik\\select2\\' => 15,
             'kartik\\plugins\\tabs\\' => 20,
             'kartik\\plugins\\fileinput\\' => 25,
+            'kartik\\plugins\\depdrop\\' => 23,
             'kartik\\form\\' => 12,
             'kartik\\file\\' => 12,
+            'kartik\\depdrop\\' => 15,
             'kartik\\datetime\\' => 16,
             'kartik\\daterange\\' => 17,
             'kartik\\date\\' => 12,
@@ -263,6 +265,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         array (
             0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
+        'kartik\\plugins\\depdrop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/dependent-dropdown',
+        ),
         'kartik\\form\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-activeform/src',
@@ -270,6 +276,10 @@ class ComposerStaticInit9c8c39880fc6afde0c4f210ad7a01875
         'kartik\\file\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-fileinput/src',
+        ),
+        'kartik\\depdrop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-depdrop/src',
         ),
         'kartik\\datetime\\' => 
         array (

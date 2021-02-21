@@ -17,11 +17,11 @@ $items = [];
 <?php Pjax::begin() ?>
 
 <div id="subjects">
-    <?php foreach(\app\controllers\AppController::getSubjects() as $subject): ?>
+    <?php foreach(\app\controllers\AppController::SUBJECTS as $subject): ?>
         <?php if (!empty($subject)){
             $subjectItems = [];
 
-            foreach (\app\controllers\AppController::getExams() as $exam)
+            foreach (\app\controllers\AppController::EXAM_TYPES as $exam)
             {
                 array_push($subjectItems, "<li>".Html::a($exam, Url::to(['/courses', 'subject' => $subject, 'exam' => $exam]))."</li>");
             }

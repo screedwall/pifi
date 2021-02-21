@@ -62,19 +62,6 @@ class CoursesController extends Controller
     }
 
     /**
-     * Displays a single Courses model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Courses model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -85,7 +72,7 @@ class CoursesController extends Controller
 
         if ($model->load(Yii::$app->request->post())&&$model->save()) {
             if(!$model->isSpec)
-                foreach (AppController::defaultMonths() as $defaultMonth)
+                foreach (AppController::DEFAULT_MONTHS as $defaultMonth)
                 {
                     $month = new Months();
                     $month->name = $defaultMonth;

@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model \app\models\Months */
+/* @var $demo boolean */
 use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
@@ -19,11 +20,9 @@ foreach ($model->lessons as $item) {
                 'options' => ['clientOptions' => $item->name],
                 'content' => "Время урока: ".$item->lessonDate."<br>"
                 ."Время выполнения ДЗ: ".$item->homeworkDate."<br>"
-                .Html::a(
-                        'Открыть урок',
-                        ['lessons/view', 'id' => $item->id],
-                        ['class' => 'btn btn-primary']
-                    )
+                .Html::a('Открыть урок', ['lessons/view', 'id' => $item->id], [
+                    'class' => 'btn btn-primary',
+                ])
     ]);
 }
 echo Collapse::widget([

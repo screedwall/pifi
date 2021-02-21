@@ -64,6 +64,7 @@ AppAsset::register($this);
                     ['label' => 'Пользователи', 'url' => ['/admin/users']],
                     ['label' => 'Преподаватели', 'url' => ['/admin/teachers']],
                     ['label' => 'Статистика', 'url' => ['/admin/statistics']],
+                    ['label' => 'Оплаты', 'url' => ['/admin/pay']],
                 ],
             ]
             ) : (Yii::$app->user->identity->isTeacher() ?

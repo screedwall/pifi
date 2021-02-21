@@ -15,7 +15,7 @@ use app\controllers\AppController;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
+    <?= $form->field($model, 'subject')->dropDownList(AppController::SUBJECTS) ?>
 
     <?= $form->field($model, 'description')->widget(vova07\imperavi\Widget::class, [
         'settings' => [

@@ -36,7 +36,6 @@ io.on('connection', (socket) => {
     });
 
     socket.join(socket.room);
-    socket.to(socket.room).emit('user joined', socket.user);
 
     socket.on('chat message', message => {
         message = message.replace(/"/g, "'");

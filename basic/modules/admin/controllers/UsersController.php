@@ -6,6 +6,8 @@ use app\controllers\AppController;
 use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
+use app\models\TinkoffPaySearch;
+use app\models\UserBCSearch;
 use app\models\UsersStream;
 use Yii;
 use app\models\Users;
@@ -53,19 +55,6 @@ class UsersController extends AppController
     }
 
     /**
-     * Displays a single Users model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new Users model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -96,83 +85,16 @@ class UsersController extends AppController
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save(false)) {
-
-            BoughtCourses::deleteAll(['userId' => $id]);
-
-            $getMonths = $request->post('months');
-            $getStreams = $request->post('streams');
-
-            if(!empty($getMonths))
-            {
-                $months = Months::find()
-                    ->where(['in', 'id', $getMonths])
-                    ->with(['extensions' => function($query) {
-                        return $query->with('gift');
-                    }])
-                    ->all();
-                foreach ($months as $month) {
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $id;
-                    $boughtCourse->monthId = $month->id;
-                    $boughtCourse->courseId = $month->courseId;
-                    $boughtCourse->save();
-                }
-            }
-
-            UsersStream::deleteAll(['userId' => $id]);
-
-            if(!empty($getStreams))
-            {
-                $streamMonths = Months::find()
-                    ->where(['in', 'id', $getStreams])
-                    ->with(['gifts' => function($query) {
-                        return $query
-                            ->with('gift');
-                    }])
-                    ->all();
-
-                foreach ($streamMonths as $streamMonth) {
-                    //Register stream
-                    $stream = new UsersStream();
-                    $stream->userId = $id;
-                    $stream->courseId = $streamMonth->courseId;
-                    $stream->monthId = $streamMonth->id;
-                    $stream->type = 'course';
-                    $stream->remains = 0;
-                    $stream->save();
-
-                    //Give stream month & check collision
-                    if(!ArrayHelper::isIn($streamMonth->id, $getMonths))
-                    {
-                        $boughtCourse = new BoughtCourses();
-                        $boughtCourse->userId = $id;
-                        $boughtCourse->courseId = $streamMonth->courseId;
-                        $boughtCourse->monthId = $streamMonth->id;
-                        $boughtCourse->save();
-                    }
-
-                    //Give stream gifts
-                    foreach ($streamMonth->gifts as $gift)
-                    {
-                        if(ArrayHelper::isIn($gift->giftId, $getMonths))
-                            continue;
-
-                        //Give gift
-                        $boughtCourse = new BoughtCourses();
-                        $boughtCourse->userId = $id;
-                        $boughtCourse->courseId = $gift->gift->courseId;
-                        $boughtCourse->monthId = $gift->giftId;
-                        $boughtCourse->save();
-                    }
-                }
-            }
-
-
             return $this->redirect(['index']);
         }
 
+        $searchModel = new UserBCSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('update', [
-            'model' => $model
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

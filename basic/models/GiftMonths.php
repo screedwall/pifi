@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\controllers\AppController;
 use Yii;
 
 /**
@@ -11,6 +12,8 @@ use Yii;
  * @property int|null $monthId
  * @property int|null $giftId
  * @property boolean|null $isExtension
+ * @property boolean|null $isShort
+ * @property boolean|null $isLong
  *
  * @property Months $month
  * @property Months $gift
@@ -66,5 +69,26 @@ class GiftMonths extends \yii\db\ActiveRecord
     public function getGift()
     {
         return $this->hasOne(Months::className(), ['id' => 'giftId']);
+    }
+
+    public static function getGiftsByType($monthId, $type)
+    {
+        $gifts = self::find()
+            ->with('gift')
+            ->where(['monthId' => $monthId]);
+
+        switch ($type)
+        {
+            case AppController::STREAM_TYPE_COURSE:
+                $gifts->andWhere(['isExtension' => false, 'isShort' => false, 'isLong' => false]);
+                break;
+            case AppController::STREAM_TYPE_SHORT:
+                $gifts->andWhere(['isShort' => true]);
+                break;
+            case AppController::STREAM_TYPE_LONG:
+                $gifts->andWhere(['isLong' => true]);
+                break;
+        }
+        return $gifts->all();
     }
 }

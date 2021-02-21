@@ -79,7 +79,7 @@ class CoursesController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
-    protected function findMounth($id)
+    protected function findMonth($id)
     {
         if (($model = Months::findOne($id)) !== null) {
             return $model;

@@ -54,12 +54,16 @@ use yii\web\JsExpression;
 
         <?php if(!$model->course->isSpec): ?>
             <div class="form-group">
-                <?= Html::label('Потоковые подарки', 'gifts[]') ?>
+                <?= Html::label('Подарки новым пользователям', 'gifts[]') ?>
 
                 <?php
                     $months = \app\models\Months::find()
                                 ->where(['courseId' => $model->courseId])
-                                ->orWhere(['in', 'courseId', ArrayHelper::getColumn(\app\models\Courses::find()->select('id')->where(['isSpec' => true])->asArray()->all(), 'id')])
+                                ->orWhere(['in', 'courseId', ArrayHelper::getColumn(\app\models\Courses::find()
+                                                                                                ->select('id')
+                                                                                                ->where(['isSpec' => true])
+                                                                                                ->asArray()
+                                                                                                ->all(), 'id')])
                                 ->with('course')
                                 ->all();
 
@@ -94,47 +98,35 @@ use yii\web\JsExpression;
                 ]) ?>
             </div>
 
-        <?php endif; ?>
+            <div class="form-group">
+                <?= Html::label('Подарки за 3х месячный абонемент', 'shorts[]') ?>
 
-        <?php
-
-        $values = [];
-        $keys = [];
-        foreach ($model->users as $user)
-        {
-            array_push($values, $user->name.' '.$user->vk);
-            array_push($keys, $user->id);
-        }
-
-        ?>
-
-        <div class="form-group">
-            <?= Html::label('Пользователи месяца', 'users[]') ?>
-            <?= Select2::widget([
-                'name' => "users[]",
-                'initValueText' => $values,
-                'value' => $keys,
-                'options' => [
-                    'placeholder' => 'Подберите пользователей...',
-                    'multiple' => true,
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'minimumInputLength' => 3,
-                    'ajax' => [
-                        'url' => \yii\helpers\Url::to(['users/list']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }'),
-                        'delay' => 350,
+                <?= Select2::widget([
+                    'name' => 'shorts',
+                    'value' => ArrayHelper::map($model->shorts, 'id', 'giftId'),
+                    'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
+                    'options' => [
+                        'placeholder' => 'Выберите курсы...',
+                        'multiple' => true
                     ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(user) { return user.text; }'),
-                    'templateSelection' => new JsExpression('function(user) { return user.text; }'),
-                ],
-            ]) ?>
-        </div>
-        <br>
+                ]) ?>
+            </div>
 
+            <div class="form-group">
+                <?= Html::label('Подарки за годовой абонемент', 'longs[]') ?>
+
+                <?= Select2::widget([
+                    'name' => 'longs',
+                    'value' => ArrayHelper::map($model->longs, 'id', 'giftId'),
+                    'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
+                    'options' => [
+                        'placeholder' => 'Выберите курсы...',
+                        'multiple' => true
+                    ],
+                ]) ?>
+            </div>
+
+        <?php endif; ?>
     <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>

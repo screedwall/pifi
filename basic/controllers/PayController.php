@@ -5,13 +5,13 @@ namespace app\controllers;
 use app\models\BoughtCourses;
 use app\models\Coupons;
 use app\models\Courses;
+use app\models\GiftMonths;
 use app\models\Months;
 use app\models\TinkoffPay;
 use app\models\Users;
 use app\models\UsersStream;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -108,6 +108,9 @@ class PayController extends Controller
 
             $month = (empty($monthQuery) ? $course->currentMonth() : $monthQuery);
 
+            if(empty($month))
+                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+
             $discount = false;
             $user = \Yii::$app->user->identity;
 
@@ -199,6 +202,7 @@ class PayController extends Controller
 
         $paymentService = \Yii::$app->tinkoffPay;
         $paymentRequest = new \chumakovanton\tinkoffPay\request\RequestInit();
+        $paymentRequest->setDescription("https://vk.com/id".\Yii::$app->user->identity->vk);
         $paymentRequest->Init($payment->id, $amount*100);
 
         $paymentResponse = $paymentService->initPay($paymentRequest);
@@ -216,12 +220,6 @@ class PayController extends Controller
 
     public function actionSuccess()
     {
-        $productjson = "BODY: ".\Yii::$app->request->getRawBody()."\r\n";
-        $jsonfile = \Yii::getAlias('@webroot/Tinkoff.json');
-        $fp = fopen($jsonfile, 'a+');
-        fwrite($fp, $productjson."\r\n ========\r\n");
-        fclose($fp);
-
         $body = \Yii::$app->getRequest()->getBodyParams();
 
         if(empty($body))
@@ -244,149 +242,148 @@ class PayController extends Controller
 
         $token = hash('sha256', $token);
 
-//        if(!YII_ENV_DEV)
-        if($token != $checkingToken)
-            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+        if(!YII_ENV_DEV)
+            if($token != $checkingToken)
+                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
         $payment = TinkoffPay::findOne(['id' => $body['OrderId']]);
         $payment->status = $body['Status'];
+        $payment->response = $body;
         $payment->save();
 
         if($payment->status == "CONFIRMED") {
-            $currentMonth = Months::find()
-                ->where(['id' => $payment->monthId])
-                ->with(['extensions' => function($query) {
-                    return $query
-                        ->with('gift');
-                }])
-                ->with(['gifts' => function($query) {
-                    return $query
-                        ->with('gift');
-                }])
-                ->with('course')
-                ->one();
-            $course = $currentMonth->course;
-
-            $type = $payment->type;
-            $userId = $payment->userId;
-
-            $user = Users::find()
-                ->where(['id' => $userId])
-                ->with('months')
-                ->with('streams')
-                ->one();
-
-            $userMonths = [];
-            foreach ($user->months as $userMonth)
-                array_push($userMonths, $userMonth->id);
-
-            $userStreams = [];
-            foreach ($user->streams as $userStream)
-                array_push($userStreams, $userStream->id);
-
-            $error = false;
-            $remains = 0;
-            $months = [];
-
-            if ($type == 'course') {
-                array_push($months, $currentMonth);
-            } elseif ($type == 'short') {
-                $_months = $course->months;
-                $flag = false;
-                $remains = 3;
-                foreach ($_months as $lMonth)
-                {
-                    if($lMonth->id == $currentMonth->id)
-                        $flag = true;
-
-                    if($flag && $remains > 0)
-                    {
-                        if(ArrayHelper::isIn($lMonth->id, $userMonths))
-                            continue;
-
-                        $boughtCourse = new BoughtCourses();
-                        $boughtCourse->userId = $userId;
-                        $boughtCourse->monthId = $lMonth->id;
-                        $boughtCourse->courseId = $course->id;
-                        $boughtCourse->paymentId = $payment->id;
-                        $boughtCourse->isStream = true;
-                        $boughtCourse->save();
-                        $remains--;
-                    }
-                }
-            } elseif ($type == 'long') {
-                $_months = $course->months;
-                $flag = false;
-                $remains = 20;
-
-                foreach ($_months as $lMonth)
-                {
-                    if($lMonth->id == $currentMonth->id)
-                        $flag = true;
-
-                    if($flag)
-                    {
-                        if(ArrayHelper::isIn($lMonth->id, $userMonths))
-                            continue;
-
-                        $boughtCourse = new BoughtCourses();
-                        $boughtCourse->userId = $userId;
-                        $boughtCourse->monthId = $lMonth->id;
-                        $boughtCourse->courseId = $course->id;
-                        $boughtCourse->paymentId = $payment->id;
-                        $boughtCourse->isStream = true;
-                        $boughtCourse->save();
-                        $remains--;
-                    }
-                }
-            } elseif ($type == 'month') {
-                array_push($months, $currentMonth);
-            }
-
-            if($type == "month" || $type == "course")
-                foreach ($months as $month) {
-                    if(ArrayHelper::isIn($month->id, $userMonths))
-                        continue;
-
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $userId;
-                    $boughtCourse->monthId = $month->id;
-                    $boughtCourse->courseId = $course->id;
-                    $boughtCourse->paymentId = $payment->id;
-                    $boughtCourse->save();
-                }
-
-
-            $gifts = ($type == 'month' ? $currentMonth->extensions : $currentMonth->gifts);
-            if(!empty($gifts))
-                foreach ($gifts as $gift)
-                {
-                    if(ArrayHelper::isIn($gift->giftId, $userMonths))
-                        continue;
-
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $userId;
-                    $boughtCourse->monthId = $gift->giftId;
-                    $boughtCourse->courseId = $gift->gift->courseId;
-                    $boughtCourse->paymentId = $payment->id;
-                    $boughtCourse->save();
-                }
-
-
-            if ($type != 'month') {
-                if(!ArrayHelper::isIn($currentMonth->id, $userStreams))
-                {
-                    $stream = new UsersStream();
-                    $stream->userId = $userId;
-                    $stream->courseId = $course->id;
-                    $stream->monthId = $currentMonth->id;
-                    $stream->type = $type;
-                    $stream->remains = $remains;
-                    $stream->save();
-                }
-            }
+            self::CreateMonthUser($payment->courseId, $payment->monthId, $payment->userId, $payment->type, $payment->id);
         }
 
         return "OK";
+    }
+
+    public static function CreateMonthUser($courseId, $monthId, $userId, $type, $paymentId = null)
+    {
+        $user = Users::find()
+            ->where(['id' => $userId])
+            ->with('months')
+            ->with(['streams' => function($query) use ($courseId){
+                return $query->where(['courseId' => $courseId]);
+            }])
+            ->one();
+
+        $userMonths = [];
+        if(!empty($user->months) > 0)
+            foreach ($user->months as $userMonth)
+                array_push($userMonths, $userMonth->id);
+
+        $new = empty($user->streams);
+
+        if($new)
+        {
+            //Add to stream
+            $stream = new UsersStream();
+            $stream->userId = $userId;
+            $stream->courseId = $courseId;
+            $stream->monthId = $monthId;
+            $stream->type = $type;
+            $stream->save();
+
+            //Register this month
+            $bcMonth = new BoughtCourses();
+            $bcMonth->userId = $userId;
+            $bcMonth->courseId = $courseId;
+            $bcMonth->monthId = $monthId;
+            $bcMonth->streamId = $stream->id;
+            $bcMonth->paymentId = $paymentId;
+            $bcMonth->save();
+            array_push($userMonths, $monthId);
+
+            if($type != AppController::STREAM_TYPE_DEMO)
+            {
+                //Give future months if subscription
+                switch ($type)
+                {
+                    case AppController::GIFT_TYPE_SHORT:
+                        $remains = 2;
+                        break;
+                    case AppController::GIFT_TYPE_LONG:
+                        $remains = 11;
+                        break;
+                    default:
+                        $remains = 0;
+                }
+
+                if($remains > 0)
+                {
+                    $months = Months::find()
+                        ->where(['courseId' => $courseId])
+                        ->orderBy(['dateFrom' => SORT_ASC])
+                        ->all();
+
+                    $flag = false;
+                    foreach ($months as $month)
+                    {
+                        if($month->id == $monthId)
+                            $flag = true;
+
+                        if($flag && $remains > 0)
+                        {
+                            if(ArrayHelper::isIn($month->id, $userMonths))
+                                continue;
+
+                            $boughtCourse = new BoughtCourses();
+                            $boughtCourse->userId = $userId;
+                            $boughtCourse->monthId = $month->id;
+                            $boughtCourse->courseId = $courseId;
+                            $boughtCourse->streamId = $stream->id;
+                            $boughtCourse->giftedByMonthId = null;
+                            $boughtCourse->giftedByBC = $bcMonth->id;
+                            $boughtCourse->paymentId = $paymentId;
+                            $boughtCourse->save();
+
+                            array_push($userMonths, $month->id);
+                            $remains--;
+                        }
+                    }
+
+                    //Fix remains amount
+                    $stream->remains = $remains;
+                    $stream->save();
+                }
+
+                //Register gifts
+                $gifts = GiftMonths::getGiftsByType($monthId, $type);
+
+                foreach ($gifts as $gift)
+                {
+                    if(ArrayHelper::isIn($gift->gift->id, $userMonths))
+                        continue;
+
+                    $boughtCourse = new BoughtCourses();
+                    $boughtCourse->userId = $userId;
+                    $boughtCourse->monthId = $gift->gift->id;
+                    $boughtCourse->courseId = $gift->gift->courseId;
+                    $boughtCourse->streamId = null;
+                    $boughtCourse->giftedByMonthId = $monthId;
+                    $boughtCourse->giftedByBC = $bcMonth->id;
+                    $boughtCourse->paymentId = $paymentId;
+                    $boughtCourse->save();
+
+                    array_push($userMonths, $gift->month->id);
+                }
+            }
+        }
+        else
+        {
+            //Just give current month
+            if(!ArrayHelper::isIn($monthId, $userMonths))
+            {
+                $bcMonth = new BoughtCourses();
+                $bcMonth->userId = $userId;
+                $bcMonth->courseId = $courseId;
+                $bcMonth->monthId = $monthId;
+                $bcMonth->paymentId = $paymentId;
+                $bcMonth->save();
+            }
+        }
+
+        return true;
     }
 }

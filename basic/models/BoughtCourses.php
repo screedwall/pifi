@@ -11,7 +11,9 @@ use Yii;
  * @property int $userId
  * @property int $courseId
  * @property int $monthId
- * @property int $isStream
+ * @property int $streamId
+ * @property int $giftedByMonthId
+ * @property int $giftedByBC
  */
 class BoughtCourses extends \yii\db\ActiveRecord
 {
@@ -30,9 +32,8 @@ class BoughtCourses extends \yii\db\ActiveRecord
     {
         return [
             [['userId', 'courseId', 'monthId'], 'required'],
-            [['userId', 'courseId', 'monthId'], 'default', 'value' => null],
-            [['isStream'], 'default', 'value' => false],
-            [['userId', 'courseId', 'monthId'], 'integer'],
+            [['userId', 'courseId', 'monthId', 'streamId', 'giftedByMonthId', 'giftedByBC'], 'default', 'value' => null],
+            [['userId', 'courseId', 'monthId', 'streamId', 'giftedByMonthId', 'giftedByBC'], 'integer'],
         ];
     }
 
@@ -56,10 +57,9 @@ class BoughtCourses extends \yii\db\ActiveRecord
         return $this->hasOne(Months::class, ['id' => 'monthId']);
     }
 
-    public function getStreams()
+    public function getStream()
     {
-        return $this->hasMany(UsersStream::class, ['courseId' => 'courseId', 'userId' => 'userId'])
-            ->orderBy(['id' => SORT_ASC]);
+        return $this->hasOne(UsersStream::class, ['courseId' => 'courseId', 'userId' => 'userId']);
     }
 
     /**
@@ -82,7 +82,7 @@ class BoughtCourses extends \yii\db\ActiveRecord
             'userId' => Yii::t('app', 'User ID'),
             'courseId' => Yii::t('app', 'Course ID'),
             'monthId' => Yii::t('app', 'Month ID'),
-            'isStream' => Yii::t('app', 'Is stream'),
+            'streamId' => Yii::t('app', 'Stream ID'),
         ];
     }
 }

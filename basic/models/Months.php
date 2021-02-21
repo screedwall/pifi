@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "months".
@@ -12,8 +13,12 @@ use Yii;
  * @property string $dateFrom
  * @property string $dateTo
  * @property string $courseId
+ * @property ActiveRecord $gifts Stream gifts
+ * @property ActiveRecord $extensions Gifts for buying
+ * @property ActiveRecord $shorts Gifts for 3 months subscription
+ * @property ActiveRecord $longs Gifts for annual subscription
  */
-class Months extends \yii\db\ActiveRecord
+class Months extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -81,12 +86,26 @@ class Months extends \yii\db\ActiveRecord
     {
         return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
             ->where(['isExtension' => false])
+            ->andWhere(['isShort' => false])
+            ->andWhere(['isLong' => false])
             ->orderBy(['id' => SORT_ASC]);
     }
     public function getExtensions()
     {
         return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
             ->where(['isExtension' => true])
+            ->orderBy(['id' => SORT_ASC]);
+    }
+    public function getShorts()
+    {
+        return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
+            ->where(['isShort' => true])
+            ->orderBy(['id' => SORT_ASC]);
+    }
+    public function getLongs()
+    {
+        return $this->hasMany(GiftMonths::class, ['monthId' => 'id'])
+            ->where(['isLong' => true])
             ->orderBy(['id' => SORT_ASC]);
     }
     public function getCoupons()

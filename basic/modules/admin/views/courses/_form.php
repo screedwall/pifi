@@ -40,9 +40,9 @@ use kartik\form\ActiveForm;
 
     <?= Yii::$app->user->identity->isAdmin() ? $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name')) : '' ?>
 
-    <?= $form->field($model, 'subject')->dropDownList(AppController::getSubjects()) ?>
+    <?= $form->field($model, 'subject')->dropDownList(AppController::SUBJECTS) ?>
 
-    <?= $form->field($model, 'examType')->dropDownList(AppController::getExams()) ?>
+    <?= $form->field($model, 'examType')->dropDownList(AppController::EXAM_TYPES) ?>
 
     <?= $form->field($model, 'thumbnail')->widget(budyaga\cropper\Widget::class, [
         'uploadUrl' => \yii\helpers\Url::toRoute('courses/uploadPhoto'),

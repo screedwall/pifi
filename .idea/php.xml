@@ -123,6 +123,8 @@
       <path value="$PROJECT_DIR$/basic/vendor/fakerphp/faker" />
       <path value="$PROJECT_DIR$/basic/vendor/wbraganca/yii2-dynamicform" />
       <path value="$PROJECT_DIR$/basic/vendor/yiisoft/yii2-redis" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/dependent-dropdown" />
+      <path value="$PROJECT_DIR$/basic/vendor/kartik-v/yii2-widget-depdrop" />
     </include_path>
   </component>
 </project>

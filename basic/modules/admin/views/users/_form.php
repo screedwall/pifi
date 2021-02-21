@@ -56,7 +56,7 @@ use yii\bootstrap\Modal;
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'role')->dropDownList(\app\controllers\AppController::getRoles()) ?>
+    <?= $form->field($model, 'role')->dropDownList(\app\controllers\AppController::ROLES) ?>
 
     <?= $form->field($model, 'teacherId')->dropDownList(ArrayHelper::map(\app\models\Teachers::find()->all(), 'id', 'name'), array('prompt' => '')) ?>
 
@@ -67,83 +67,6 @@ use yii\bootstrap\Modal;
             $month->courseId = $month->course->name;
         }
     ?>
-
-    <?php if(!isset($new)): ?>
-    <div class="form-group">
-        <?= Html::label('Курсы пользователя', 'months[]') ?>
-        <?= Select2::widget([
-            'name' => 'months',
-            'value' => ArrayHelper::map($model->months, 'id', 'id'),
-            'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
-            'options' => [
-                'placeholder' => 'Выберите курсы...',
-                'multiple' => true,
-                'options' => [],
-            ],
-        ]) ?>
-    </div>
-
-    <?php
-        $disableSel2Group = <<< JS
-        function disableSel2Group(evt, target, disabled) {
-            
-            var group = evt.params.args.data.element.parentElement.children;
-            
-            $.each(group, function(idx, item) {
-              if(item != evt.params.args.data.element)
-              {
-                item.disabled = disabled;
-              }
-        })
-    }
-JS;
-        $this->registerJs($disableSel2Group);
-
-        $streams = [];
-        foreach ($model->streams as $stream)
-            array_push($streams, $stream->month);
-
-        $disabledStreams = [];
-        $disabledGroups = [];
-        $enabledElements = [];
-        foreach ($months as $month)
-        {
-            foreach ($model->streams as $stream)
-            {
-                if($stream->month->id == $month->id)
-                {
-                    array_push($disabledGroups, $month->courseId);
-                    array_push($enabledElements, $month->id);
-                }
-            }
-        }
-
-        foreach ($months as $month)
-        {
-            if(in_array($month->courseId, $disabledGroups) && !in_array($month->id, $enabledElements))
-                $disabledStreams[$month->id] = ['disabled' => true];
-        }
-    ?>
-
-    <div class="form-group">
-        <?= Html::label('Потоки пользователя', 'streams[]') ?>
-        <?= Select2::widget([
-            'name' => 'streams',
-            'value' => ArrayHelper::map($streams, 'id', 'id'),
-            'data' => ArrayHelper::map($months, 'id', 'name', 'courseId'),
-            'options' => [
-                'placeholder' => 'Выберите курсы...',
-                'multiple' => true,
-                'options' => $disabledStreams,
-            ],
-            'pluginEvents' => [
-                "select2:selecting" => "function(evt) { disableSel2Group(evt, this, true); }",
-                "select2:unselecting" => "function(evt) { disableSel2Group(evt, this, false); }",
-            ]
-        ]) ?>
-    </div>
-
-    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']) ?>
