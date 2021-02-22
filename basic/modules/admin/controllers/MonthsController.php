@@ -136,7 +136,7 @@ class MonthsController extends Controller
                 array_push($months, intval($id));
 
                 //delete users from month
-//                BoughtCourses::deleteAll(['and', ['in','monthId', $months], ['in', 'userId', ArrayHelper::getColumn($bcUsers, 'userId')]]);
+                BoughtCourses::deleteAll(['and', ['in','monthId', $months], ['in', 'userId', ArrayHelper::getColumn($bcUsers, 'userId')]]);
             }
             GiftMonths::deleteAll(['monthId' => $id]);
             //--PURGE Previous linked records
@@ -153,10 +153,10 @@ class MonthsController extends Controller
                 $this->batchGifts($model->id, $value, $key);
             //--Collect different gift months and register
 
-//            foreach ($monthUsers as $monthUser)
-//            {
-//                PayController::CreateMonthUser($courseId, $id, $monthUser['userId'], $monthUser['type'], $monthUser['paymentId'], true);
-//            }
+            foreach ($monthUsers as $monthUser)
+            {
+                PayController::CreateMonthUser($courseId, $id, $monthUser['userId'], $monthUser['type'], $monthUser['paymentId'], true);
+            }
 
             return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
         }

@@ -360,11 +360,17 @@ class PayController extends Controller
             //Just give current month
             if(!ArrayHelper::isIn($monthId, $userMonths))
             {
+                if($user->streams[0]->monthId == $monthId)
+                    $streamId = $user->streams[0]->id;
+                else
+                    $streamId = null;
+
                 $bcMonth = new BoughtCourses();
                 $bcMonth->userId = $userId;
                 $bcMonth->courseId = $courseId;
                 $bcMonth->monthId = $monthId;
                 $bcMonth->paymentId = $paymentId;
+                $bcMonth->streamId = $streamId;
                 $bcMonth->save();
 
                 //Register gifts
