@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use app\controllers\AppController;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -37,7 +39,17 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'value' => 'teacher.name',
 //                'label' => 'Преподаватель',
 //            ],
-//            'role',
+            [
+                'attribute' => 'role',
+                'content' => function($model){
+                    return AppController::ROLES[$model->role];
+                },
+                'filter' => [
+                    '0' => AppController::ROLES[0],
+                    '1' => AppController::ROLES[1],
+                    '2' => AppController::ROLES[2],
+                ]
+            ],
 //            'authKey',
 //            'password',
 

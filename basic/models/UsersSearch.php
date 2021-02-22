@@ -18,7 +18,7 @@ class UsersSearch extends Users
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'role'], 'integer'],
             [['name', 'email', 'vk', 'description', 'authKey', 'password', 'teacher'], 'safe'],
         ];
     }
@@ -42,8 +42,7 @@ class UsersSearch extends Users
     public function search($params)
     {
         $query = Users::find()
-            ->joinWith(['teacher'])
-            ->orderBy(['id' => SORT_ASC]);
+            ->joinWith(['teacher']);
 
         // add conditions that should always apply here
 
@@ -82,6 +81,7 @@ class UsersSearch extends Users
             ->andFilterWhere(['like', 'UPPER(email)', mb_strtoupper($this->email)])
             ->andFilterWhere(['like', 'UPPER(vk)', mb_strtoupper($this->vk)])
             ->andFilterWhere(['like', 'users.description', $this->description])
+            ->andFilterWhere(['=', 'users.role', $this->role])
             ->andFilterWhere(['like', 'teachers.name', $this->teacher]);
 
         return $dataProvider;
