@@ -258,7 +258,7 @@ class PayController extends Controller
         return "OK";
     }
 
-    public static function CreateMonthUser($courseId, $monthId, $userId, $type, $paymentId = null)
+    public static function CreateMonthUser($courseId, $monthId, $userId, $type, $paymentId = null, $noStream = false)
     {
         $user = Users::find()
             ->where(['id' => $userId])
@@ -277,13 +277,16 @@ class PayController extends Controller
 
         if($new)
         {
-            //Add to stream
-            $stream = new UsersStream();
-            $stream->userId = $userId;
-            $stream->courseId = $courseId;
-            $stream->monthId = $monthId;
-            $stream->type = $type;
-            $stream->save();
+            if(!$noStream)
+            {
+                //Add to stream
+                $stream = new UsersStream();
+                $stream->userId = $userId;
+                $stream->courseId = $courseId;
+                $stream->monthId = $monthId;
+                $stream->type = $type;
+                $stream->save();
+            }
 
             //Register this month
             $bcMonth = new BoughtCourses();
@@ -349,25 +352,7 @@ class PayController extends Controller
                 }
 
                 //Register gifts
-                $gifts = GiftMonths::getGiftsByType($monthId, $type);
-
-                foreach ($gifts as $gift)
-                {
-                    if(ArrayHelper::isIn($gift->gift->id, $userMonths))
-                        continue;
-
-                    $boughtCourse = new BoughtCourses();
-                    $boughtCourse->userId = $userId;
-                    $boughtCourse->monthId = $gift->gift->id;
-                    $boughtCourse->courseId = $gift->gift->courseId;
-                    $boughtCourse->streamId = null;
-                    $boughtCourse->giftedByMonthId = $monthId;
-                    $boughtCourse->giftedByBC = $bcMonth->id;
-                    $boughtCourse->paymentId = $paymentId;
-                    $boughtCourse->save();
-
-                    array_push($userMonths, $gift->month->id);
-                }
+                self::RegisterGifts($monthId, $userId, $type, $paymentId, $bcMonth, $userMonths);
             }
         }
         else
@@ -381,9 +366,35 @@ class PayController extends Controller
                 $bcMonth->monthId = $monthId;
                 $bcMonth->paymentId = $paymentId;
                 $bcMonth->save();
+
+                //Register gifts
+                self::RegisterGifts($monthId, $userId, $type, $paymentId, $bcMonth, $userMonths);
             }
         }
 
         return true;
+    }
+
+    static function RegisterGifts($monthId, $userId, $type, $paymentId, $bcMonth, $userMonths)
+    {
+        $gifts = GiftMonths::getGiftsByType($monthId, $type);
+
+        foreach ($gifts as $gift)
+        {
+            if(ArrayHelper::isIn($gift->gift->id, $userMonths))
+                continue;
+
+            $boughtCourse = new BoughtCourses();
+            $boughtCourse->userId = $userId;
+            $boughtCourse->monthId = $gift->gift->id;
+            $boughtCourse->courseId = $gift->gift->courseId;
+            $boughtCourse->streamId = null;
+            $boughtCourse->giftedByMonthId = $monthId;
+            $boughtCourse->giftedByBC = $bcMonth->id;
+            $boughtCourse->paymentId = $paymentId;
+            $boughtCourse->save();
+
+            array_push($userMonths, $gift->month->id);
+        }
     }
 }

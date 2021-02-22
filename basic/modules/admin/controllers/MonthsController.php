@@ -124,7 +124,7 @@ class MonthsController extends Controller
                     'userId' => $bcUser->userId,
                     'paymentId' => $bcUser->paymentId,
                     'streamId' => $bcUser->streamId,
-                    'type' => $bcUser->stream->type,
+                    'type' => ($bcUser->stream->monthId == $id ? $bcUser->stream->type : AppController::STREAM_TYPE_MONTH),
                 ]);
             //--Save user info before purge
 
@@ -136,7 +136,7 @@ class MonthsController extends Controller
                 array_push($months, intval($id));
 
                 //delete users from month
-//                BoughtCourses::deleteAll(['and', ['in','monthId', $months], ['in', 'userId', ArrayHelper::getColumn($bcUsers, 'userId')]]);
+                BoughtCourses::deleteAll(['and', ['in','monthId', $months], ['in', 'userId', ArrayHelper::getColumn($bcUsers, 'userId')]]);
             }
             GiftMonths::deleteAll(['monthId' => $id]);
             //--PURGE Previous linked records
@@ -152,6 +152,11 @@ class MonthsController extends Controller
             foreach ($gifts as $key => $value)
                 $this->batchGifts($model->id, $value, $key);
             //--Collect different gift months and register
+
+            foreach ($monthUsers as $monthUser)
+            {
+                PayController::CreateMonthUser($courseId, $id, $monthUser['userId'], $monthUser['type'], $monthUser['paymentId'], true);
+            }
 
             return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
         }
