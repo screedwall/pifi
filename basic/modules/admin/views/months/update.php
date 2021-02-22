@@ -178,8 +178,9 @@ $this->registerJs($JS);
                             if(Yii::$app->user->identity->isTeacher())
                                 return false;
                             $isNew = true;
-                            if($model->streams[0]->monthId != $month->id)
-                                $isNew = false;
+                            if(!$month->course->isSpec)
+                                if($model->streams[0]->monthId != $month->id)
+                                    $isNew = false;
 
                             foreach ($model->boughtCourses as $boughtCourse)
                                 if($boughtCourse->monthId == $month->id)
