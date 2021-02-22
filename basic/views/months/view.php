@@ -16,7 +16,7 @@ $items = [];
 
 foreach ($model->lessons as $item) {
     array_push($items, [
-                'label' => $item->name." ".$item->lessonDate,
+                'label' => $item->lessonDate.": ".$item->name,
                 'options' => ['clientOptions' => $item->name],
                 'content' => "Время выполнения ДЗ: ".$item->homeworkDate."<br>"
                 .Html::a('Открыть урок', ['lessons/view', 'id' => $item->id], [
