@@ -27,7 +27,7 @@ class MonthsController extends \yii\web\Controller
 
     public function actionView($id)
     {
-        $error = false;
+        $error = true;
         $demo = false;
 
         $boughtCourse = BoughtCourses::find()
@@ -37,7 +37,10 @@ class MonthsController extends \yii\web\Controller
 
         if(!empty($boughtCourse))
         {
-            $error = false;
+            foreach (Yii::$app->user->identity->months as $month)
+                if($month->id == $id)
+                    $error = false;
+
             if(!empty($boughtCourse->stream))
             {
                 if($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
