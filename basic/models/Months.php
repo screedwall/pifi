@@ -74,7 +74,7 @@ class Months extends ActiveRecord
     public function getLessons()
     {
         return $this->hasMany(Lessons::class, ['monthId' => 'id'])
-            ->orderBy(['id' => SORT_ASC]);
+            ->orderBy(['lessonDate' => SORT_ASC]);
     }
     public function getUsers()
     {
