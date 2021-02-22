@@ -38,8 +38,11 @@ class MonthsController extends \yii\web\Controller
         if(!empty($boughtCourse))
         {
             $error = false;
-            if($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
-                $demo = true;
+            if(!empty($boughtCourse->stream))
+            {
+                if($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
+                    $demo = true;
+            }
         }
 
 
