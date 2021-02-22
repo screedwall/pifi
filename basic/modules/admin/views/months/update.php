@@ -122,6 +122,12 @@ $this->registerJs($JS);
                                     if(data[0].id != 'forbidden' && data[0].id != '')
                                         $('#addUserButton').attr('disabled', false);
                             }",
+                            "change" => "function() {
+                                let data = $(this).select2('data');
+                                if(data.length > 0)
+                                    if(data[0].id != 'forbidden' && data[0].id != '')
+                                        $('#addUserButton').attr('disabled', false);
+                            }",
                         ],
                     ]);
                     ?>
