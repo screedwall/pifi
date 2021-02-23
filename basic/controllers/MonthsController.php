@@ -30,23 +30,25 @@ class MonthsController extends \yii\web\Controller
         $error = true;
         $demo = false;
 
-        $boughtCourse = BoughtCourses::find()
-            ->where(['monthId' => $id, 'userId' => Yii::$app->user->identity->getId()])
-            ->with('stream')
-            ->one();
+        if(!Yii::$app->user->identity->isAdmin()) {
+            $boughtCourse = BoughtCourses::find()
+                ->where(['monthId' => $id, 'userId' => Yii::$app->user->identity->getId()])
+                ->with('stream')
+                ->one();
 
-        if(!empty($boughtCourse))
-        {
-            foreach (Yii::$app->user->identity->months as $month)
-                if($month->id == $id)
-                    $error = false;
+            if (!empty($boughtCourse)) {
+                foreach (Yii::$app->user->identity->months as $month)
+                    if ($month->id == $id)
+                        $error = false;
 
-            if(!empty($boughtCourse->stream))
-            {
-                if($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
-                    $demo = true;
+                if (!empty($boughtCourse->stream)) {
+                    if ($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
+                        $demo = true;
+                }
             }
         }
+        else
+            $error = false;
 
 
         if(!$error)
