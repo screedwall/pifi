@@ -53,6 +53,8 @@ class RefactorUsersController extends Controller
         {
             if($this->ifIsIn2($stream['userId'], $users) && ($this->ifIsIn2($stream['courseId'], $courses) && $this->ifIsIn2($stream['monthId'], $months)))
                 PayController::CreateMonthUser($stream['courseId'], $stream['monthId'], $stream['userId'], $stream['type']);
+
+            echo $stream['courseId']." ".$stream['monthId']." ".$stream['userId']." ".$stream['type'];
         }
 
         $boughtCourseArray = [];
@@ -80,6 +82,7 @@ class RefactorUsersController extends Controller
             if($this->ifIsIn2($bcItem['userId'], $users) && ($this->ifIsIn2($bcItem['courseId'], $courses) && $this->ifIsIn2($bcItem['monthId'], $months)))
                 PayController::CreateMonthUser($bcItem['courseId'], $bcItem['monthId'], $bcItem['userId'], AppController::STREAM_TYPE_MONTH, null, true);
 
+            echo $bcItem['courseId']." ".$bcItem['monthId']." ".$bcItem['userId'];
         }
 
         echo "DONE";
