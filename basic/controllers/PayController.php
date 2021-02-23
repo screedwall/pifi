@@ -349,6 +349,8 @@ class PayController extends Controller
 
                             array_push($userMonths, $month->id);
                             $remains--;
+
+                            self::RegisterGifts($month->id, $userId, AppController::STREAM_TYPE_MONTH, $paymentId, $boughtCourse, $userMonths);
                         }
                     }
 
