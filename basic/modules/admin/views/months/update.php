@@ -179,8 +179,9 @@ $this->registerJs($JS);
                                 return false;
                             $isNew = true;
                             if(!$month->course->isSpec)
-                                if($model->streams[0]->monthId != $month->id)
-                                    $isNew = false;
+                                if(!empty($model->streams))
+                                    if($model->streams[0]->monthId != $month->id)
+                                        $isNew = false;
 
                             foreach ($model->boughtCourses as $boughtCourse)
                                 if($boughtCourse->monthId == $month->id)
