@@ -286,6 +286,12 @@ class PayController extends Controller
                 $stream->monthId = $monthId;
                 $stream->type = $type;
                 $stream->save();
+
+                $streamId = $stream->id;
+            }
+            else
+            {
+                $streamId = null;
             }
 
             //Register this month
@@ -293,7 +299,7 @@ class PayController extends Controller
             $bcMonth->userId = $userId;
             $bcMonth->courseId = $courseId;
             $bcMonth->monthId = $monthId;
-            $bcMonth->streamId = $stream->id;
+            $bcMonth->streamId = $streamId;
             $bcMonth->paymentId = $paymentId;
             $bcMonth->save();
             array_push($userMonths, $monthId);
@@ -335,7 +341,7 @@ class PayController extends Controller
                             $boughtCourse->userId = $userId;
                             $boughtCourse->monthId = $month->id;
                             $boughtCourse->courseId = $courseId;
-                            $boughtCourse->streamId = $stream->id;
+                            $boughtCourse->streamId = $streamId;
                             $boughtCourse->giftedByMonthId = null;
                             $boughtCourse->giftedByBC = $bcMonth->id;
                             $boughtCourse->paymentId = $paymentId;
