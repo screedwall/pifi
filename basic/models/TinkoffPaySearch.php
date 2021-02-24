@@ -57,7 +57,7 @@ class TinkoffPaySearch extends TinkoffPay
             'pagination' => [
                 'forcePageParam' => false,
                 'pageSizeParam' => false,
-                'pageSize' => 5
+                'pageSize' => 15
             ]
         ]);
 
