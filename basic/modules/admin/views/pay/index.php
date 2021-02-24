@@ -117,14 +117,13 @@ $this->registerJs($JS);
                     'info' => function ($url, $model) {
                         return Html::button('',
                             [
-                                'title' => Yii::t('app', 'Редактировать'),
+                                'title' => empty($model->response) ? 'Нет информации' : null,
                                 'class' => 'btn glyphicon glyphicon-eye-open showModalButton '.(empty($model->response) ? 'btn-danger' : 'btn-default'),
                                 'data-toggle'=>'modal',
                                 'data-target'=>'#payInfo',
                                 'name' => "Оплата #".$model->id,
                                 'href' => \yii\helpers\Url::to(['pay/info', 'id' => $model->id]),
                                 'disabled' => empty($model->response),
-                                'title' => empty($model->response) ? 'Нет информации' : null,
                             ]
                         );
                     },
