@@ -118,7 +118,7 @@ $this->registerJs($JS);
                         return Html::button('',
                             [
                                 'title' => Yii::t('app', 'Редактировать'),
-                                'class' => 'btn glyphicon glyphicon-pencil showModalButton '.(empty($model->response) ? 'btn-danger' : 'btn-default'),
+                                'class' => 'btn glyphicon glyphicon-eye-open showModalButton '.(empty($model->response) ? 'btn-danger' : 'btn-default'),
                                 'data-toggle'=>'modal',
                                 'data-target'=>'#payInfo',
                                 'name' => "Оплата #".$model->id,
