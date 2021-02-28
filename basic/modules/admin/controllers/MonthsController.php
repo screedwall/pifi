@@ -294,7 +294,6 @@ class MonthsController extends Controller
 
             $stream = UsersStream::findOne(['userId' => $userId, 'monthId' => $monthId]);
 
-            //TODO : check SPEC
             if((AppController::isSubscription($type) || $type == AppController::STREAM_TYPE_COURSE || $type == AppController::STREAM_TYPE_DEMO) && $stream->type != $type) //Only if type changed
             {
                 //Remove linked months & gifts
