@@ -2305,6 +2305,10 @@ text-align: center;
     padding-top: 5px;
 }
 
+.error404{
+    max-width: 300px;
+}
+
 .nav-subjects{
     background-color: #fff;
     border: none;
