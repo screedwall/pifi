@@ -45,23 +45,44 @@ class AppController extends Controller
 
     const STREAM_TYPES = [
         'course' => 'course',
+        'extra_short' => 'extra_short',
         'short' => 'short',
         'long' => 'long',
         'demo' => 'demo',
         'month' => 'month',
+        'demo_month' => 'demo_month',
         'short_continuation' => 'short_continuation',
         'long_continuation' => 'long_continuation',
     ];
 
+    const ALL_STREAM_TYPES = [
+        'course' => 'course',
+        'extra_short' => 'extra_short',
+        'short' => 'short',
+        'long' => 'long',
+        'demo' => 'demo',
+        'month' => 'month',
+        'demo_month' => 'demo_month',
+        'short_continuation' => 'short_continuation',
+        'long_continuation' => 'long_continuation',
+        'spec' => 'spec',
+        'demo_continuation' => 'demo_continuation',
+    ];
+
     const STREAM_TYPE_DEMO = self::STREAM_TYPES['demo'];
     const STREAM_TYPE_MONTH = self::STREAM_TYPES['month'];
+    const STREAM_TYPE_DEMO_MONTH = self::STREAM_TYPES['demo_month'];
     const STREAM_TYPE_COURSE = self::STREAM_TYPES['course'];
+    const STREAM_TYPE_EXTRA_SHORT = self::STREAM_TYPES['extra_short'];
     const STREAM_TYPE_SHORT = self::STREAM_TYPES['short'];
     const STREAM_TYPE_LONG = self::STREAM_TYPES['long'];
     const STREAM_TYPE_SHORT_CONT = self::STREAM_TYPES['short_continuation'];
     const STREAM_TYPE_LONG_CONT = self::STREAM_TYPES['long_continuation'];
 
-    const STREAM_TYPE_SPEC = 'spec';
+    const STREAM_TYPE_SPEC = self::ALL_STREAM_TYPES['spec'];
+    const STREAM_TYPE_DEMO_CONTINUATION = self::ALL_STREAM_TYPES['demo_continuation'];
+
+    const DEMO_COST = 500;
 
     /**
      * Returns representation for any stream type.
@@ -76,8 +97,14 @@ class AppController extends Controller
                 return 'Демо';
             case self::STREAM_TYPE_MONTH:
                 return 'Продление';
+            case self::STREAM_TYPE_DEMO_CONTINUATION:
+                return 'Продление демо-месяца';
+            case self::STREAM_TYPE_DEMO_MONTH:
+                return 'Демо-месяц';
             case self::STREAM_TYPE_COURSE:
                 return '1 месяц';
+            case self::STREAM_TYPE_EXTRA_SHORT:
+                return '2х месячный абонемент';
             case self::STREAM_TYPE_SHORT:
                 return '3х месячный абонемент';
             case self::STREAM_TYPE_LONG:
@@ -92,9 +119,16 @@ class AppController extends Controller
     public static function isSubscription($type)
     {
         return $type == self::STREAM_TYPE_SHORT
+            || $type == self::STREAM_TYPE_EXTRA_SHORT
             || $type == self::STREAM_TYPE_LONG
             || $type == self::STREAM_TYPE_SHORT_CONT
             || $type == self::STREAM_TYPE_LONG_CONT;
+    }
+
+    public static function isContinuation($type)
+    {
+        return $type == self::STREAM_TYPE_MONTH
+            || $type == self::STREAM_TYPE_DEMO_MONTH;
     }
 
     public static function castSubType($type)

@@ -14,6 +14,8 @@ use Yii;
  * @property int $streamId
  * @property int $giftedByMonthId
  * @property int $giftedByBC
+ * @property boolean $isDemo
+ * @property boolean $isDemoContinued
  */
 class BoughtCourses extends \yii\db\ActiveRecord
 {
@@ -34,6 +36,7 @@ class BoughtCourses extends \yii\db\ActiveRecord
             [['userId', 'courseId', 'monthId'], 'required'],
             [['userId', 'courseId', 'monthId', 'streamId', 'giftedByMonthId', 'giftedByBC'], 'default', 'value' => null],
             [['userId', 'courseId', 'monthId', 'streamId', 'giftedByMonthId', 'giftedByBC'], 'integer'],
+            [['isDemo', 'isDemoContinued'], 'boolean'],
         ];
     }
 

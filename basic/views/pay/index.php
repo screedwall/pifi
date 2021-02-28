@@ -1,10 +1,14 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model \app\models\Courses */
+/* @var $course \app\models\Courses */
+/* @var $amount int */
+/* @var $type string */
 /* @var \chumakovanton\tinkoffPay\TinkoffPay $paymentService */
 
 use yii\bootstrap\Html;
 use yii\helpers\Url;
+use app\controllers\AppController;
 
 $this->title = "Купить курс ".$course->name;
 ?>
@@ -24,24 +28,40 @@ if ($bought)
 }
 
 switch ($type){
-    case 'course':
+    case AppController::STREAM_TYPE_COURSE:
         $firstLine = "<h2>Вы покупаете месяц \"$month->name\" курса \"$course->name\"</h2>";
         $secondLine = "<h4>Стоимость курса ".$amount." рублей.</h4>";
         $buttonName = 'Оплатить месяц';
         break;
-    case 'short':
-        $firstLine = "<h2>Вы покупаете 3х месячный абонемент курса \"$course->name\"</h2>";
-        $secondLine = "<h4>Стоимость абонемента ".$course->price('short')." рублей.</h4>";
+    case AppController::STREAM_TYPE_EXTRA_SHORT:
+        $firstLine = "<h2>Вы покупаете 2х месячный абонемент курса \"$course->name\"</h2>";
+        $secondLine = "<h4>Стоимость абонемента ".$amount." рублей.</h4>";
         $buttonName = 'Оплатить абонемент';
         break;
-    case 'long':
+    case AppController::STREAM_TYPE_SHORT:
+        $firstLine = "<h2>Вы покупаете 3х месячный абонемент курса \"$course->name\"</h2>";
+        $secondLine = "<h4>Стоимость абонемента ".$amount." рублей.</h4>";
+        $buttonName = 'Оплатить абонемент';
+        break;
+    case AppController::STREAM_TYPE_LONG:
         $firstLine = "<h2>Вы покупаете годовой абонемент курса \"$course->name\"</h2>";
         $secondLine = "<h4>Стоимость абонемента ".$amount." рублей.</h4>";
         $buttonName = 'Оплатить абонемент';
         break;
-    case 'month':
+    case AppController::STREAM_TYPE_DEMO_MONTH:
+    case AppController::STREAM_TYPE_DEMO:
+        $firstLine = "<h2>Вы покупаете демо-месяц \"$month->name\" курса \"$course->name\"</h2>";
+        $secondLine = "<h4>Стоимость демо-месяца ".$amount." рублей.</h4>";
+        $buttonName = 'Оплатить месяц';
+        break;
+    case AppController::STREAM_TYPE_MONTH:
         $firstLine = "<h2>Вы покупаете месяц \"$month->name\" курса \"$course->name\"</h2>";
         $secondLine = "<h4>Стоимость месяца ".$amount." рублей.</h4>";
+        $buttonName = 'Оплатить месяц';
+        break;
+    case AppController::STREAM_TYPE_DEMO_CONTINUATION:
+        $firstLine = "<h2>Вы покупаете продление демо-месяца \"$month->name\" курса \"$course->name\"</h2>";
+        $secondLine = "<h4>Стоимость продления демо-месяца ".$amount." рублей.</h4>";
         $buttonName = 'Оплатить месяц';
         break;
 

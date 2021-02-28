@@ -28,6 +28,7 @@ use yii\web\JsExpression;
 
         if(!$model->course->isSpec)
         {
+            echo $form->field($model, 'priceExtraShort');
             echo $form->field($model, 'priceShort');
             echo $form->field($model, 'priceLong');
         }

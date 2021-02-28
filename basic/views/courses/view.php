@@ -1,8 +1,11 @@
 <?php
+
+use app\controllers\AppController;
 use kartik\tabs\TabsX;
 use app\models\BoughtCourses;
 use yii\bootstrap\Modal;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Courses */
@@ -105,23 +108,30 @@ if(!Yii::$app->user->isGuest)
                 <?php else: ?>
                     <?php if(!$bought): ?>
                         <p>Вы можете купить:</p>
-                        <?= Html::a('Месяц', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'course']),
-                            [
-                                'class' => 'btn btn-success btn-lg btn-block',
-                            ]
-                        ); ?>
+                        <?php
+                        $types = [];
+                        foreach (AppController::STREAM_TYPES as $STREAM_TYPE)
+                            array_push($types, [
+                                'id' => $STREAM_TYPE,
+                                'name' => AppController::getStreamType($STREAM_TYPE)
+                            ]);
 
-                            <?= Html::a('3 месяца', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'short']),
+                        $toDelete = [AppController::STREAM_TYPE_MONTH, AppController::STREAM_TYPE_DEMO_MONTH, AppController::STREAM_TYPE_SHORT_CONT, AppController::STREAM_TYPE_LONG_CONT];
+                        foreach ($toDelete as $el) {
+                            ArrayHelper::removeValue($types, [
+                                'id' => $el,
+                                'name' => AppController::getStreamType($el),
+                            ]);
+                        }
+
+                        foreach ($types as $type)
+                            echo Html::a($type['name'], \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => $type['id']]),
                                 [
                                     'class' => 'btn btn-success btn-lg btn-block',
                                 ]
-                            ); ?>
+                            );
+                        ?>
 
-                        <?= Html::a('Годовой абонемент', \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => 'long']),
-                            [
-                                'class' => 'btn btn-success btn-lg btn-block',
-                            ]
-                        ); ?>
                     <?php else: ?>
                         <p>Курс приобретен.</p>
                         <p>Посмотреть его можно в <?=Html::a('профиле', \yii\helpers\Url::to(['/profile'])) ?>.</p>

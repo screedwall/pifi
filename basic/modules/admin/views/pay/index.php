@@ -16,6 +16,8 @@ foreach (AppController::STREAM_TYPES as $STREAM_TYPE)
     if($STREAM_TYPE != AppController::STREAM_TYPE_SHORT_CONT && $STREAM_TYPE != AppController::STREAM_TYPE_LONG_CONT)
         $types += [$STREAM_TYPE => AppController::getStreamType($STREAM_TYPE)];
 
+$types += [AppController::STREAM_TYPE_DEMO_CONTINUATION => AppController::getStreamType(AppController::STREAM_TYPE_DEMO_CONTINUATION)];
+
 $JS = <<<JS
     $(function(){
           $(document).on('click', '.showModalButton', function(){

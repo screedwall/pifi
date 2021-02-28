@@ -241,7 +241,7 @@ class MonthsController extends Controller
                                 'name' => AppController::getStreamType($STREAM_TYPE)
                             ]);
 
-                        $toDelete = [AppController::STREAM_TYPE_MONTH, AppController::STREAM_TYPE_SHORT_CONT, AppController::STREAM_TYPE_LONG_CONT];
+                        $toDelete = [AppController::STREAM_TYPE_MONTH, AppController::STREAM_TYPE_DEMO_MONTH, AppController::STREAM_TYPE_SHORT_CONT, AppController::STREAM_TYPE_LONG_CONT];
                         foreach ($toDelete as $el) {
                             ArrayHelper::removeValue($out, [
                                 'id' => $el,
@@ -253,8 +253,12 @@ class MonthsController extends Controller
                             'id' => AppController::STREAM_TYPE_MONTH,
                             'name' => AppController::getStreamType(AppController::STREAM_TYPE_MONTH)
                         ]);
+                        array_push($out, [
+                            'id' => AppController::STREAM_TYPE_DEMO_MONTH,
+                            'name' => AppController::getStreamType(AppController::STREAM_TYPE_DEMO_MONTH)
+                        ]);
 
-                        $selected = $out;
+                        $selected = [];
                     }
 
                     // Shows how you can preselect a value
@@ -286,17 +290,46 @@ class MonthsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             //Operates only with new users in course without continuations
             $type = $request->post('subscriptionType');
+            $isDemoContinued = boolval($request->post('isDemoContinued'));
 
             $stream = UsersStream::findOne(['userId' => $userId, 'monthId' => $monthId]);
-            if($stream->type != $type) //Only if type changed
+
+            //TODO : check SPEC
+            if((AppController::isSubscription($type) || $type == AppController::STREAM_TYPE_COURSE || $type == AppController::STREAM_TYPE_DEMO) && $stream->type != $type) //Only if type changed
             {
                 //Remove linked months & gifts
                 $stream->delete();
 
                 $ret = ['success' => PayController::CreateMonthUser($courseId, $monthId, $userId, $type)];
+                if($type == AppController::STREAM_TYPE_DEMO)
+                {
+                    $boughtCourse = BoughtCourses::findOne(['userId' => $userId, 'monthId' => $monthId]);
+                    $boughtCourse->isDemo = true;
+                    $boughtCourse->isDemoContinued = $isDemoContinued;
+                    $boughtCourse->save();
+                }
+            }
+            elseif(AppController::isContinuation($type))
+            {
+                $boughtCourse = BoughtCourses::findOne(['userId' => $userId, 'monthId' => $monthId]);
+
+                if($type == AppController::STREAM_TYPE_MONTH)
+                {
+                    $boughtCourse->isDemo = false;
+                    $boughtCourse->isDemoContinued = false;
+                }
+                else
+                {
+                    $boughtCourse->isDemo = true;
+                    $boughtCourse->isDemoContinued = $isDemoContinued;
+                }
+
+                $boughtCourse->save();
+
+                $ret = ['success' => true];
             }
             else
-                $ret = ['success' => false, 'reason' => 'Вы не поменяли тип подписки.'];
+                $ret = ['success' => true];
 
             return $ret;
         }
@@ -340,9 +373,10 @@ class MonthsController extends Controller
 
         if(!$currentMonth->course->isSpec)
         {
-            if($user->streams[0]->monthId != $monthId)
+            $streamModel = $user->streams[0];
+            if($streamModel->monthId != $monthId)
             {
-                $firstMonth = $user->streams[0]->month;
+                $firstMonth = $streamModel->month;
                 $isNew = false;
             }
             else
@@ -351,12 +385,12 @@ class MonthsController extends Controller
                 $isNew = true;
             }
 
-            $type = $user->streams[0]->type;
+            $type = $streamModel->type;
 
-            if(!$isNew && AppController::isSubscription($user->streams[0]->type))
-                $stream = AppController::castSubType($user->streams[0]->type);
+            if(!$isNew && AppController::isSubscription($streamModel->type))
+                $stream = AppController::castSubType($streamModel->type);
             else
-                $stream = $user->streams[0]->type;
+                $stream = $streamModel->type;
 
             $streamMonths = [];
             foreach ($user->boughtCourses as $boughtCourse) {
@@ -399,6 +433,7 @@ class MonthsController extends Controller
             'isGifted' => $isGifted,
             'giftParent' => $giftParent,
             'gifts' => $gifts,
+            'currentBC' => $currentBC,
             'params' => [
                 'userId' => $userId,
                 'courseId' => $courseId,

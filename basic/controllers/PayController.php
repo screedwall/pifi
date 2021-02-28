@@ -10,8 +10,11 @@ use app\models\Months;
 use app\models\TinkoffPay;
 use app\models\Users;
 use app\models\UsersStream;
+use http\Exception\BadMessageException;
+use MongoDB\Driver\Exception\UnexpectedValueException;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -43,9 +46,6 @@ class PayController extends Controller
 
     public function actionIndex()
     {
-        $error = false;
-        $bought = false;
-
         $request = \Yii::$app->request;
 
         if(\Yii::$app->request->isAjax)
@@ -74,8 +74,11 @@ class PayController extends Controller
         }
 
         $getCourse = $request->get('course');
-        $getType = $request->get('type');
         $getMonth = $request->get('month');
+        $getType = $request->get('type');
+
+        if(!ArrayHelper::isIn($getType, AppController::ALL_STREAM_TYPES))
+            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
         if(!empty($getCourse))
         {
@@ -84,89 +87,67 @@ class PayController extends Controller
                 throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
         }
         else
-            $error = true;
+            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
-        if(!$error){
-            $monthQuery = null;
-            switch ($getType) {
-                case 'course':
-                    break;
-                case 'month':
-                    if(!empty($getMonth))
-                        $monthQuery = Months::findOne(['id' => $getMonth]);
-                    else
-                        $error = true;
-                    break;
-                case 'short':
-                    break;
-                case 'long':
-                    break;
-                default:
-                    $error = true;
-                    break;
-            }
+        if(empty($getMonth))
+            $month = $course->currentMonth();
+        else
+            $month = Months::findOne($getMonth);
 
-            $month = (empty($monthQuery) ? $course->currentMonth() : $monthQuery);
+        if(empty($month))
+            throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
-            if(empty($month))
-                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+        $user = \Yii::$app->user->identity;
 
-            $discount = false;
-            $user = \Yii::$app->user->identity;
-
-            if(BoughtCourses::find()
-                    ->where(['userId' => $user->id])
-                    ->andWhere(['monthId' => $month->id])
-                    ->count() > 0)
-                $bought = true;
-
-            if($bought)
-                return $this->render('index', [
-                    'course' => $course,
-                    'bought' => $bought,
-                ]);
-
-            $stream = UsersStream::find()
-                ->where(['courseId' => $course->id])
-                ->andWhere(['userId' => $user->id])
+        $boughtCourse = BoughtCourses::find()
+                ->where(['userId' => $user->id])
+                ->andWhere(['monthId' => $month->id])
                 ->one();
 
-            if(!empty($stream))
+        $stream = UsersStream::find()
+            ->where(['courseId' => $course->id])
+            ->andWhere(['userId' => $user->id])
+            ->one();
+
+        $discount = false;
+        if(!empty($stream))
+        {
+            if(!empty($boughtCourse))
             {
-                $streamDate = date_create_from_format('d.m.Y', $stream->month->dateFrom);
-                $monthDate = date_create_from_format('d.m.Y', $month->dateFrom);
-                if($monthDate < $streamDate)
-                    $discount = true;
+                if(!$boughtCourse->isDemo || ($boughtCourse->isDemo && $boughtCourse->isDemoContinued))
+                    return $this->render('index', [
+                        'course' => $course,
+                        'bought' => true,
+                    ]);
             }
 
-            if(!empty($getCourse))
-            {
-                if($course == null)
-                    $error = true;
-            }
-            else
-                $error = true;
-
-            if(empty($getType))
-                $error = true;
-
-            if(!$error)
-            {
-                $amount = ($discount ? $month->price / 2 : $course->price($getType));
-                if($amount == 0)
-                    $amount = $month->price;
-
-                return $this->render('index', [
-                    'course' => $course,
-                    'type' => $getType,
-                    'month' => $month,
-                    'bought' => $bought,
-                    'discount' => $discount,
-                    'amount' => $amount,
-                    'coupon' => null,
-                ]);
-            }
+            $streamDate = date_create_from_format('d.m.Y', $stream->month->dateFrom);
+            $monthDate = date_create_from_format('d.m.Y', $month->dateFrom);
+            if($monthDate < $streamDate)
+                $discount = true;
         }
+
+        $amount = ($discount ? $month->price / 2 : ($getType == AppController::STREAM_TYPE_DEMO_CONTINUATION ? $course->price() : $course->price($getType)));
+
+        if($getType == AppController::STREAM_TYPE_DEMO || $getType == AppController::STREAM_TYPE_DEMO_MONTH)
+            $amount = AppController::DEMO_COST;
+
+        if(empty($amount))
+            throw new BadRequestHttpException(\Yii::t('app', 'Цена на этот курс не заполнена.'));
+
+        if(!empty($boughtCourse))
+            if($boughtCourse->isDemo)
+                $amount = $amount - AppController::DEMO_COST;
+
+        return $this->render('index', [
+            'course' => $course,
+            'type' => $getType,
+            'month' => $month,
+            'bought' => false,
+            'discount' => $discount,
+            'amount' => $amount,
+            'coupon' => null,
+        ]);
 
         throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
     }
@@ -301,6 +282,9 @@ class PayController extends Controller
             $bcMonth->monthId = $monthId;
             $bcMonth->streamId = $streamId;
             $bcMonth->paymentId = $paymentId;
+            if($type == AppController::STREAM_TYPE_DEMO)
+                $bcMonth->isDemo = true;
+
             $bcMonth->save();
             array_push($userMonths, $monthId);
 
@@ -309,6 +293,9 @@ class PayController extends Controller
                 //Give future months if subscription
                 switch ($type)
                 {
+                    case AppController::STREAM_TYPE_EXTRA_SHORT:
+                        $remains = 1;
+                        break;
                     case AppController::GIFT_TYPE_SHORT:
                         $remains = 2;
                         break;
@@ -365,25 +352,38 @@ class PayController extends Controller
         }
         else
         {
-            //Just give current month
-            if(!ArrayHelper::isIn($monthId, $userMonths))
+            if($type == AppController::STREAM_TYPE_DEMO_CONTINUATION)
             {
-                if($user->streams[0]->monthId == $monthId)
-                    $streamId = $user->streams[0]->id;
-                else
-                    $streamId = null;
-
-                $bcMonth = new BoughtCourses();
-                $bcMonth->userId = $userId;
-                $bcMonth->courseId = $courseId;
-                $bcMonth->monthId = $monthId;
-                $bcMonth->paymentId = $paymentId;
-                $bcMonth->streamId = $streamId;
-                $bcMonth->save();
-
-                //Register gifts
-                self::RegisterGifts($monthId, $userId, $type, $paymentId, $bcMonth, $userMonths);
+                $boughtCourse = BoughtCourses::findOne(['monthId' => $monthId, 'userId' => $userId]);
+                $boughtCourse->isDemoContinued = true;
+                $boughtCourse->save();
             }
+            else
+            {
+                //Just give current month
+                if(!ArrayHelper::isIn($monthId, $userMonths))
+                {
+                    if($user->streams[0]->monthId == $monthId)
+                        $streamId = $user->streams[0]->id;
+                    else
+                        $streamId = null;
+
+                    $bcMonth = new BoughtCourses();
+                    $bcMonth->userId = $userId;
+                    $bcMonth->courseId = $courseId;
+                    $bcMonth->monthId = $monthId;
+                    $bcMonth->paymentId = $paymentId;
+                    $bcMonth->streamId = $streamId;
+                    if($type == AppController::STREAM_TYPE_DEMO_MONTH)
+                        $bcMonth->isDemo = true;
+
+                    $bcMonth->save();
+
+                    //Register gifts
+                    self::RegisterGifts($monthId, $userId, $type, $paymentId, $bcMonth, $userMonths);
+                }
+            }
+
         }
 
         return true;

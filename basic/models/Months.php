@@ -13,6 +13,10 @@ use yii\db\ActiveRecord;
  * @property string $dateFrom
  * @property string $dateTo
  * @property string $courseId
+ * @property int $price
+ * @property int $priceExtraShort
+ * @property int $priceShort
+ * @property int $priceLong
  * @property ActiveRecord $gifts Stream gifts
  * @property ActiveRecord $extensions Gifts for buying
  * @property ActiveRecord $shorts Gifts for 3 months subscription
@@ -37,8 +41,8 @@ class Months extends ActiveRecord
             [['name', 'dateFrom', 'dateTo', 'courseId'], 'required'],
             [['dateFrom', 'dateTo'], 'date', 'format' => 'dd.MM.yyyy'],
             ['dateFrom', 'validateDates'],
-            ['courseId', 'integer'],
-            [['price', 'priceShort', 'priceLong'], 'double'],
+            [['courseId'], 'integer'],
+            [['price', 'priceShort', 'priceLong', 'priceExtraShort'], 'double'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -60,6 +64,7 @@ class Months extends ActiveRecord
         return [
             'name' => Yii::t('app', 'Имя'),
             'price' => Yii::t('app', 'Цена'),
+            'priceExtraShort' => Yii::t('app', 'Цена абонемента на 2 месяца'),
             'priceShort' => Yii::t('app', 'Цена абонемента на 3 месяца'),
             'priceLong' => Yii::t('app', 'Цена годового абонемента'),
             'dateFrom' => Yii::t('app', 'Дата начала'),

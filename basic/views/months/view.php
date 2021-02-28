@@ -6,6 +6,8 @@ use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\bootstrap\Collapse;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use app\controllers\AppController;
 
 $this->title = "Расписание на ".mb_strtolower($model->name);
 ?>
@@ -27,3 +29,8 @@ foreach ($model->lessons as $item) {
 echo Collapse::widget([
    'items' => $items
 ]);
+
+if($demo)
+    echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить полный месяц', Url::to(['/pay', 'course' => $model->courseId, 'month' => $model->id, 'type' => AppController::STREAM_TYPE_DEMO_CONTINUATION]), [
+        'class' => 'btn btn-success btn-block',
+    ]);

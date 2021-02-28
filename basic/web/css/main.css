@@ -2280,14 +2280,29 @@ text-align: center;
 }
 
 .profile-card{
-    background-color: #e9ecef;
+    background-color: #f9f9f9;
     padding: 15px;
     margin-top: 10px;
     border-radius: 15px;
 }
 
+.profile-card>.row:nth-of-type(odd){
+    background-color: #eee;
+}
+
+.profile-card>.row{
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
 .profile-month{
     padding-left: 30px;
+}
+
+.profile-action{
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
 }
 
 .nav-subjects{

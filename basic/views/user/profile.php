@@ -76,19 +76,32 @@ foreach ($courses as $course)
                                 continue;
                     ?>
                 <div class="row">
-                    <div class="profile-month col-md-9">
+                    <div class="profile-month col-md-8">
                         <p><?= $month->name ?></p>
                     </div>
-                    <div class="profile-action col-md-3 text-center">
-                         <?= $bought ?
-                             Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
-                                 'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
-                             ])
-                            : Html::a('<i class="glyphicon glyphicon-ruble"></i> Купить', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
-                                 'class' => 'btn btn-success btn-block',
-                             ])
+                         <?php
+                            if($bought)
+                            {
+                                echo '<div class="profile-action col-md-4 text-center">';
+                                echo Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
+                                    'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
+                                ]);
+                                echo '</div>';
+                            }
+                            else
+                            {
+                                echo '<div class="profile-action action-buy col-md-2 text-center">';
+                                echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Демо', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'demo_month']), [
+                                    'class' => 'btn btn-success btn-block',
+                                ]);
+                                echo '</div>';
+                                echo '<div class="profile-action action-buy col-md-2 text-center">';
+                                echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Полный', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
+                                        'class' => 'btn btn-success btn-block',
+                                    ]);
+                                echo '</div>';
+                            }
                          ?>
-                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>

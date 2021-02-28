@@ -144,16 +144,18 @@ class Courses extends \yii\db\ActiveRecord
     {
         if(count($this->months) > 0)
         {
-            $month  = $this->currentMonth();
+            $month = $this->currentMonth();
             if(!empty($month))
                 switch ($type){
-                    case 'course':
+                    case AppController::STREAM_TYPE_COURSE:
                         return $month->price;
-                    case 'short':
+                    case AppController::STREAM_TYPE_EXTRA_SHORT:
+                        return $month->priceExtraShort;
+                    case AppController::STREAM_TYPE_SHORT:
                         return $month->priceShort;
-                    case 'long':
+                    case AppController::STREAM_TYPE_LONG:
                         return $month->priceLong;
-                    case 'month':
+                    case AppController::STREAM_TYPE_MONTH:
                         $amount = 0;
                         $stream = UsersStream::findOne(['courseId' => $this->id, 'userId' => Yii::$app->user->identity->getId()]);
                         if(!empty($stream))

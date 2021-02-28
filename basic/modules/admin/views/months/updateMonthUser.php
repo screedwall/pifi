@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 /* @var $gifts app\models\BoughtCourses[] */
 /* @var $streamMonths app\models\BoughtCourses[] */
 /* @var $allCourseMonths app\models\BoughtCourses[] */
+/* @var $currentBC app\models\BoughtCourses */
 /* @var $isNew boolean */
 /* @var $isSubscription boolean */
 /* @var $stream string */
@@ -46,6 +47,7 @@ if(!empty($streamMonths))
                     if($isNew)
                     {
                         $options += [AppController::STREAM_TYPE_MONTH => ['disabled' => true]];
+                        $options += [AppController::STREAM_TYPE_DEMO_MONTH => ['disabled' => true]];
                         $options += [AppController::STREAM_TYPE_SHORT_CONT => ['disabled' => true]];
                         $options += [AppController::STREAM_TYPE_LONG_CONT => ['disabled' => true]];
                     }
@@ -55,11 +57,16 @@ if(!empty($streamMonths))
                             $options += [$STREAM_TYPE => ['disabled' => true]];
 
                         if($isSubscription)
+                        {
                             ArrayHelper::remove($options, $stream);
+                        }
                         else
+                        {
                             ArrayHelper::remove($options, AppController::STREAM_TYPE_MONTH);
+                            ArrayHelper::remove($options, AppController::STREAM_TYPE_DEMO_MONTH);
+                        }
                     }
-                    $value = $isSubscription ? $stream : AppController::STREAM_TYPE_MONTH;
+                    $value = $isSubscription ? $stream : ($currentBC->isDemo ? AppController::STREAM_TYPE_DEMO_MONTH : AppController::STREAM_TYPE_MONTH);
                 }
                 else
                 {
@@ -80,11 +87,28 @@ if(!empty($streamMonths))
                     "change" => "function() {
                         if(".(empty($diff) ? 'true' : 'false').")
                             $('#modalButton').attr('disabled', false);
+                        
+                        let val = $(this).select2('data')[0].id;
+                        if(val == '".AppController::STREAM_TYPE_DEMO_MONTH."' || val == '".AppController::STREAM_TYPE_DEMO."')
+                            $('#demo-group').removeClass('hidden');
+                        else
+                            $('#demo-group').addClass('hidden');
                     }",
                 ],
-                'disabled' => !empty($diff),
             ]); ?>
         </div>
+
+
+        <div id="demo-group" class="form-group<?= $currentBC->isDemo ? null : ' hidden' ?>">
+            <div class="checkbox">
+                <label>
+                    <?= Html::checkbox('isDemoContinued', $currentBC->isDemoContinued, [
+                        'onclick' => "$('#modalButton').attr('disabled', false);",
+                    ]) ?><span> Демо продлен</span>
+                </label>
+            </div>
+        </div>
+
 
         <?php
             if(!$isSpec)
@@ -151,12 +175,14 @@ if(!empty($streamMonths))
             }
         ?>
 
+        <p><?= $isNew ? (!empty($diff) ? 'Нельзя изменить тип подписки если были продления' : null) : 'Изменение типа подписки возможно только в первом купленном месяце' ?></p>
+
 
     </div>
 
     <div class="modal-footer <?= $isSpec ? 'hidden' : null ?>">
-        <?= Html::submitButton(($isNew ? (!empty($diff) ? 'Нельзя изменить тип подписки если были продления' : 'Сохранить') : 'Изменение типа подписки возможно только в первом купленном месяце'), [
-                'class' => 'btn btn-block '.($isNew ? (!empty($diff) ? 'btn-danger' : 'btn-success') : 'btn-danger'),
+        <?= Html::submitButton('Сохранить', [
+                'class' => 'btn btn-block btn-success',
                 'id' => 'modalButton',
                 'disabled' => true,
         ]) ?>

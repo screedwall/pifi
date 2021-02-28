@@ -29,8 +29,9 @@ class MonthsController extends \yii\web\Controller
     {
         $error = true;
         $demo = false;
+        $isAdmin = Yii::$app->user->identity->isAdmin();
 
-        if(!Yii::$app->user->identity->isAdmin()) {
+        if(!$isAdmin) {
             $boughtCourse = BoughtCourses::find()
                 ->where(['monthId' => $id, 'userId' => Yii::$app->user->identity->getId()])
                 ->with('stream')
@@ -42,7 +43,7 @@ class MonthsController extends \yii\web\Controller
                         $error = false;
 
                 if (!empty($boughtCourse->stream)) {
-                    if ($boughtCourse->stream->type == AppController::STREAM_TYPE_DEMO)
+                    if ($boughtCourse->isDemo && !$boughtCourse->isDemoContinued)
                         $demo = true;
                 }
             }
