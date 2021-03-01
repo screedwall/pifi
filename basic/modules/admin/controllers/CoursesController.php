@@ -119,6 +119,27 @@ class CoursesController extends Controller
         ]);
     }
 
+    public function actionDownload($id)
+    {
+        $model = $this->findModel($id);
+        $path = Yii::getAlias('@webroot')."/"."uploads/course_users/".$id.".txt";
+        $file = fopen($path, 'w');
+
+        $users = BoughtCourses::find()
+            ->where(['courseId' => $id])
+            ->select(['userId'])
+            ->distinct()
+            ->asArray()
+            ->all();
+
+        foreach ($users as $user)
+            fputcsv($file, $user);
+
+        fclose($file);
+
+        return Yii::$app->response->sendFile($path, 'Выгрузка '.$model->name.".txt");
+    }
+
     public function actionCopy($id)
     {
         $originModel = $this->findModel($id);

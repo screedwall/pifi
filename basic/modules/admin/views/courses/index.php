@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'examType',
 
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {copy}',
+                'template' => '{view} {update} {delete} {copy} {download}',
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if($action==='view'){
                         $url = Url::to(['/courses/view', 'id' => $model->id]);
@@ -93,6 +93,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'confirm' => "Удалится курс и все вложенные месяца.\nПродолжить?",
                                 ],
                                 'class' => 'glyphicon glyphicon-trash'
+                            ]
+                        );
+                    },
+                    'download' => function ($url, $model) {
+                        if(Yii::$app->user->identity->isTeacher())
+                            return false;
+                        return Html::a('<span class="glyphicon glyphicon-download"></span>', Url::to(['download', 'id' => $model->id]),
+                            [
+                                'data' => [
+                                    'method' => 'post',
+                                ],
                             ]
                         );
                     },

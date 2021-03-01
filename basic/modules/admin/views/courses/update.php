@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Courses'), 'url' => 
 $this->params['breadcrumbs'][] = Yii::t('app', $model->name);
 ?>
 <div class="courses-update">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?> <?= Html::a('<i class="glyphicon glyphicon-download"></i>', Url::to(['download', 'id' => $model->id]), ['class' => 'btn btn-lg btn-default', 'title' => 'Скачать учеников курса']) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
