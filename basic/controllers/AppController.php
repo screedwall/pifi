@@ -44,11 +44,11 @@ class AppController extends Controller
     ];
 
     const STREAM_TYPES = [
+        'demo' => 'demo',
         'course' => 'course',
         'extra_short' => 'extra_short',
         'short' => 'short',
         'long' => 'long',
-        'demo' => 'demo',
         'month' => 'month',
         'demo_month' => 'demo_month',
         'short_continuation' => 'short_continuation',
@@ -56,11 +56,11 @@ class AppController extends Controller
     ];
 
     const ALL_STREAM_TYPES = [
+        'demo' => 'demo',
         'course' => 'course',
         'extra_short' => 'extra_short',
         'short' => 'short',
         'long' => 'long',
-        'demo' => 'demo',
         'month' => 'month',
         'demo_month' => 'demo_month',
         'short_continuation' => 'short_continuation',

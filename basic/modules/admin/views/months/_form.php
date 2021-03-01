@@ -100,7 +100,7 @@ use yii\web\JsExpression;
             </div>
 
             <div class="form-group">
-                <?= Html::label('Подарки за 3х месячный абонемент', 'shorts[]') ?>
+                <?= Html::label('Подарки за 2х и 3х месячный абонементы', 'shorts[]') ?>
 
                 <?= Select2::widget([
                     'name' => 'shorts',

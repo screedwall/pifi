@@ -80,13 +80,13 @@ class GiftMonths extends \yii\db\ActiveRecord
         switch ($type)
         {
             case AppController::STREAM_TYPE_COURSE:
-            case AppController::STREAM_TYPE_EXTRA_SHORT:
                 $gifts->andWhere(['isExtension' => false, 'isShort' => false, 'isLong' => false]);
                 break;
             case AppController::STREAM_TYPE_MONTH:
                 $gifts->andWhere(['isExtension' => true]);
                 break;
             case AppController::STREAM_TYPE_SHORT:
+            case AppController::STREAM_TYPE_EXTRA_SHORT:
                 $gifts->andWhere(['isShort' => true]);
                 break;
             case AppController::STREAM_TYPE_LONG:
