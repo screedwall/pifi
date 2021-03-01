@@ -125,15 +125,14 @@ class CoursesController extends Controller
         $path = Yii::getAlias('@webroot')."/"."uploads/course_users/".$id.".txt";
         $file = fopen($path, 'w');
 
-        $users = BoughtCourses::find()
+        $boughtCourses = BoughtCourses::find()
             ->where(['courseId' => $id])
-            ->select(['userId'])
+            ->joinWith('user')
             ->distinct()
-            ->asArray()
             ->all();
 
-        foreach ($users as $user)
-            fputcsv($file, $user);
+        foreach ($boughtCourses as $boughtCourse)
+            fputcsv($file, [$boughtCourse->user->vk]);
 
         fclose($file);
 
