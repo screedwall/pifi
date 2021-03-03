@@ -42,10 +42,12 @@ class UserBCSearch extends BoughtCourses
     public function search($params)
     {
         $query = BoughtCourses::find()
-            ->where(['userId' => $params['id']])
+            ->where([BoughtCourses::tableName().'.userId' => $params['id']])
             ->joinWith(['month' => function($q){
                 return $q->joinWith('course');
-            }]);
+            }])
+            ->joinWith('stream')
+            ->orderBy([BoughtCourses::tableName().'.id' => SORT_ASC]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

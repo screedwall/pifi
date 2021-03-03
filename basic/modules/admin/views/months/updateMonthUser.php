@@ -46,10 +46,8 @@ if(!empty($streamMonths))
 
                     if($isNew)
                     {
-                        $options += [AppController::STREAM_TYPE_MONTH => ['disabled' => true]];
-                        $options += [AppController::STREAM_TYPE_DEMO_MONTH => ['disabled' => true]];
-                        $options += [AppController::STREAM_TYPE_SHORT_CONT => ['disabled' => true]];
-                        $options += [AppController::STREAM_TYPE_LONG_CONT => ['disabled' => true]];
+                        foreach (AppController::STREAM_CONTINUATIONS as $STREAM_CONTINUATION)
+                            $options += [$STREAM_CONTINUATION => ['disabled' => true]];
                     }
                     else
                     {

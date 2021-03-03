@@ -241,7 +241,7 @@ class MonthsController extends Controller
                                 'name' => AppController::getStreamType($STREAM_TYPE)
                             ]);
 
-                        $toDelete = [AppController::STREAM_TYPE_MONTH, AppController::STREAM_TYPE_DEMO_MONTH, AppController::STREAM_TYPE_SHORT_CONT, AppController::STREAM_TYPE_LONG_CONT];
+                        $toDelete = AppController::STREAM_CONTINUATIONS;
                         foreach ($toDelete as $el) {
                             ArrayHelper::removeValue($out, [
                                 'id' => $el,

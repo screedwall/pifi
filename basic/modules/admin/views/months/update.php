@@ -65,7 +65,7 @@ $this->registerJs($JS);
 </div>
 
 <div class="month-users" id="users">
-    <h1>Пользователи месяца</h1>
+    <h2>Пользователи месяца</h2>
     <div class="create-month-user">
         <div class="row">
             <div class="col-md-12">
@@ -237,7 +237,7 @@ $this->registerJs($JS);
                                         url: "'.Url::to(['delete-month-user', 'userId' => $model->id, 'monthId' => $month->id, 'new' => ($isNew ? 'true' : 'false')]).'",
                                     })
                                     .done(function(data) {
-                                        $.pjax.reload({container: "#month-users"});
+                                        $.pjax.reload({container: "#user-months",  async: false});
                                         $("#updateMonthUser").modal("hide");
                                 });',
                                 'class' => 'btn btn-danger glyphicon glyphicon-trash',
@@ -346,7 +346,7 @@ $formJS = <<<JS
                $('#subType').val(null).trigger('change');
                $('#subType').attr('disabled', true);
                $('#addUserButton').attr('disabled', true);
-               $.pjax.reload({container: '#month-users'});
+               $.pjax.reload({container: '#user-months',  async: false});
             }
         })
     return false;

@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use app\controllers\AppController;
+use app\controllers\PayController;
 use app\models\BoughtCourses;
 use app\models\Courses;
 use app\models\Months;
@@ -140,6 +141,84 @@ class UsersController extends AppController
         }
 
         return $out;
+    }
+
+    public function actionCheckUserStream($userId) {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (isset($_POST['depdrop_all_params'])) {
+            $monthId = ArrayHelper::getValue(Yii::$app->request->post(), 'depdrop_all_params.month');
+            $boughtCourse = BoughtCourses::find()
+                ->where(['userId' => $userId, 'monthId' => $monthId])
+                ->one();
+
+            $out = [];
+            $selected = '';
+
+            if (!empty($boughtCourse))
+            {
+                $out = [[
+                    'id' => 'forbidden',
+                    'name' => 'Уже в этом месяце'
+                ]];
+                return ['output' => $out, 'selected' => $out];
+            }
+            else
+            {
+                $month = Months::findOne($monthId);
+                if (!$month->course->isSpec) {
+                    $stream = UsersStream::findOne(['userId' => $userId, 'courseId' => $month->courseId]);
+                    if (empty($stream)) {
+                        foreach (AppController::STREAM_TYPES as $STREAM_TYPE)
+                            array_push($out, [
+                                'id' => $STREAM_TYPE,
+                                'name' => AppController::getStreamType($STREAM_TYPE)
+                            ]);
+
+                        $toDelete = AppController::STREAM_CONTINUATIONS;
+                        foreach ($toDelete as $el) {
+                            ArrayHelper::removeValue($out, [
+                                'id' => $el,
+                                'name' => AppController::getStreamType($el),
+                            ]);
+                        }
+                    } else {
+                        array_push($out, [
+                            'id' => AppController::STREAM_TYPE_MONTH,
+                            'name' => AppController::getStreamType(AppController::STREAM_TYPE_MONTH)
+                        ]);
+                        array_push($out, [
+                            'id' => AppController::STREAM_TYPE_DEMO_MONTH,
+                            'name' => AppController::getStreamType(AppController::STREAM_TYPE_DEMO_MONTH)
+                        ]);
+
+                        $selected = [];
+                    }
+
+                    return ['output' => $out, 'selected' => $selected];
+                }
+                else
+                {
+                    $out = [[
+                        'id' => AppController::STREAM_TYPE_SPEC,
+                        'name' => 'Спецкурс'
+                    ]];
+                    return ['output' => $out, 'selected' => $out];
+                }
+            }
+        }
+        return ['output' => '', 'selected' => ''];
+    }
+
+    public function actionCreateMonthUser($userId)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $request = Yii::$app->request;
+        $monthId = $request->post('month');
+        $type = $request->post('subscriptionType');
+        $courseId = Months::findOne($monthId)->courseId;
+
+        return ['success' => PayController::CreateMonthUser($courseId, $monthId, $userId, $type)];
     }
 
     /**
