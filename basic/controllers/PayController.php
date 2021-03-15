@@ -83,16 +83,21 @@ class PayController extends Controller
         if(!empty($getCourse))
         {
             $course = Courses::findOne(['id' => $getCourse]);
-            if($course->isSpec)
-                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
         }
         else
             throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
 
+
         if(empty($getMonth))
-            $month = $course->currentMonth();
+        {
+            if(!$course->isSpec)
+                $month = $course->currentMonth();
+            else
+                throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+        }
         else
             $month = Months::findOne($getMonth);
+
 
         if(empty($month))
             throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
@@ -127,10 +132,7 @@ class PayController extends Controller
                 $discount = true;
         }
 
-        $amount = ($discount ? $month->price / 2 : ($getType == AppController::STREAM_TYPE_DEMO_CONTINUATION ? $course->price() : $course->price($getType)));
-
-        if($getType == AppController::STREAM_TYPE_DEMO || $getType == AppController::STREAM_TYPE_DEMO_MONTH)
-            $amount = AppController::DEMO_COST;
+        $amount = $this->getAmount($course, $month, $getType, $discount);
 
         if(empty($amount))
             throw new BadRequestHttpException(\Yii::t('app', 'Цена на этот курс не заполнена.'));
@@ -149,7 +151,23 @@ class PayController extends Controller
             'coupon' => null,
         ]);
 
-        throw new NotFoundHttpException(\Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    function getAmount($course, $month, $type, $discount)
+    {
+        if(!$course->isSpec)
+        {
+            if($type == AppController::STREAM_TYPE_DEMO || $type == AppController::STREAM_TYPE_DEMO_MONTH)
+                $amount = AppController::DEMO_COST;
+            else
+                $amount = ($discount ? $month->price / 2 : ($type == AppController::STREAM_TYPE_DEMO_CONTINUATION ? $course->price() : $course->price($type)));
+        }
+        else
+        {
+            $amount = $month->price;
+        }
+
+        return $amount;
     }
 
     public function actionBuy()
@@ -255,6 +273,9 @@ class PayController extends Controller
                 array_push($userMonths, $userMonth->id);
 
         $new = empty($user->streams);
+
+        if($type == AppController::STREAM_TYPE_SPEC)
+            $noStream = true;
 
         if($new)
         {

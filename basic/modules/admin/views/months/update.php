@@ -222,7 +222,7 @@ $this->registerJs($JS);
                                         array_push($streamMonths, $boughtCourse);
 
                                 $diff = array_diff(ArrayHelper::getColumn($allCourseMonths, 'id'), ArrayHelper::getColumn($streamMonths, 'id'));
-                                if(!empty($diff))
+                                if(!empty($diff) && !$month->course->isSpec)
                                 {
                                     $isUndeletable = true;
                                     $reason = 'Сначала удалите продления в других месяцах этого курса';

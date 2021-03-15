@@ -58,6 +58,10 @@ body::-webkit-scrollbar-thumb {
     border-radius: 3px
 }
 
+.btn {
+    white-space: normal;
+}
+
 .fancybox-thumbs-y .fancybox-thumbs__list::-webkit-scrollbar {
     width: 7px
 }

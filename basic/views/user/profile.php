@@ -55,56 +55,67 @@ foreach ($courses as $course)
         <?php $this->beginBlock($subject) ?>
             <?php foreach ($courses as $course): ?>
             <?php
+                $flag = false;
+
                 if($course->subject != $subject)
                     continue;
 
                 array_push($teachersRaw, $course->teacher);
             ?>
 
-            <div class="profile-card">
-                <p><?= $course->name ?></p>
-                <?php foreach ($course->months as $month): ?>
-                    <?php
-                        $bought = ArrayHelper::isIn($month->id, $months);
-                        $noLessons = count($month->lessons) == 0;
 
-                        if(!$bought && $noLessons)
-                            continue;
+                <div class="profile-card">
+                    <p><?= $course->name ?></p>
+                    <?php foreach ($course->months as $month): ?>
+                        <?php
+                            $bought = ArrayHelper::isIn($month->id, $months);
+                            $noLessons = count($month->lessons) == 0;
 
-                        if(!ArrayHelper::isIn($month->id, $months))
-                            if($course->isSpec)
-                                continue;
-                    ?>
-                <div class="row">
-                    <div class="profile-month col-md-8">
-                        <p><?= $month->name ?></p>
-                    </div>
-                         <?php
                             if($bought)
-                            {
-                                echo '<div class="profile-action col-md-4 text-center">';
-                                echo Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
-                                    'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
-                                ]);
-                                echo '</div>';
-                            }
-                            else
-                            {
-                                echo '<div class="profile-action action-buy col-md-2 text-center">';
-                                echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Демо', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'demo_month']), [
-                                    'class' => 'btn btn-success btn-block',
-                                ]);
-                                echo '</div>';
-                                echo '<div class="profile-action action-buy col-md-2 text-center">';
-                                echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Полный', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
+                                $flag = true;
+
+                            if(!$bought && $noLessons)
+                                continue;
+
+                            if(!ArrayHelper::isIn($month->id, $months))
+                                if($course->isSpec)
+                                    continue;
+                        ?>
+                    <?php if($flag): ?>
+
+                        <div class="row">
+                            <div class="profile-month col-md-8">
+                                <p><?= $month->name ?></p>
+                            </div>
+
+                            <?php
+                                if($bought)
+                                {
+                                    echo '<div class="profile-action col-md-4 text-center">';
+                                    echo Html::a('<i class="glyphicon glyphicon-eye-open"></i> Открыть', $noLessons ? null : Url::to(['/months/'.$month->id]), [
+                                        'class' => 'btn btn-primary btn-block'.($noLessons ? ' disabled' : ''),
+                                    ]);
+                                    echo '</div>';
+                                }
+                                else
+                                {
+                                    echo '<div class="profile-action action-buy col-md-2 text-center">';
+                                    echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Демо', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'demo_month']), [
                                         'class' => 'btn btn-success btn-block',
                                     ]);
-                                echo '</div>';
-                            }
-                         ?>
+                                    echo '</div>';
+                                    echo '<div class="profile-action action-buy col-md-2 text-center">';
+                                    echo Html::a('<i class="glyphicon glyphicon-ruble"></i> Полный', Url::to(['/pay', 'course' => $course->id, 'month' => $month->id, 'type' => 'month']), [
+                                        'class' => 'btn btn-success btn-block',
+                                    ]);
+                                    echo '</div>';
+                                }
+                            ?>
+                        </div>
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
-                <?php endforeach; ?>
-            </div>
             <?php
                 foreach ($teachersRaw as $teacher)
                 {

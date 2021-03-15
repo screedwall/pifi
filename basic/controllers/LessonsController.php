@@ -25,16 +25,13 @@ class LessonsController extends \yii\web\Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
     public function actionView($id)
     {
         $model = $this->findModel($id);
 
+        $user = Yii::$app->user->identity;
         $error = true;
-        if(!Yii::$app->user->identity->isAdmin())
+        if(!$user->isAdmin() && !$user->isTeacher())
         {
             if(count(Yii::$app->user->identity->months) > 0)
                 foreach (Yii::$app->user->identity->months as $month)

@@ -27,11 +27,12 @@ class MonthsController extends \yii\web\Controller
 
     public function actionView($id)
     {
-        $error = true;
         $demo = false;
-        $isAdmin = Yii::$app->user->identity->isAdmin();
 
-        if(!$isAdmin) {
+        $user = Yii::$app->user->identity;
+        $error = true;
+        if(!$user->isAdmin() && !$user->isTeacher())
+        {
             $boughtCourse = BoughtCourses::find()
                 ->where(['monthId' => $id, 'userId' => Yii::$app->user->identity->getId()])
                 ->with('stream')

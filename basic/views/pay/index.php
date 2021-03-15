@@ -28,6 +28,11 @@ if ($bought)
 }
 
 switch ($type){
+    case AppController::STREAM_TYPE_SPEC:
+        $firstLine = "<h2>Вы покупаете раздел \"$month->name\" спецкурса \"$course->name\"</h2>";
+        $secondLine = "<h4>Стоимость раздела ".$amount." рублей.</h4>";
+        $buttonName = 'Оплатить раздел';
+        break;
     case AppController::STREAM_TYPE_COURSE:
         $firstLine = "<h2>Вы покупаете месяц \"$month->name\" курса \"$course->name\"</h2>";
         $secondLine = "<h4>Стоимость курса ".$amount." рублей.</h4>";

@@ -75,12 +75,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                     'view' => function ($url, $model) {
-                        if(!$model->isSpec)
-                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
-                                'title' => Yii::t('app', 'Просмотр'),
-                            ]);
-                        else
-                            return null;
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                            'title' => Yii::t('app', 'Просмотр'),
+                        ]);
                     },
                     'delete' => function ($url, $model) {
                         if(Yii::$app->user->identity->isTeacher())

@@ -106,30 +106,49 @@ if(!Yii::$app->user->isGuest)
                 <?php if(Yii::$app->user->isGuest): ?>
                     <p><?=Html::a('Войдите', \yii\helpers\Url::to(['/auth/login'])) ?> чтобы приобретать курсы.</p>
                 <?php else: ?>
-                    <?php if(!$bought): ?>
+                    <?php if(!$bought || $model->isSpec): ?>
                         <p>Вы можете купить:</p>
                         <?php
                         $types = [];
-                        foreach (AppController::STREAM_TYPES as $STREAM_TYPE)
-                            array_push($types, [
-                                'id' => $STREAM_TYPE,
-                                'name' => AppController::getStreamType($STREAM_TYPE)
-                            ]);
+                        if(!$model->isSpec)
+                        {
+                            foreach (AppController::STREAM_TYPES as $STREAM_TYPE)
+                                array_push($types, [
+                                    'id' => $STREAM_TYPE,
+                                    'name' => AppController::getStreamType($STREAM_TYPE)
+                                ]);
 
-                        $toDelete = AppController::STREAM_CONTINUATIONS;
-                        foreach ($toDelete as $el) {
-                            ArrayHelper::removeValue($types, [
-                                'id' => $el,
-                                'name' => AppController::getStreamType($el),
-                            ]);
+                            $toDelete = AppController::STREAM_CONTINUATIONS;
+                            foreach ($toDelete as $el) {
+                                ArrayHelper::removeValue($types, [
+                                    'id' => $el,
+                                    'name' => AppController::getStreamType($el),
+                                ]);
+                            }
+                        }
+                        else
+                        {
+                            foreach ($model->months as $month)
+                                array_push($types, [
+                                    'id' => AppController::STREAM_TYPE_SPEC,
+                                    'name' => $month->name,
+                                    'month' => $month->id,
+                                ]);
                         }
 
                         foreach ($types as $type)
-                            echo Html::a($type['name'], \yii\helpers\Url::to(['/pay', 'course' => $model->id, 'type' => $type['id']]),
+                        {
+                            $url = ['/pay', 'course' => $model->id, 'type' => $type['id']];
+
+                            if($model->isSpec)
+                                $url += ['month' => $type['month']];
+
+                            echo Html::a($type['name'], \yii\helpers\Url::to($url),
                                 [
                                     'class' => 'btn btn-success btn-lg btn-block',
                                 ]
                             );
+                        }
                         ?>
 
                     <?php else: ?>

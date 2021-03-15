@@ -112,32 +112,7 @@ class MonthsController extends Controller
         $request = Yii::$app->request;
         if ($model->load($request->post()) && $model->save()) {
 
-            //++Save user info before purge
-            $monthUsers = [];
-            $bcUsers = BoughtCourses::find() //Select all month users
-                ->where(['monthId' => $id])
-                ->with('stream')
-                ->all();
-
-            foreach ($bcUsers as $bcUser)
-                array_push($monthUsers, [
-                    'userId' => $bcUser->userId,
-                    'paymentId' => $bcUser->paymentId,
-                    'streamId' => $bcUser->streamId,
-                    'type' => ($bcUser->stream->monthId == $id ? $bcUser->stream->type : AppController::STREAM_TYPE_MONTH),
-                ]);
-            //--Save user info before purge
-
             //++PURGE Previous linked records
-            $giftMonths = GiftMonths::findAll(['monthId' => $id]);//Select all month gifts
-            if(!empty($bcUsers))
-            {
-                $months = ArrayHelper::getColumn($giftMonths, 'giftId');
-                array_push($months, intval($id));
-
-                //delete users from month
-//                BoughtCourses::deleteAll(['and', ['in','monthId', $months], ['in', 'userId', ArrayHelper::getColumn($bcUsers, 'userId')]]);
-            }
             GiftMonths::deleteAll(['monthId' => $id]);
             //--PURGE Previous linked records
 
@@ -152,11 +127,6 @@ class MonthsController extends Controller
             foreach ($gifts as $key => $value)
                 $this->batchGifts($model->id, $value, $key);
             //--Collect different gift months and register
-
-//            foreach ($monthUsers as $monthUser)
-//            {
-//                PayController::CreateMonthUser($courseId, $id, $monthUser['userId'], $monthUser['type'], $monthUser['paymentId'], true);
-//            }
 
             return $this->redirect(['courses/update', 'id' => $courseId, '#' => 'months']);
         }
